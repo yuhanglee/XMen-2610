@@ -588,7 +588,7 @@ typedef struct DcmDspDid
 {
     const uint16 DcmDspDidId; /*2 byte Identifier of the DID,Multiplicity=1*/
     const boolean DcmDspDidUsed;
-    const uint8 DcmDspDidInfoIndex;
+    const uint16 DcmDspDidInfoIndex;
     /*Reference to DcmDspDidInfo containing information on this DID*/
     const uint8 DcmDspRefDidNum;
     /*Number Of Did referenced*/
@@ -597,7 +597,7 @@ typedef struct DcmDspDid
     /*Number Of DcmDspDidControlRecordSizes Container*/
     /*This container defines the sizes of the data sent
      * and received with the DID control functions*/
-    const uint8 DcmDspDidSignalNum;
+    const uint16 DcmDspDidSignalNum;
     P2CONST(Dcm_DspDidSignalType, TYPEDEF, DCM_CONST) pDcmDspDidSignal;
 } Dcm_DspDidType;
 

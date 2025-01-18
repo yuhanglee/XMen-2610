@@ -63,10 +63,10 @@ VAR(Dcm_DDDidTypes, DCM_VAR_NOINIT) Dcm_DDDid[DCM_DSP_DDDID_MAX_NUMBER];
 #define DCM_START_SEC_CODE
 #include "Dcm_MemMap.h"
 /* PRQA S 3432++ */ /* MISRA Rule 20.7 */
-static Std_ReturnType DspInternalUDS0x2C_DidCheck(uint16 RecDid, P2VAR(uint8, AUTOMATIC, AUTOMATIC) pDidCfgIndex)
+static Std_ReturnType DspInternalUDS0x2C_DidCheck(uint16 RecDid, P2VAR(uint16, AUTOMATIC, AUTOMATIC) pDidCfgIndex)
 /* PRQA S 3432-- */ /* MISRA Rule 20.7 */
 {
-    uint8 Index;
+    uint16 Index;
     Std_ReturnType ret = E_NOT_OK;
     const Dcm_DspDidType* pDid;
 
@@ -110,10 +110,10 @@ static Std_ReturnType DspInternalUDS0x2C_DidCheck(uint16 RecDid, P2VAR(uint8, AU
 #define DCM_START_SEC_CODE
 #include "Dcm_MemMap.h"
 /* PRQA S 3432++ */ /* MISRA Rule 20.7 */
-static Std_ReturnType DspInternalUDS0x2C_SourceDidCheck(uint16 RecDid, P2VAR(uint8, AUTOMATIC, AUTOMATIC) pDidCfgIndex)
+static Std_ReturnType DspInternalUDS0x2C_SourceDidCheck(uint16 RecDid, P2VAR(uint16, AUTOMATIC, AUTOMATIC) pDidCfgIndex)
 /* PRQA S 3432-- */ /* MISRA Rule 20.7 */
 {
-    uint8 Index;
+    uint16 Index;
     Std_ReturnType ret = E_NOT_OK;
     const Dcm_DspDidType* pDid;
 
@@ -150,11 +150,11 @@ static Std_ReturnType DspInternalUDS0x2C_SourceDidCheck(uint16 RecDid, P2VAR(uin
 #define DCM_START_SEC_CODE
 #include "Dcm_MemMap.h"
 /* PRQA S 3432++ */ /* MISRA Rule 20.7 */
-static Std_ReturnType DspInternalUDS0x2C_SourceDidLength(uint8 DidCfgIndex, P2VAR(uint16, AUTOMATIC, AUTOMATIC) Length)
+static Std_ReturnType DspInternalUDS0x2C_SourceDidLength(uint16 DidCfgIndex, P2VAR(uint16, AUTOMATIC, AUTOMATIC) Length)
 /* PRQA S 3432-- */ /* MISRA Rule 20.7 */
 {
-    uint8 DidSignalIndex;
-    uint8 DidSignalNum;
+    uint16 DidSignalIndex;
+    uint16 DidSignalNum;
     P2CONST(Dcm_DspDataType, TYPEDEF, DCM_CONST) pDspDidData;
     Std_ReturnType ret = E_OK;
     uint16 Size;
@@ -368,18 +368,18 @@ static FUNC(Std_ReturnType, DCM_CODE) Dcm_Uds0x2CServiceConditionCheck(
 #include "Dcm_MemMap.h"
 static FUNC(Std_ReturnType, DCM_CODE) Dcm_UDS0x2CSubDeal_NoFind(
     uint8 ProtocolCtrlId,
-    uint8 DidCfgIndex,
+    uint16 DidCfgIndex,
     P2VAR(Dcm_NegativeResponseCodeType, AUTOMATIC, DCM_VAR) ErrorCode) /* PRQA S 3432 */ /* MISRA Rule 20.7 */
 {
     Std_ReturnType ret = E_OK;
     uint32 MemoryAddress;
     uint32 Memorysize;
     boolean Find = FALSE;
-    uint8 iloop;
+    uint16 iloop;
     uint8 index;
     uint8 Cnt;
     uint16 Length = 0;
-    uint8 pDidCfgIndex = 0xFF;
+    uint16 pDidCfgIndex = 0xFFFF;
     uint8 addressAndLengthFormatIdentifier;
     uint8 memoryAddressByteLength;
     uint8 memorySizeByteLength;
@@ -424,7 +424,7 @@ static FUNC(Std_ReturnType, DCM_CODE) Dcm_UDS0x2CSubDeal_NoFind(
                     Cntt = Cnt << 2u;
                     RecDid = (uint16)((uint16)((uint16)pReqData[4u + Cntt]) << 8u) | ((uint16)pReqData[5u + Cntt]);
                     ret = DspInternalUDS0x2C_SourceDidCheck(RecDid, &pDidCfgIndex);
-                    if (pDidCfgIndex != 0xFFu)
+                    if (pDidCfgIndex != 0xFFFFu)
                     {
                         (void)DspInternalUDS0x2C_SourceDidLength(pDidCfgIndex, &Length);
                     }
@@ -545,18 +545,18 @@ static FUNC(Std_ReturnType, DCM_CODE) Dcm_UDS0x2CSubDeal_NoFind(
 #include "Dcm_MemMap.h"
 static FUNC(Std_ReturnType, DCM_CODE) Dcm_UDS0x2CSubDeal(
     uint8 ProtocolCtrlId,
-    uint8 DidCfgIndex,
+    uint16 DidCfgIndex,
     P2VAR(Dcm_NegativeResponseCodeType, AUTOMATIC, DCM_VAR) ErrorCode) /* PRQA S 3432 */ /* MISRA Rule 20.7 */
 {
     Std_ReturnType ret = E_OK;
     uint32 MemoryAddress;
     uint32 Memorysize;
     boolean Find = FALSE;
-    uint8 iloop;
+    uint16 iloop;
     uint8 index;
     uint8 Cnt;
     uint16 Length = 0;
-    uint8 pDidCfgIndex = 0xFF;
+    uint16 pDidCfgIndex = 0xFFFF;
     uint8 addressAndLengthFormatIdentifier;
     uint8 memoryAddressByteLength;
     uint8 memorySizeByteLength;
@@ -569,7 +569,7 @@ static FUNC(Std_ReturnType, DCM_CODE) Dcm_UDS0x2CSubDeal(
     uint8 Cntt;
     Dcm_DDDidElementsDataTypes* pAlternativeArgumentData;
 
-    if (DidCfgIndex != 0xFFu)
+    if (DidCfgIndex != 0xFFFFu)
     {
         RecDid = (uint16)((uint16)((uint16)pReqData[2]) << 8u) | ((uint16)pReqData[3]);
 
@@ -612,7 +612,7 @@ static FUNC(Std_ReturnType, DCM_CODE) Dcm_UDS0x2CSubDeal(
                         pAlternativeArgumentData->Subfunction = Subfunction;
                         RecDid = (uint16)((uint16)((uint16)pReqData[4u + Cntt]) << 8u) | ((uint16)pReqData[5u + Cntt]);
                         ret = DspInternalUDS0x2C_SourceDidCheck(RecDid, &pDidCfgIndex);
-                        if (pDidCfgIndex != 0xFFu)
+                        if (pDidCfgIndex != 0xFFFFu)
                         {
                             (void)DspInternalUDS0x2C_SourceDidLength(pDidCfgIndex, &Length);
                         }
@@ -817,7 +817,7 @@ Dcm_UDS0x2C(
 #if (STD_ON == DCM_DSP_DID_FUNC_ENABLED)
     uint16 RecDid = 0;
     uint32 Offset;
-    uint8 DidCfgIndex = 0xFF;
+    uint16 DidCfgIndex = 0xFFFF;
     uint8 TxChannelCtrlIndex;
     uint8 TxChannelCfgIndex;
 #endif

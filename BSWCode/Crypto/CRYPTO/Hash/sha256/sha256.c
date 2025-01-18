@@ -44,7 +44,8 @@
 #define CRYPTO_START_SEC_CODE
 #include "Crypto_MemMap.h"
 #if (CRYPTO_ALGORITHM_HASH == STD_ON)
-FUNC(Std_ReturnType, CRY_CODE) Crypto_internal_sha256_process(Crypto_Sha256Data* ctx, VAR(uint8, AUTOMATIC) data[64]);
+FUNC(Std_ReturnType, CRYPTO_CODE)
+Crypto_internal_sha256_process(Crypto_Sha256Data* ctx, VAR(uint8, AUTOMATIC) data[64]);
 
 /*
  * 32-bit integer manipulation macros(big endian)
@@ -80,7 +81,7 @@ FUNC(Std_ReturnType, CRY_CODE) Crypto_internal_sha256_process(Crypto_Sha256Data*
  * Return              Std_ReturnType
  */
 /******************************************************************************/
-FUNC(Std_ReturnType, CRY_CODE) Crypto_sha256_starts_ret(Crypto_Sha256Data* ctx)
+FUNC(Std_ReturnType, CRYPTO_CODE) Crypto_sha256_starts_ret(Crypto_Sha256Data* ctx)
 {
     Std_ReturnType ret = E_OK;
 
@@ -144,7 +145,7 @@ static VAR(uint32, AUTOMATIC) K[] = {
  *                                      E_NOT_OK: State not accepted
  */
 /******************************************************************************/
-FUNC(Std_ReturnType, CRY_CODE) Crypto_internal_sha256_process(Crypto_Sha256Data* ctx, VAR(uint8, AUTOMATIC) data[64])
+FUNC(Std_ReturnType, CRYPTO_CODE) Crypto_internal_sha256_process(Crypto_Sha256Data* ctx, VAR(uint8, AUTOMATIC) data[64])
 {
     struct
     {
@@ -354,10 +355,10 @@ FUNC(Std_ReturnType, CRY_CODE) Crypto_internal_sha256_process(Crypto_Sha256Data*
  *                                      E_NOT_OK: State not accepted
  */
 /******************************************************************************/
-FUNC(Std_ReturnType, CRY_CODE)
+FUNC(Std_ReturnType, CRYPTO_CODE)
 Crypto_sha256_update_ret(
     Crypto_Sha256Data* ctx,
-    P2VAR(uint8, AUTOMATIC, CRY_APPL_DATA) input,
+    P2VAR(uint8, AUTOMATIC, CRYPTO_APPL_DATA) input,
     VAR(uint32, AUTOMATIC) ilen)
 {
     Std_ReturnType ret = E_OK;
@@ -427,7 +428,7 @@ exit:
  *                                      E_NOT_OK: State not accepted
  */
 /******************************************************************************/
-FUNC(Std_ReturnType, CRY_CODE) Crypto_sha256_finish_ret(Crypto_Sha256Data* ctx, VAR(uint8, AUTOMATIC) output[32])
+FUNC(Std_ReturnType, CRYPTO_CODE) Crypto_sha256_finish_ret(Crypto_Sha256Data* ctx, VAR(uint8, AUTOMATIC) output[32])
 {
     uint32 used;
     uint32 high, low;
@@ -500,11 +501,11 @@ exit:
  *                                      E_NOT_OK: State not accepted
  */
 /******************************************************************************/
-FUNC(Std_ReturnType, CRY_CODE)
+FUNC(Std_ReturnType, CRYPTO_CODE)
 Crypto_sha256(
-    P2VAR(uint8, AUTOMATIC, CRY_APPL_DATA) input,
+    P2VAR(uint8, AUTOMATIC, CRYPTO_APPL_DATA) input,
     VAR(uint32, AUTOMATIC) ilen,
-    P2VAR(uint8, AUTOMATIC, CRY_APPL_DATA) output)
+    P2VAR(uint8, AUTOMATIC, CRYPTO_APPL_DATA) output)
 {
     Std_ReturnType ret;
     Crypto_Sha256Data ctx;

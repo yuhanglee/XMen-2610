@@ -88,6 +88,9 @@
 
     \li PRQA S 3219 MISRA Rule 2.1 .<br>
     Reason:Design required.
+
+    \li PRQA S 3678 MISRA Rule 8.13 .<br>
+    Reason:Compilation warnings are introduced.
  */
 
 /*******************************************************************************
@@ -997,7 +1000,7 @@ DoIP_SoAdTpTxConfirmation(VAR(PduIdType, AUTOMATIC) id, VAR(Std_ReturnType, AUTO
     uint8 bufferId;
     SoAd_SoConIdType socketId;
     DoIP_TcpInnerBufferType* pBuffer;
-    const DoIP_TcpConnStatusType* tcpConnStatus;
+    DoIP_TcpConnStatusType* tcpConnStatus; /* PRQA S 3678 */ /* MISRA Rule 8.13 */
 #if (DOIP_ROLE_GATEWAY_SUPPORT == TRUE)
     DoIP_GatewayCtrlType* gwCtrl;
 #endif /* DOIP_ROLE_GATEWAY_SUPPORT == TRUE */
@@ -1073,7 +1076,6 @@ DoIP_SoAdTpTxConfirmation(VAR(PduIdType, AUTOMATIC) id, VAR(Std_ReturnType, AUTO
 #endif /*DOIP_ROLE_SERVER_SUPPORT == TRUE*/
                 /*Here cannot close waiting tcp connection,*/
                 (void)SoAd_CloseSoCon(socketId, TRUE);
-                DoIP_ResetTcpInnerBuf(bufferId);
 #if (STD_ON == DOIP_SOCKET_AUTO_OPEN)
                 (void)SoAd_OpenSoCon(socketId);
 #endif

@@ -261,9 +261,8 @@ static FUNC(boolean, COM_CODE) Com_RxPduReplicationValid(
 /******************************************************************************/
 static FUNC(void, COM_CODE) Com_ResetRxOccurrenceOfPduFilter(const Com_RxIPduType* RxIpduPtr)
 {
-    Com_SignalIdType oneEveryNId;
 /*reset signal/group signal of rx pdu which ComFilterAlgorithm is ONE_EVERY_N*/
-#if (0u < COM_RXSIGNAL_NUMBER)
+#if (0u < COM_RXSIGNAL_NUMBER) && (COM_RXSIGNAL_FILTERTYPE_MAX_NUMBER > 0u)
     Com_RxSignalIdType ipduSignalRefNumber, cnt;
     const Com_RxSignalType* rxSignalPtr;
     ipduSignalRefNumber = RxIpduPtr->ComIPduSignalsRefNumber;
@@ -277,7 +276,7 @@ static FUNC(void, COM_CODE) Com_ResetRxOccurrenceOfPduFilter(const Com_RxIPduTyp
         }
     }
 #endif
-#if ((0u < COM_RXSIGNALGROUP_NUMBER) && (0u < COM_RXGROUPSIGNAL_NUMBER))
+#if ((0u < COM_RXSIGNALGROUP_NUMBER) && (0u < COM_RXGROUPSIGNAL_NUMBER) && (COM_RXGRPSIG_FILTERTYPE_MAX_NUMBER > 0u))
     Com_RxSignalGroupIdType ipduSignalGroupNumber, counter;
     Com_RxGroupSignalIdType groupSignalNumber, groupSignalId;
     const Com_RxGroupSignalType* rxGroupSignalPtr;
@@ -469,7 +468,7 @@ FUNC(void, COM_CODE) Com_ReceiveSignalGroupHandle(PduIdType RxPduId, Com_SignalG
 }
 #endif
 
-#if (0u < COM_RXSIGNALGROUP_NUMBER > 0u) && (0u < COM_RXGROUPSIGNAL_NUMBER) && (0u < COM_RXIPDU_NUMBER)
+#if (0u < COM_RXSIGNALGROUP_NUMBER) && (0u < COM_RXGROUPSIGNAL_NUMBER) && (0u < COM_RXIPDU_NUMBER)
 /******************************************************************************/
 /*
  * Brief               Receive group signal handle
@@ -493,7 +492,7 @@ Com_ReceiveGroupSignalHandle(Com_SignalIdType SignalId, P2VAR(void, AUTOMATIC, C
     const Com_RxIPduRunTimeStateType* rxIpduStatePtr = &Com_RxIPduRunTimeState[ipduRef];
     uint16 signalInitValueId;
     uint8 ret = COM_SERVICE_NOT_AVAILABLE;
-#if (0u < COM_RXGROUPSIGNAL_8BITBUFF_SIZE)
+#if (0u < COM_RX_GRP_SIGNAL_TYPE_UINT8_N_ENABLE)
     uint16 signalLength;
 #endif
 
@@ -816,16 +815,13 @@ static FUNC(void, COM_CODE)
                         substituteBufId = Com_RxGrpSigSubstituteValueIdRef[substituteStartId];
                         substituteStartId++;
 #endif
-                        if (COM_TIMEOUT_ACTION_NONE != RxTimeoutAction)
-                        {
-                            Com_RxDataTimeOutActionHandle(
-                                RxIpduStatePtr,
-                                RxIpduPtr,
-                                timeoutAction,
-                                (void*)rxGroupSignalPtr,
-                                FALSE,
-                                substituteBufId);
-                        }
+                        Com_RxDataTimeOutActionHandle(
+                            RxIpduStatePtr,
+                            RxIpduPtr,
+                            timeoutAction,
+                            (void*)rxGroupSignalPtr,
+                            FALSE,
+                            substituteBufId);
                     }
                 }
 #endif
@@ -1137,7 +1133,8 @@ static FUNC(void, COM_CODE)
 
     if (COM_UNUSED_RXSIGNALINVALIDID != RxSignalPtr->ComSignalInvalidRefId)
     {
-        uint16 invalidValueId = Com_RxSignalDataInvalidValueIdRef[RxSignalPtr->ComSignalInvalidRefId];
+        Com_RxSignalInvalidIdType signalInvalidId = RxSignalPtr->ComSignalInvalidRefId;
+        uint16 invalidValueId = Com_RxSignalDataInvalidValueIdRef[signalInvalidId];
 #if (0u < COM_SIGNAL_8BIT_INVALID_SIZE)
         if (0
             == ILib_memcmp(
@@ -1147,11 +1144,11 @@ static FUNC(void, COM_CODE)
 #endif
         {
 #if (STD_ON == COM_RX_SIGNAL_INVALID_DATA_ACTION_NOTIFY_ENABLE)
-            if (COM_INVALID_ACTION_NOTIFY == Com_RxSignalDataInvalidActionRef[invalidValueId])
+            if (COM_INVALID_ACTION_NOTIFY == Com_RxSignalDataInvalidActionRef[signalInvalidId])
             {
-                if (NULL_PTR != Com_RxInvalidNotificationCfg[invalidValueId])
+                if (NULL_PTR != Com_RxInvalidNotificationCfg[signalInvalidId])
                 {
-                    Com_RxInvalidNotificationCfg[invalidValueId]();
+                    Com_RxInvalidNotificationCfg[signalInvalidId]();
                 }
             }
             else
@@ -1703,22 +1700,23 @@ static FUNC(void, COM_CODE) Com_SignalGroupRxIndication(
     uint16 RxDynSignalLength,
     Com_RxIpduBufIdType IpduBufferId)
 {
+    boolean normalRxIndication = FALSE;
     /*if the signal group have invalid signal or not, and update gwGroupSignal buffer*/
     boolean signalGroupInvalid = Com_SignalGroupInvalidCalculate(RxSignalGroupPtr, IpduBufferId, RxDynSignalLength);
     /*the signal group is invalid if at least one group signal is invalid*/
+#if (STD_ON == COM_RX_GRP_SIGNAL_INVALID_DATA_ENABLE)
     if (signalGroupInvalid)
     {
-#if (STD_ON == COM_RX_GRP_SIGNAL_INVALID_DATA_ENABLE) && (STD_ON == COM_RX_SIG_GROUP_INVALID_DATA_ACTION_NOTIFY_ENABLE)
-        if (COM_INVALID_ACTION_NOTIFY == RxSignalGroupPtr->ComDataInvalidAction)
+#if (STD_ON == COM_RX_SIG_GROUP_INVALID_DATA_ACTION_NOTIFY_ENABLE)
+        if ((COM_INVALID_ACTION_NOTIFY == RxSignalGroupPtr->ComDataInvalidAction)
+            && (NULL_PTR != RxSignalGroupPtr->ComInvalidNotification))
         {
-            if (NULL_PTR != RxSignalGroupPtr->ComInvalidNotification)
-            {
-                RxSignalGroupPtr->ComInvalidNotification();
-            }
+            RxSignalGroupPtr->ComInvalidNotification();
         }
-        else
-#endif /* STD_ON == COM_RX_SIG_GROUP_INVALID_DATA_ACTION_NOTIFY_ENABLE */
+#endif
+        if (COM_INVALID_ACTION_REPLACE == RxSignalGroupPtr->ComDataInvalidAction)
         {
+            normalRxIndication = TRUE;
 /*replace the rx pdu buffer for signal group array*/
 #if ((STD_ON == COM_ENABLE_SIGNAL_GROUP_ARRAY_API) && (0u < COM_RXIPDUBUFF_SIZE))
             if (COM_UNUSED_COM_SIGNALGROUPARRYID != RxSignalGroupPtr->ComSignalGroupArrayId)
@@ -1737,12 +1735,8 @@ static FUNC(void, COM_CODE) Com_SignalGroupRxIndication(
 #endif
         }
     }
-    if ((!signalGroupInvalid)
-#if (STD_ON == COM_RX_GRP_SIGNAL_INVALID_DATA_ENABLE) && (STD_ON == COM_ENABLE_SIGNAL_GROUP_ARRAY_API)
-        || ((COM_INVALID_ACTION_REPLACE == RxSignalGroupPtr->ComDataInvalidAction)
-            && (COM_UNUSED_COM_SIGNALGROUPARRYID != RxSignalGroupPtr->ComSignalGroupArrayId))
 #endif
-    )
+    if (!signalGroupInvalid || normalRxIndication)
     {
 #if (COM_RXGRPSIG_FILTERTYPE_MAX_NUMBER > 0u)
         if (Com_RxSignalGroupFilter(RxSignalGroupPtr, signalGroupInvalid, IpduBufferId))
@@ -2088,7 +2082,11 @@ static FUNC(void, COM_CODE) Com_Uint8NDynGroupSignalInvalidCalculate(
 {
     const Com_RxGroupSignalType* rxGroupSignalPtr = &Com_ConfigStd->ComRxGroupSignal[GroupSignalId];
     Com_RxIpduBufIdType ipduBufferPos = IpduBufferId + (Com_RxIpduBufIdType)rxGroupSignalPtr->ComSigLsbBytePos;
+#if ((0u < COM_GWSIGNAL_8BITBUFF_SIZE) && (STD_ON == COM_RX_GRP_SIGNAL_TYPE_UINT8_DYN_ENABLE))     \
+    || ((0u < COM_SIGNAL_8BIT_INVALID_SIZE) && (STD_ON == COM_RX_GRP_SIGNAL_TYPE_UINT8_DYN_ENABLE) \
+        && (STD_ON == COM_RX_GRP_SIGNAL_INVALID_DATA_ENABLE))
     Com_SignalType signalType = rxGroupSignalPtr->ComSignalType;
+#endif
 #if (0u < COM_SIGNAL_8BIT_INVALID_SIZE) && (STD_ON == COM_RX_GRP_SIGNAL_INVALID_DATA_ENABLE)
     uint16 invalidValueId = rxGroupSignalPtr->ComSignalInvalidBuffRefId;
 #endif

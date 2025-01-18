@@ -79,11 +79,11 @@
 #if (CRYPTO_MAXKEY_CONFIGURED > 0)
 /*Find Key Element index*/
 
-FUNC(Std_ReturnType, CRY_CODE)
+FUNC(Std_ReturnType, CRYPTO_CODE)
 Crypto_KeyElementIndexFind(
     VAR(uint32, AUTOMATIC) cryptokeyId,
     VAR(uint32, AUTOMATIC) keyElementId,
-    P2VAR(uint32, AUTOMATIC, CRY_APPL_DATA) getkeyElementId)
+    P2VAR(uint32, AUTOMATIC, CRYPTO_APPL_DATA) getkeyElementId)
 {
     uint32 i;
     Std_ReturnType ret = E_NOT_OK;
@@ -117,10 +117,10 @@ Crypto_KeyElementIndexFind(
     return ret;
 }
 
-FUNC(Std_ReturnType, CRY_CODE)
+FUNC(Std_ReturnType, CRYPTO_CODE)
 Get_Key(
     VAR(uint32, AUTOMATIC) cryptoKeyId,
-    P2VAR(uint8, AUTOMATIC, CRY_APPL_DATA) key,
+    P2VAR(uint8, AUTOMATIC, CRYPTO_APPL_DATA) key,
     VAR(uint8, AUTOMATIC) keyelementid)
 {
     Std_ReturnType ret;
@@ -149,11 +149,11 @@ Get_Key(
     return ret;
 }
 
-FUNC(Std_ReturnType, CRY_CODE)
+FUNC(Std_ReturnType, CRYPTO_CODE)
 Crypto_KeyElementSetInternal(
     uint32 cryptokeyId,
     uint32 keyElementId,
-    P2CONST(uint8, AUTOMATIC, CSM_APPL_DATA) keyPtr,
+    P2CONST(uint8, AUTOMATIC, CRYPTO_APPL_DATA) keyPtr,
     uint32 keyLength)
 {
     Std_ReturnType Status;

@@ -93,7 +93,8 @@
  *      Modify the error code UDPNM_E_NETWORK_TIMEOUT to 0x11u.
  *  V2.0.14 2024-05-30  xiaojian.liang
  *      CPT-9115 Definition of scheduled function UdpNm_MainFunction<Instance_Id> and exclusive area Context.
- *
+ *  V2.0.15   2024-10-30   xiaojian.liang
+ *      Fixed CPT-10964 If UdpNmComUserDataSupport is enabled the API UdpNm_SetUserData shall not be available.
  ******************************************************************************/
 
 /**
@@ -106,6 +107,9 @@
 
     \li PRQA S 1531, 1532 MISRA Rule 8.7 .<br>
     Reason:The exception is global configuration data(1531) and API(1532).
+
+    \li PRQA S 3678 VL_QAC_3678 .<br>
+    Reason: Variables cannot be prefixed with const because they are used under other conditions to be compiled
  */
 
 /*******************************************************************************
@@ -116,7 +120,7 @@
 #define UDPNM_C_AR_PATCH_VERSION 0u
 #define UDPNM_C_SW_MAJOR_VERSION 2u
 #define UDPNM_C_SW_MINOR_VERSION 0u
-#define UDPNM_C_SW_PATCH_VERSION 14u
+#define UDPNM_C_SW_PATCH_VERSION 15u
 
 /*******************************************************************************
 **                      Include Section                                       **
@@ -733,7 +737,8 @@ Std_ReturnType UdpNm_EnableCommunication(NetworkHandleType nmChannelHandle) /* P
 }
 #endif /* STD_ON == UDPNM_COM_CONTROL_ENABLED */
 
-#if (STD_ON == UDPNM_USER_DATA_ENABLED) && (STD_OFF == UDPNM_PASSIVE_MODE_ENABLED)
+#if (UDPNM_USER_DATA_ENABLED == STD_ON) && (UDPNM_COM_USERDATA_SUPPORT == STD_OFF) \
+    && (UDPNM_PASSIVE_MODE_ENABLED == STD_OFF)
 /******************************************************************************/
 /*
  * Brief               Set user data for all NM messages transmitted on the bus
@@ -1465,7 +1470,7 @@ Std_ReturnType UdpNm_SoAdIfTriggerTransmit(PduIdType TxPduId, PduInfoType* PduIn
     {
         P2CONST(UdpNm_ChannelConfigType, AUTOMATIC, UDPNM_APPL_CONST)
         chCfgPtr = &UdpNm_CfgPtr->ChannelConfig[0];
-        UdpNm_InnerChannelType* chRTPtr;
+        UdpNm_InnerChannelType* chRTPtr; /* PRQA S 3678 */ /* VL_QAC_3678 */
         uint8 chIndex;
 #if (STD_ON == UDPNM_COM_USERDATA_SUPPORT)
         PduInfoType pduInfo;
@@ -1708,6 +1713,11 @@ static FUNC(void, UDPNM_CODE) UdpNm_EntryRepeatMessageState(uint8 chIndex, boole
          * repeat message state.
          */
         chRTPtr->msgTxCylceTimer = chCfgPtr->MsgCycleOffset;
+
+        if (chRTPtr->msgTxCylceTimer == 0u)
+        {
+            chRTPtr->msgTxCylceTimer = 1u;
+        }
 
         /* @req SWS_UdpNm_00007 */
         if ((NM_MODE_BUS_SLEEP == chRTPtr->udpnmMode) && (TRUE == chCfgPtr->RetryFirstMessageRequest))

@@ -510,10 +510,9 @@ ComM_GetMaxComMode(ComM_UserHandleType User, ComM_ModeType* ComMode)
         ret = E_OK;
         const ComM_UserConfigType* userCfgPtr = &ComM_ConfigPtr->userCfgPtr[User];
         *ComMode = COMM_FULL_COMMUNICATION;
-        ComM_ModeType chMode;
         for (uintx index = 0u; index < userCfgPtr->mapAllChListNum; index++)
         {
-            ComM_ChGetMaxAllowMode(userCfgPtr->mapAllChList[index], &chMode);
+            ComM_ModeType chMode = ComM_ChGetMaxAllowMode(userCfgPtr->mapAllChList[index]);
             *ComMode = chMode;
             if (chMode == COMM_NO_COMMUNICATION)
             {

@@ -212,7 +212,9 @@ static FUNC(SomeIpTp_TpHeaderType, SOMEIPTP_CODE)
 
 SOMEIPTP_LOCAL_INLINE FUNC(PduLengthType, SOMEIPTP_CODE) SomeIpTp_Min(PduLengthType a, PduLengthType b);
 
+#if (STD_ON == SOMEIPTP_DEV_ERROR_DETECT)
 SOMEIPTP_LOCAL_INLINE FUNC(void, SOMEIPTP_CODE) SomeIpTp_DetReportError(uint8 ApiId, uint8 ErrorId);
+#endif
 
 SOMEIPTP_LOCAL_INLINE FUNC(void, SOMEIPTP_CODE) SomeIpTp_DetReportRuntimeError(uint8 ApiId, uint8 ErrorId);
 

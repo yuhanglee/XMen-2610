@@ -109,6 +109,20 @@ FUNC(void, LINIF_CODE) LinTp_SlaveInit(void);
 
 /******************************************************************************/
 /*
+ * Brief               LinTp slave node runtime data init and cancel TP process on going
+ * Sync/Async          Synchronous
+ * Reentrancy          Reentrant
+ * Param-Name[in]      None
+ * Param-Name[out]     None
+ * Param-Name[in/out]  None
+ * Return              None
+ */
+/******************************************************************************/
+FUNC(void, LINIF_CODE)
+LinTp_SlavePreInit(NetworkHandleType ch);
+
+/******************************************************************************/
+/*
  * Brief               TP message receive indication process in slave channel.
  * Sync/Async          Synchronous
  * Reentrancy          Reentrant

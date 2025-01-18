@@ -108,15 +108,15 @@
 **                      Global Function Definitions                           **
 *******************************************************************************/
 #if ((STD_ON == DET_ERROR_HOOK_ENABLED) && (DET_SIZE_OF_ERROR_HOOK_TABLE > 0))
-extern CONST(Det_ErrorHookFncType, DLT_CONST) Det_GetErrorHookTable[DET_SIZE_OF_ERROR_HOOK_TABLE];
+extern CONST(Det_ErrorHookFncType, DET_CONST) Det_GetErrorHookTable[DET_SIZE_OF_ERROR_HOOK_TABLE];
 #endif /* STD_ON == DET_TRANSIENT_FAULT_CALLOUT_ENABLED */
 
 #if ((STD_ON == DET_RUNTIME_ERROR_CALLOUT_ENABLED) && (DET_SIZE_OF_RUNTIME_ERROR_CALLOUT_TABLE > 0))
-extern CONST(Det_CalloutFncType, DLT_CONST) Det_GetRuntimeErrorCalloutTable[DET_SIZE_OF_RUNTIME_ERROR_CALLOUT_TABLE];
+extern CONST(Det_CalloutFncType, DET_CONST) Det_GetRuntimeErrorCalloutTable[DET_SIZE_OF_RUNTIME_ERROR_CALLOUT_TABLE];
 #endif /* STD_ON == DET_RUNTIME_ERROR_CALLOUT_ENABLED */
 
 #if ((STD_ON == DET_TRANSIENT_FAULT_CALLOUT_ENABLED) && (DET_SIZE_OF_TRANSIENT_FAULT_CALLOUT_TABLE > 0))
-extern CONST(Det_CalloutFncType, DLT_CONST)
+extern CONST(Det_CalloutFncType, DET_CONST)
     Det_GetTransientFaultCalloutTable[DET_SIZE_OF_TRANSIENT_FAULT_CALLOUT_TABLE];
 #endif /* STD_ON == DET_TRANSIENT_FAULT_CALLOUT_ENABLED */
 

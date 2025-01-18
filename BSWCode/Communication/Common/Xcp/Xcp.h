@@ -44,7 +44,7 @@
 #define XCP_H_AR_PATCH_VERSION 0u
 #define XCP_H_SW_MAJOR_VERSION 2u
 #define XCP_H_SW_MINOR_VERSION 0u
-#define XCP_H_SW_PATCH_VERSION 10u
+#define XCP_H_SW_PATCH_VERSION 11u
 
 #define XCP_INSTANCE_ID        ((uint8)(0u))
 /*=======[I N C L U D E S]====================================================*/

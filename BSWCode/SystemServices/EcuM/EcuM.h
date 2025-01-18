@@ -278,7 +278,7 @@ FUNC(Std_ReturnType, ECUM_CODE) EcuM_RequestPOST_RUN(EcuM_UserType user);
  *               E_NOT_OK: The release request was not accepted by EcuM,
  *                         a detailed error condition was sent to DET (see Error Codes).
  */
-FUNC(Std_ReturnType, ECUM_COE) EcuM_ReleasePOST_RUN(EcuM_UserType user);
+FUNC(Std_ReturnType, ECUM_CODE) EcuM_ReleasePOST_RUN(EcuM_UserType user);
 #endif /* STD_ON == ECUM_MODE_HANDING */
 
 /**
@@ -566,6 +566,6 @@ FUNC(Std_ReturnType, ECUM_CODE) EcuM_SelectBootTarget(EcuM_BootTargetType target
 FUNC(Std_ReturnType, ECUM_CODE) EcuM_GetBootTarget(P2VAR(EcuM_BootTargetType, AUTOMATIC, ECUM_APPL_DATA) target);
 /* PRQA S 3432 -- */ /* MISRA Rule 20.7 */
 
-FUNC(void, ECUM_AL_DRIVERINITBSWM_0_CODE)
+FUNC(void, ECUM_AL_DRIVERINITBSWM_CODE)
 EcuM_AL_DriverInitBswM(uint8 drvInitIdx);
 #endif /*ECUM_H_*/

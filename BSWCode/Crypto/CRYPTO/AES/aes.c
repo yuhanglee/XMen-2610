@@ -50,8 +50,8 @@
 #define CRYPTO_START_SEC_CODE
 #include "Crypto_MemMap.h"
 #if (CRYPTO_ALGORITHM_AES == STD_ON)
-FUNC(Std_ReturnType, CRY_CODE) internal_aes_encrypt(Crypto_AESData* ctx, const uint8 input[16], uint8 output[16]);
-FUNC(Std_ReturnType, CRY_CODE) internal_aes_decrypt(Crypto_AESData* ctx, const uint8 input[16], uint8 output[16]);
+FUNC(Std_ReturnType, CRYPTO_CODE) internal_aes_encrypt(Crypto_AESData* ctx, const uint8 input[16], uint8 output[16]);
+FUNC(Std_ReturnType, CRYPTO_CODE) internal_aes_decrypt(Crypto_AESData* ctx, const uint8 input[16], uint8 output[16]);
 
 #define GET_UINT32_LE(n, b, i)                                                                \
     {                                                                                         \
@@ -325,8 +325,8 @@ static const uint32 RCON[10] = {
  * Return              Std_ReturnType
  */
 /******************************************************************************/
-FUNC(Std_ReturnType, CRY_CODE)
-Crypto_aes_setkey_enc(Crypto_AESData* ctx, P2VAR(uint8, AUTOMATIC, CRY_APPL_DATA) key, uint16 keybits)
+FUNC(Std_ReturnType, CRYPTO_CODE)
+Crypto_aes_setkey_enc(Crypto_AESData* ctx, P2VAR(uint8, AUTOMATIC, CRYPTO_APPL_DATA) key, uint16 keybits)
 {
     uint16 i;
     uint32* RK;
@@ -420,8 +420,8 @@ Crypto_aes_setkey_enc(Crypto_AESData* ctx, P2VAR(uint8, AUTOMATIC, CRY_APPL_DATA
  */
 /******************************************************************************/
 
-FUNC(Std_ReturnType, CRY_CODE)
-Crypto_aes_setkey_dec(Crypto_AESData* ctx, P2VAR(uint8, AUTOMATIC, CRY_APPL_DATA) key, uint16 keybits)
+FUNC(Std_ReturnType, CRYPTO_CODE)
+Crypto_aes_setkey_dec(Crypto_AESData* ctx, P2VAR(uint8, AUTOMATIC, CRYPTO_APPL_DATA) key, uint16 keybits)
 {
     int i, j;
     Crypto_AESData cty;
@@ -507,7 +507,7 @@ Crypto_aes_setkey_dec(Crypto_AESData* ctx, P2VAR(uint8, AUTOMATIC, CRY_APPL_DATA
  */
 /******************************************************************************/
 
-FUNC(Std_ReturnType, CRY_CODE) internal_aes_encrypt(Crypto_AESData* ctx, const uint8 input[16], uint8 output[16])
+FUNC(Std_ReturnType, CRYPTO_CODE) internal_aes_encrypt(Crypto_AESData* ctx, const uint8 input[16], uint8 output[16])
 {
     int i;
     Std_ReturnType ret = E_OK;
@@ -580,7 +580,7 @@ FUNC(Std_ReturnType, CRY_CODE) internal_aes_encrypt(Crypto_AESData* ctx, const u
  */
 /******************************************************************************/
 
-FUNC(Std_ReturnType, CRY_CODE) internal_aes_decrypt(Crypto_AESData* ctx, const uint8 input[16], uint8 output[16])
+FUNC(Std_ReturnType, CRYPTO_CODE) internal_aes_decrypt(Crypto_AESData* ctx, const uint8 input[16], uint8 output[16])
 {
     int i;
     Std_ReturnType ret = E_OK;
@@ -640,7 +640,7 @@ FUNC(Std_ReturnType, CRY_CODE) internal_aes_decrypt(Crypto_AESData* ctx, const u
 /*
  * AES-ECB block encryption/decryption
  */
-FUNC(Std_ReturnType, CRY_CODE)
+FUNC(Std_ReturnType, CRYPTO_CODE)
 Crypto_aes_crypt_ecb(Crypto_AESData* ctx, uint8 mode, const uint8 input[16], uint8 output[16])
 {
     if (mode == AES_ENCRYPT)
@@ -669,14 +669,14 @@ Crypto_aes_crypt_ecb(Crypto_AESData* ctx, uint8 mode, const uint8 input[16], uin
  *                                      E_NOT_OK: State not accepted
  */
 /******************************************************************************/
-FUNC(Std_ReturnType, CRY_CODE)
+FUNC(Std_ReturnType, CRYPTO_CODE)
 Crypto_aes_crypt_cbc(
     Crypto_AESData* ctx,
     uint8 mode,
     uint8 length,
     uint8 iv[16],
-    P2VAR(uint8, AUTOMATIC, CRY_APPL_DATA) input,
-    P2VAR(uint8, AUTOMATIC, CRY_APPL_DATA) output)
+    P2VAR(uint8, AUTOMATIC, CRYPTO_APPL_DATA) input,
+    P2VAR(uint8, AUTOMATIC, CRYPTO_APPL_DATA) output)
 {
     int i;
     uint8 temp[16];
@@ -737,14 +737,14 @@ Crypto_aes_crypt_cbc(
  *                                      E_NOT_OK: State not accepted
  */
 /******************************************************************************/
-FUNC(Std_ReturnType, CRY_CODE)
+FUNC(Std_ReturnType, CRYPTO_CODE)
 Crypto_aes_crypt_cbc_CMAC(
     Crypto_AESData* ctx,
     uint8 mode,
     uint8 length,
     uint8 iv[16],
-    P2VAR(uint8, AUTOMATIC, CRY_APPL_DATA) input,
-    P2VAR(uint8, AUTOMATIC, CRY_APPL_DATA) output)
+    P2VAR(uint8, AUTOMATIC, CRYPTO_APPL_DATA) input,
+    P2VAR(uint8, AUTOMATIC, CRYPTO_APPL_DATA) output)
 {
     int i;
     uint8 temp[16];
@@ -784,7 +784,7 @@ Crypto_aes_crypt_cbc_CMAC(
  * Checkup routine
  */
 
-FUNC(Std_ReturnType, CRY_CODE) Crypto_AESEncryptECB(P2VAR(uint8, AUTOMATIC, CRY_APPL_DATA) key, uint8 buf[64])
+FUNC(Std_ReturnType, CRYPTO_CODE) Crypto_AESEncryptECB(P2VAR(uint8, AUTOMATIC, CRYPTO_APPL_DATA) key, uint8 buf[64])
 {
     Crypto_AESData ctx;
     Std_ReturnType ret;
@@ -797,7 +797,7 @@ FUNC(Std_ReturnType, CRY_CODE) Crypto_AESEncryptECB(P2VAR(uint8, AUTOMATIC, CRY_
     return ret;
 }
 
-FUNC(Std_ReturnType, CRY_CODE) Crypto_AESDecryptECB(P2VAR(uint8, AUTOMATIC, CRY_APPL_DATA) key, uint8 buf[64])
+FUNC(Std_ReturnType, CRYPTO_CODE) Crypto_AESDecryptECB(P2VAR(uint8, AUTOMATIC, CRYPTO_APPL_DATA) key, uint8 buf[64])
 {
     Crypto_AESData ctx;
     Std_ReturnType ret;
@@ -811,8 +811,8 @@ FUNC(Std_ReturnType, CRY_CODE) Crypto_AESDecryptECB(P2VAR(uint8, AUTOMATIC, CRY_
     return ret;
 }
 
-FUNC(Std_ReturnType, CRY_CODE)
-Crypto_AESEncryptCBC(P2VAR(uint8, AUTOMATIC, CRY_APPL_DATA) key, uint8 buf[64], uint8 iv[16], uint8 inputlength)
+FUNC(Std_ReturnType, CRYPTO_CODE)
+Crypto_AESEncryptCBC(P2VAR(uint8, AUTOMATIC, CRYPTO_APPL_DATA) key, uint8 buf[64], uint8 iv[16], uint8 inputlength)
 {
     Crypto_AESData ctx;
     Std_ReturnType ret;
@@ -830,8 +830,8 @@ Crypto_AESEncryptCBC(P2VAR(uint8, AUTOMATIC, CRY_APPL_DATA) key, uint8 buf[64], 
     return ret;
 }
 
-FUNC(Std_ReturnType, CRY_CODE)
-Crypto_AESDecryptCBC(P2VAR(uint8, AUTOMATIC, CRY_APPL_DATA) key, uint8 buf[64], uint8 iv[16], uint8 inputlength)
+FUNC(Std_ReturnType, CRYPTO_CODE)
+Crypto_AESDecryptCBC(P2VAR(uint8, AUTOMATIC, CRYPTO_APPL_DATA) key, uint8 buf[64], uint8 iv[16], uint8 inputlength)
 {
     Crypto_AESData ctx;
     Std_ReturnType ret;
@@ -848,8 +848,8 @@ Crypto_AESDecryptCBC(P2VAR(uint8, AUTOMATIC, CRY_APPL_DATA) key, uint8 buf[64], 
     return ret;
 }
 
-FUNC(Std_ReturnType, CRY_CODE)
-Crypto_AESEncryptCTR(P2VAR(uint8, AUTOMATIC, CRY_APPL_DATA) key, uint8 buf[64], uint8 iv[16])
+FUNC(Std_ReturnType, CRYPTO_CODE)
+Crypto_AESEncryptCTR(P2VAR(uint8, AUTOMATIC, CRYPTO_APPL_DATA) key, uint8 buf[64], uint8 iv[16])
 {
 
     Crypto_AESData ctx;
@@ -872,8 +872,8 @@ Crypto_AESEncryptCTR(P2VAR(uint8, AUTOMATIC, CRY_APPL_DATA) key, uint8 buf[64], 
     return ret;
 }
 
-FUNC(Std_ReturnType, CRY_CODE)
-Crypto_AESDecryptCTR(P2VAR(uint8, AUTOMATIC, CRY_APPL_DATA) key, uint8 buf[64], uint8 iv[16])
+FUNC(Std_ReturnType, CRYPTO_CODE)
+Crypto_AESDecryptCTR(P2VAR(uint8, AUTOMATIC, CRYPTO_APPL_DATA) key, uint8 buf[64], uint8 iv[16])
 {
 
     Crypto_AESData ctx;

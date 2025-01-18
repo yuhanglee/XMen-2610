@@ -68,6 +68,8 @@
  *                                     2:Delete LinTp_SlaveAbortTxAndNotifyFailToUpper
  *                                     3:Delete LinTp_SlaveAbortRxAndNotifyFailToUpper
  * V2.0.13     20240925   ZhaoTong     fix bug CPT-10610
+ * V2.0.14     20241029   ZhaoTong     fix bug CPT-11007
+ * V2.0.15     20241122   ZhaoTong     fix bug CPT-10961
  */
 
 /*******************************************************************************
@@ -75,7 +77,7 @@
 *******************************************************************************/
 #define LINTP_C_SW_MAJOR_VERSION 2U
 #define LINTP_C_SW_MINOR_VERSION 0U
-#define LINTP_C_SW_PATCH_VERSION 13U
+#define LINTP_C_SW_PATCH_VERSION 15U
 
 /*******************************************************************************
 **                               Includes                                     **

@@ -67,6 +67,13 @@
  *                                    2.ComDataInvalidAction is NOTIFY, do not repalce InitValue.
  *  V2.0.17   20240906  shengnan.sun  Generated code optimization.
  *  V2.0.18   20240924  shengnan.sun  Modify Com_SwitchIpduTxMode to judge
+ *  V2.1.19   20241106  shengnan.sun  Modify signalInvalidId of Com_Rx8NSignalHandle, not invalidValueId.
+ *  V2.1.20   20241129  shengnan.sun  Processing RxSignalGroup when invalidValueAction is Replace.
+ *  V2.1.21   20241129  shengnan.sun  Modify COM_TX_GRP_SIGNAL_TYPE_UINT8_N_ENABLE of Com_TxSignalPack to
+ *                                    COM_TX_SIGNAL_TYPE_UINT8_N_ENABLE
+ *  V2.1.22   20241130  shengnan.sun  Modify the calculation of msbByteBitSize
+ *  v2.1.23   20241217  shengnan.sun  1.Modify RxSignalGroup invalid action.
+ *                                    2.Modify Com_SwitchIpduTxModeHandle to get TxModeTimeOffset.
  *******************************************************************************/
 
 /**
@@ -124,7 +131,7 @@
 #define COM_C_AR_PATCH_VERSION 2u
 #define COM_C_SW_MAJOR_VERSION 2u
 #define COM_C_SW_MINOR_VERSION 0u
-#define COM_C_SW_PATCH_VERSION 17u
+#define COM_C_SW_PATCH_VERSION 23u
 /*******************************************************************************
 **                       Version  Check                                       **
 *******************************************************************************/
@@ -267,11 +274,13 @@ static FUNC(void, COM_CODE) Com_GwUint8NDYNSignal(
 #endif
 /* gateway signal/group signal/description signal
  * which signal type isn't COM_UINT8_N and COM_UINT8_DYN*/
+#if ((0u < COM_GWMAPPING_NUMBER) && (0u < COM_RXIPDU_NUMBER) && (0u < COM_TXIPDU_NUMBER))
 static void Com_GwNotArraySignal(
     Com_SignalType SignalType,
     uint16 GWSignalBufferId,
     Com_SignalConfigType DestSignalType,
     Com_SignalIdType DestSignalId);
+#endif
 #if (                                                                            \
     ((0u < COM_TXSIGNAL_NUMBER) || (0u < COM_GW_DESTINATION_DESCRIPTION_NUMBER)) \
     || ((0u < COM_TXGROUPSIGNAL_NUMBER) && (0u < COM_TXSIGNALGROUP_NUMBER)))
@@ -1305,7 +1314,6 @@ Com_MainFunctionTx(void) /* PRQA S 1532 */ /* MISRA Rule 8.7 */
         const Com_TxIPduType* txIpduPtr;
         Com_TxIPduRunTimeStateType* txIpduStatePtr;
         uint8 activeEnable;
-        uint8 TxConfirm;
         uint8 Transmiting;
         for (txIpduId = 0u; txIpduId < COM_TXIPDU_NUMBER; ++txIpduId)
         {
@@ -1318,7 +1326,7 @@ Com_MainFunctionTx(void) /* PRQA S 1532 */ /* MISRA Rule 8.7 */
                 txIpduPtr = &Com_ConfigStd->ComTxIPdu[txIpduId];
                 /*Tx notification for all signals/signal groups of the Tx Pdu is DEFERRED in the MainFunctionTx*/
 #if (STD_ON == COM_TX_SIGNAL_NOTIFICATION_ENABLE) || (STD_ON == COM_TX_SIG_GROUP_NOTIFICATION_ENABLE)
-                TxConfirm = txIpduStatePtr->TxIpduRTStFlag & Com_TX_CONFIRM_EN;
+                uint8 TxConfirm = txIpduStatePtr->TxIpduRTStFlag & Com_TX_CONFIRM_EN;
                 if (Com_TX_CONFIRM_EN == TxConfirm)
                 {
                     /*Tx notification for all signals/signal groups of the Tx Pdu*/
@@ -2067,13 +2075,10 @@ static FUNC(void, COM_CODE)
 {
     Com_RxSigTimeoutIdType ipduSignalTimeoutRefNumber, cnt;
     Com_SignalIdType rxSignalId;
+    uint16 substituteBufId = COM_UNUSED_UINT16;
 #if (STD_ON == COM_RX_SIGNAL_TIMEOUT_ACTION_REPLACE_ENABLE) \
     || (STD_ON == COM_RX_SIGNAL_TIMEOUT_ACTION_SUBSTITUTE_ENABLE)
     Com_RxDataTimeoutActionType timeoutAction;
-    Com_SignalType signalType;
-    uint16 initValueLength;
-    uint16 initValueId;
-    uint16 substituteBufId = COM_UNUSED_UINT16;
 #endif
     uint16* rxSignalTimeoutCnt;
     const Com_RxSignalType* rxSignalPtr;
@@ -2108,16 +2113,19 @@ static FUNC(void, COM_CODE)
 #if (STD_ON == COM_RX_SIGNAL_TIMEOUT_ACTION_REPLACE_ENABLE) \
     || (STD_ON == COM_RX_SIGNAL_TIMEOUT_ACTION_SUBSTITUTE_ENABLE)
                 timeoutAction = Com_RxSignalDataTimeoutActionCfg[cnt];
+                if (COM_TIMEOUT_ACTION_NONE != timeoutAction)
+                {
 #if (STD_ON == COM_RX_SIGNAL_TIMEOUT_ACTION_SUBSTITUTE_ENABLE)
-                substituteBufId = Com_RxSignalSubstituteValueIdRef[cnt];
+                    substituteBufId = Com_RxSignalSubstituteValueIdRef[cnt];
 #endif
-                Com_RxDataTimeOutActionHandle(
-                    RxIpduStatePtr,
-                    RxIpduPtr,
-                    timeoutAction,
-                    (const void*)rxSignalPtr,
-                    TRUE,
-                    substituteBufId);
+                    Com_RxDataTimeOutActionHandle(
+                        RxIpduStatePtr,
+                        RxIpduPtr,
+                        timeoutAction,
+                        (const void*)rxSignalPtr,
+                        TRUE,
+                        substituteBufId);
+                }
 #endif /* STD_ON == COM_RX_SIGNAL_TIMEOUT_ACTION_REPLACE_ENABLE || STD_ON == \
           COM_RX_SIGNAL_TIMEOUT_ACTION_SUBSTITUTE_ENABLE */
 #if (STD_ON == COM_RX_SIGNAL_TIMEOUT_NOTIFICATION_ENABLE)
@@ -2978,6 +2986,7 @@ static FUNC(void, COM_CODE) Com_GwUint8NDYNSignal(
  * Return              None
  */
 /******************************************************************************/
+#if ((0u < COM_GWMAPPING_NUMBER) && (0u < COM_RXIPDU_NUMBER) && (0u < COM_TXIPDU_NUMBER))
 static void Com_GwNotArraySignal(
     Com_SignalType SignalType,
     uint16 GWSignalBufferId,
@@ -3213,6 +3222,7 @@ static void Com_GwNotArraySignal(
     }
     return;
 }
+#endif
 
 #if (                                                                            \
     ((0u < COM_TXSIGNAL_NUMBER) || (0u < COM_GW_DESTINATION_DESCRIPTION_NUMBER)) \

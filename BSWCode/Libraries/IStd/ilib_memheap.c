@@ -674,7 +674,7 @@ void* ILib_MemHeapMalloc(void* ram, uint32 size)
             ptr = (void*)block->ptr.buffer;
         }
     }
-
+    (void)ret;
     return ptr;
 }
 /* PRQA S 0306-- */ /* MISRA Rule 11.4 */

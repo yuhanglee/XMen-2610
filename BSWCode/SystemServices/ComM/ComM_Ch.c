@@ -821,66 +821,33 @@ ComM_ChGetState(uintx chIdx, ComM_StateType* chStu) /* PRQA S 1532 */ /* MISRA R
  * @brief       get channel max allowed mode
  * @param[in]   chIdx  channel inner index
  * @param[out]  chMode  channel mode
- * @return      NA
+ * @return      ComM_ModeType:max allow mode of channel
+ * @retval      COMM_NO_COMMUNICATION
+ * @retval      COMM_FULL_COMMUNICATION
  * @note        called by ComM_GetMaxComMode
  */
-void ComM_ChGetMaxAllowMode(uintx chIdx, ComM_ModeType* chMode) /* PRQA S 1532 */ /* MISRA Rule 8.7 */
+ComM_ModeType ComM_ChGetMaxAllowMode(uintx chIdx)
 {
+#if (COMM_MODE_LIMITATION_ENABLED == STD_ON || COMM_WAKEUP_INHIBITION_ENABLED == STD_ON)
     const ComM_ChVarType* chVarPtr = &ComM_ChVarTable[chIdx];
-    uint8 chSpecMode = chVarPtr->specMode;
-#if (COMM_MODE_LIMITATION_ENABLED == STD_ON)
-    boolean limitNoComStu = FALSE;
-#endif /* COMM_MODE_LIMITATION_ENABLED == STD_ON */
-#if (COMM_WAKEUP_INHIBITION_ENABLED == STD_ON)
-    boolean limitWakeup = FALSE;
-#endif /* COMM_WAKEUP_INHIBITION_ENABLED == STD_ON */
+#else
+    COMM_PARA_UNUSED(chIdx);
+#endif
 #if (COMM_MODE_LIMITATION_ENABLED == STD_ON)
     if (ComM_CommonGetBit(chVarPtr->funcMask, COMM_FUN_LIMIT_NOCOM_REQ))
     {
-        limitNoComStu = TRUE;
+        return COMM_NO_COMMUNICATION;
     }
-#endif /* COMM_MODE_LIMITATION_ENABLED == STD_ON */
+#endif
 #if (COMM_WAKEUP_INHIBITION_ENABLED == STD_ON)
-    if (ComM_CommonGetBit(chVarPtr->funcMask, COMM_FUN_LIMIT_WAKEUP))
+    uint8 chSpecMode = chVarPtr->specMode;
+    if (ComM_CommonGetBit(chVarPtr->funcMask, COMM_FUN_LIMIT_WAKEUP) && (chSpecMode != COMM_FULL_COM_READY_SLEEP)
+        && (chSpecMode != COMM_FULL_COM_NETWORK_REQUESTED))
     {
-        limitWakeup = TRUE;
+        return COMM_NO_COMMUNICATION;
     }
-#endif /* COMM_WAKEUP_INHIBITION_ENABLED == STD_ON */
-
-    if (((chSpecMode == COMM_SPEC_NOCOM_NOPENDING_REQ) || (chSpecMode == COMM_SPEC_NOCOM_REQ_PENDING))
-        || (
-#if (COMM_MODE_LIMITATION_ENABLED == STD_ON) || (COMM_WAKEUP_INHIBITION_ENABLED == STD_ON)
-#if (COMM_MODE_LIMITATION_ENABLED == STD_ON)
-            (limitNoComStu == TRUE) ||
-#endif /* COMM_MODE_LIMITATION_ENABLED == STD_ON */
-#if (COMM_WAKEUP_INHIBITION_ENABLED == STD_ON)
-            (limitWakeup == TRUE) ||
-#endif /* COMM_WAKEUP_INHIBITION_ENABLED == STD_ON */
-#endif /* COMM_MODE_LIMITATION_ENABLED == STD_ON) || (COMM_WAKEUP_INHIBITION_ENABLED == STD_ON */
-            !ComM_CommonGetBit(chVarPtr->funcMask, COMM_FUN_ALLOW_STU)))
-    {
-        *chMode = COMM_NO_COMMUNICATION;
-    }
-    else if (
-        (COMM_SPEC_SILENT_COM == chSpecMode)
-#if (COMM_MODE_LIMITATION_ENABLED == STD_ON) || (COMM_WAKEUP_INHIBITION_ENABLED == STD_ON)
-        && (
-#if (COMM_MODE_LIMITATION_ENABLED == STD_ON)
-            (limitNoComStu == TRUE) ||
-#endif /* COMM_MODE_LIMITATION_ENABLED == STD_ON */
-#if (COMM_WAKEUP_INHIBITION_ENABLED == STD_ON)
-            (limitWakeup == TRUE) ||
-#endif /* COMM_WAKEUP_INHIBITION_ENABLED == STD_ON */
-            FALSE)
-#endif /* COMM_MODE_LIMITATION_ENABLED == STD_ON) || (COMM_WAKEUP_INHIBITION_ENABLED == STD_ON */
-    )
-    {
-        *chMode = COMM_SILENT_COMMUNICATION;
-    }
-    else
-    {
-        *chMode = COMM_FULL_COMMUNICATION;
-    }
+#endif
+    return COMM_FULL_COMMUNICATION;
 }
 
 /**
@@ -1370,7 +1337,7 @@ ComM_ChRequstCommModeLimitCheck(uintx chIdx, uintx reqIdex, ComM_ModeType comMod
 {
     Std_ReturnType ret = E_OK;
 #if ((COMM_MODE_LIMITATION_ENABLED == STD_ON) || (COMM_WAKEUP_INHIBITION_ENABLED == STD_ON))
-    ComM_ChVarType* chVarPtr = &ComM_ChVarTable[chIdx];
+    const ComM_ChVarType* chVarPtr = &ComM_ChVarTable[chIdx];
 #endif /* COMM_MODE_LIMITATION_ENABLED == STD_ON) || (COMM_WAKEUP_INHIBITION_ENABLED == STD_ON */
     const ComM_ChannelConfigType* chCfgPtr = &ComM_ChannelConfigPtr[chIdx];
 

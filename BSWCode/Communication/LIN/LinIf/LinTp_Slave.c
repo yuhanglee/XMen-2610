@@ -161,6 +161,28 @@ FUNC(void, LINIF_CODE) LinTp_SlaveInit(void) /* PRQA S 1532 */
 
 /******************************************************************************/
 /*
+ * Brief               LinTp slave node runtime data init and cancel TP process on going
+ * Sync/Async          Synchronous
+ * Reentrancy          Reentrant
+ * Param-Name[in]      None
+ * Param-Name[out]     None
+ * Param-Name[in/out]  None
+ * Return              None
+ */
+/******************************************************************************/
+FUNC(void, LINIF_CODE) LinTp_SlavePreInit(NetworkHandleType ch)
+{
+    P2VAR(LinTp_SlaveRuntimeType, AUTOMATIC, LINIF_VAR) /* PRQA S 3432 */
+    tpSlaveRTPtr = &LinTp_SlaveRTData[ch];
+    if (LINTP_CHANNEL_BUSY == tpSlaveRTPtr->channelState)
+    {
+        LinTp_SlaveAbortTxRxAndNotifyFailToUpper(tpSlaveRTPtr);
+        LinTp_SlaveInit();
+    }
+}
+
+/******************************************************************************/
+/*
  * Brief               TP message receive indication process in slave channel.
  * Sync/Async          Synchronous
  * Reentrancy          Reentrant
@@ -588,37 +610,40 @@ static FUNC(void, LINIF_CODE)
 
     if (LINTP_CHANNEL_BUSY == tpSlaveRTPtr->channelState)
     {
-        if (LINTP_SLAVE_RX_REQ_BUF == tpSlaveRTPtr->RxStage)
+        if (Lin_SduPtr[LINTP_PDU_OFS_NAD] != LINTP_FUNCTIONAL_REQ_NAD)
         {
-            /* @req <SWS_LinIf_00795> */
-            LinTp_SlaveAbortTxRxAndNotifyFailToUpper(tpSlaveRTPtr);
-        }
-        else if (LINTP_SLAVE_RX_WAIT_CF == tpSlaveRTPtr->RxStage)
-        {
-            /* Rx message error check*/
-            tpSlaveRTPtr->SduSN++;
-            tpSlaveRTPtr->SduSN = tpSlaveRTPtr->SduSN % 0x10u;
-            if ((Lin_SduPtr[LINTP_PDU_OFS_PCI] & LINTP_PDU_PCI_SN_MASK) == tpSlaveRTPtr->SduSN)
+            if (LINTP_SLAVE_RX_REQ_BUF == tpSlaveRTPtr->RxStage)
             {
-                /* Data copy */
-                (void)ILib_memcpy(tpSlaveRTPtr->SduBuf, Lin_SduPtr, LINTP_FRAME_LEN_MAX);
-                tpSlaveRTPtr->LastFrameType = LINTP_FRAMETYPE_CF;
-                tpSlaveRTPtr->RxStage = LINTP_SLAVE_RX_CF;
+                /* @req <SWS_LinIf_00795> */
+                LinTp_SlaveAbortTxRxAndNotifyFailToUpper(tpSlaveRTPtr);
+            }
+            else if (LINTP_SLAVE_RX_WAIT_CF == tpSlaveRTPtr->RxStage)
+            {
+                /* Rx message error check*/
+                tpSlaveRTPtr->SduSN++;
+                tpSlaveRTPtr->SduSN = tpSlaveRTPtr->SduSN % 0x10u;
+                if ((Lin_SduPtr[LINTP_PDU_OFS_PCI] & LINTP_PDU_PCI_SN_MASK) == tpSlaveRTPtr->SduSN)
+                {
+                    /* Data copy */
+                    (void)ILib_memcpy(tpSlaveRTPtr->SduBuf, Lin_SduPtr, LINTP_FRAME_LEN_MAX);
+                    tpSlaveRTPtr->LastFrameType = LINTP_FRAMETYPE_CF;
+                    tpSlaveRTPtr->RxStage = LINTP_SLAVE_RX_CF;
 
-                /* @req <SWS_LinIf_00652> */
-                /* Restart the N_Cr timer */
-                tpSlaveRTPtr->NcrTimer = tpSlaveRTPtr->RxNSduPtr->LinTpNcrCnt;
+                    /* @req <SWS_LinIf_00652> */
+                    /* Restart the N_Cr timer */
+                    tpSlaveRTPtr->NcrTimer = tpSlaveRTPtr->RxNSduPtr->LinTpNcrCnt;
+                }
+                else
+                {
+                    /* @req <SWS_LinIf_00079>,<SWS_LinIf_00081> */
+                    LinTp_SlaveAbortTxRxAndNotifyFailToUpper(tpSlaveRTPtr);
+                }
             }
             else
             {
-                /* @req <SWS_LinIf_00079>,<SWS_LinIf_00081> */
-                LinTp_SlaveAbortTxRxAndNotifyFailToUpper(tpSlaveRTPtr);
+                /* Wrong stage,ignore */
+                /* @req <SWS_LinIf_00696> */
             }
-        }
-        else
-        {
-            /* Wrong stage,ignore */
-            /* @req <SWS_LinIf_00696> */
         }
     }
     else

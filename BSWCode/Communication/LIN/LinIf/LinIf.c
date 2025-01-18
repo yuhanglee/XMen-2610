@@ -93,6 +93,10 @@
  * V2.0.14     20240828   ZhaoTong   fix bug CPT-10353
  *    Modify driver Api type (LinGetStatus and LinSendFrame).
  * V2.0.15     20240919   ZouZhiJia  fix bug CPT-10515
+ * V2.1.16      20241122   ZhaoTong   fix bug CPT-10904
+ * V2.1.17     20241125   ZouZhiJia  fix bug CPT-11339 and CPT-11235
+ * V2.1.18     20250103   ZouZhiJia  fix bug CPT-12260
+ * V2.1.19     20250113   ZouZhiJia  fix bug CPT-12414
  *******************************************************************************/
 
 /**
@@ -144,7 +148,7 @@
 
 #define LINIF_C_SW_MAJOR_VERSION            2U
 #define LINIF_C_SW_MINOR_VERSION            0U
-#define LINIF_C_SW_PATCH_VERSION            15U
+#define LINIF_C_SW_PATCH_VERSION            19U
 
 /*******************************************************************************
 **                               Includes                                     **
@@ -344,7 +348,7 @@ LinIf_Transmit /* PRQA S 1503,1532 */ /* MISRA Rule 2.1,8.7 */
         }
         else
         {
-            uint8 ch;
+            NetworkHandleType ch;
             uint16 frameIdx = subPtr->LinIfSubstitutionFrameRef;
             const LinIf_ChannelType* chCfgPtr = &LINIF_GET_CHANNEL(0);
             for (ch = 0; ch < LINIF_NUMBER_OF_CHANNELS; ch++)
@@ -887,7 +891,7 @@ LinIf_CheckWakeup /* PRQA S 1503 */
     }
     else
     {
-        for (int ch = 0; ch < LINIF_NUMBER_OF_CHANNELS; ch++)
+        for (NetworkHandleType ch = 0; ch < LINIF_NUMBER_OF_CHANNELS; ch++)
         {
             if (WakeupSource == LINIF_GET_LIN_DRIVER_WAKEUP_SOURCE(ch))
             {
@@ -908,7 +912,7 @@ LinIf_CheckWakeup /* PRQA S 1503 */
 #endif
     {
 #if (LINIF_WAKEUP_SUPPORT == STD_ON)
-        uint8 ch;
+        NetworkHandleType ch;
         EcuM_WakeupSourceType wakeupSource;
         const LinIf_LinDriverChannelRef* ChRefPtr;
         const LinIf_ChannelType* chCfgPtr = &LINIF_GET_CHANNEL(0);
@@ -981,7 +985,7 @@ LinIf_WakeupConfirmation /* PRQA S 1503,1532 */ /* MISRA Rule 2.1,8.7 */
     }
     else
     {
-        for (int ch = 0; ch < LINIF_NUMBER_OF_CHANNELS; ch++)
+        for (NetworkHandleType ch = 0; ch < LINIF_NUMBER_OF_CHANNELS; ch++)
         {
             if (WakeupSource == LINIF_GET_LIN_DRIVER_WAKEUP_SOURCE(ch))
             {

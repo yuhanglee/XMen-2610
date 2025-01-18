@@ -93,42 +93,44 @@
 #define CRYPTO_START_SEC_CODE
 #include "Crypto_MemMap.h"
 #if (CRYPTO_JOB_QUEUING == STD_ON)
-FUNC(Std_ReturnType, CRY_CODE) Crypto_QueueJob(P2VAR(Crypto_JobType, AUTOMATIC, CRY_APPL_DATA) job);
-FUNC(Std_ReturnType, CRY_CODE) Crypto_CancelQueuedJob(P2CONST(Crypto_JobType, AUTOMATIC, CRY_APPL_DATA) job);
+FUNC(Std_ReturnType, CRYPTO_CODE) Crypto_QueueJob(P2VAR(Crypto_JobType, AUTOMATIC, CRYPTO_APPL_DATA) job);
+FUNC(Std_ReturnType, CRYPTO_CODE) Crypto_CancelQueuedJob(P2CONST(Crypto_JobType, AUTOMATIC, CRYPTO_APPL_DATA) job);
 #endif
-FUNC(Std_ReturnType, CRY_CODE) Crypto_ProcessSYNCJob(P2CONST(Crypto_JobType, AUTOMATIC, CRY_APPL_DATA) job);
-FUNC(Std_ReturnType, CRY_CODE) Crypto_ProcessASYNCJob_NONQUEUE(P2CONST(Crypto_JobType, AUTOMATIC, CRY_APPL_DATA) job);
-FUNC(void, CRY_CODE) Crypto_Start(P2CONST(Crypto_JobType, AUTOMATIC, CRY_APPL_DATA) job);
-FUNC(Std_ReturnType, CRY_CODE) Crypto_Update(void);
-FUNC(Std_ReturnType, CRY_CODE) Crypto_Finish(void);
-FUNC(Std_ReturnType, CRY_CODE)
+FUNC(Std_ReturnType, CRYPTO_CODE)
+Crypto_ProcessSYNCJob(P2CONST(Crypto_JobType, AUTOMATIC, CRYPTO_APPL_DATA) job);
+FUNC(Std_ReturnType, CRYPTO_CODE)
+Crypto_ProcessASYNCJob_NONQUEUE(P2CONST(Crypto_JobType, AUTOMATIC, CRYPTO_APPL_DATA) job);
+FUNC(void, CRYPTO_CODE) Crypto_Start(P2CONST(Crypto_JobType, AUTOMATIC, CRYPTO_APPL_DATA) job);
+FUNC(Std_ReturnType, CRYPTO_CODE) Crypto_Update(void);
+FUNC(Std_ReturnType, CRYPTO_CODE) Crypto_Finish(void);
+FUNC(Std_ReturnType, CRYPTO_CODE)
 Crypto_RandomSeedInternal(
     VAR(uint32, AUTOMATIC) cryptoKeyId,
-    P2CONST(uint8, AUTOMATIC, CRY_APPL_DATA) seedPtr,
+    P2CONST(uint8, AUTOMATIC, CRYPTO_APPL_DATA) seedPtr,
     VAR(uint32, AUTOMATIC) seedLength);
-FUNC(Std_ReturnType, CRY_CODE) Crypto_KeySetValid_internal(VAR(uint32, AUTOMATIC) cryptoKeyId);
-FUNC(Std_ReturnType, CRY_CODE)
+FUNC(Std_ReturnType, CRYPTO_CODE) Crypto_KeySetValid_internal(VAR(uint32, AUTOMATIC) cryptoKeyId);
+FUNC(Std_ReturnType, CRYPTO_CODE)
 Crypto_KeyExchangeCalcPubVal_internal(
     VAR(uint32, AUTOMATIC) cryptoKeyId,
-    P2VAR(uint8, AUTOMATIC, CRY_APPL_DATA) publicValuePtr,
-    P2VAR(uint32, AUTOMATIC, CRY_APPL_DATA) publicValueLengthPtr);
-FUNC(Std_ReturnType, CRY_CODE)
+    P2VAR(uint8, AUTOMATIC, CRYPTO_APPL_DATA) publicValuePtr,
+    P2VAR(uint32, AUTOMATIC, CRYPTO_APPL_DATA) publicValueLengthPtr);
+FUNC(Std_ReturnType, CRYPTO_CODE)
 Crypto_KeyExchangeCalcSecret_internal(
     VAR(uint32, AUTOMATIC) cryptoKeyId,
-    P2CONST(uint8, AUTOMATIC, CRY_APPL_DATA) partnerPublicValuePtr,
+    P2CONST(uint8, AUTOMATIC, CRYPTO_APPL_DATA) partnerPublicValuePtr,
     VAR(uint32, AUTOMATIC) partnerPublicValueLength);
-FUNC(Std_ReturnType, CRY_CODE) Crypto_sha256_Process();
-FUNC(Std_ReturnType, CRY_CODE) Crypto_GernerateMAC_Process();
-FUNC(Std_ReturnType, CRY_CODE) Crypto_VerifyMAC_Process();
-FUNC(Std_ReturnType, CRY_CODE) Crypto_AESDecryptProcess();
-FUNC(Std_ReturnType, CRY_CODE) Crypto_AESEncryptProcess();
-FUNC(Std_ReturnType, CRY_CODE) Crypto_CtrDrbgProcess();
+FUNC(Std_ReturnType, CRYPTO_CODE) Crypto_sha256_Process();
+FUNC(Std_ReturnType, CRYPTO_CODE) Crypto_GernerateMAC_Process();
+FUNC(Std_ReturnType, CRYPTO_CODE) Crypto_VerifyMAC_Process();
+FUNC(Std_ReturnType, CRYPTO_CODE) Crypto_AESDecryptProcess();
+FUNC(Std_ReturnType, CRYPTO_CODE) Crypto_AESEncryptProcess();
+FUNC(Std_ReturnType, CRYPTO_CODE) Crypto_CtrDrbgProcess();
 
-FUNC(Std_ReturnType, CRY_CODE) Crypto_AlgorithmGetInput(P2VAR(uint8, AUTOMATIC, CRY_APPL_DATA) buf);
-FUNC(Std_ReturnType, CRY_CODE) Crypto_AlgorithmGetSecondInput(P2VAR(uint8, AUTOMATIC, CRY_APPL_DATA) buf);
-FUNC(void, CRY_CODE)
-Crypto_AlgorithmOutput(P2CONST(uint8, AUTOMATIC, CRY_APPL_DATA) buf, VAR(uint32, AUTOMATIC) outputLength);
-FUNC(Std_ReturnType, CRY_CODE) Crypto_ProcessAlgorithm(void);
+FUNC(Std_ReturnType, CRYPTO_CODE) Crypto_AlgorithmGetInput(P2VAR(uint8, AUTOMATIC, CRYPTO_APPL_DATA) buf);
+FUNC(Std_ReturnType, CRYPTO_CODE) Crypto_AlgorithmGetSecondInput(P2VAR(uint8, AUTOMATIC, CRYPTO_APPL_DATA) buf);
+FUNC(void, CRYPTO_CODE)
+Crypto_AlgorithmOutput(P2CONST(uint8, AUTOMATIC, CRYPTO_APPL_DATA) buf, VAR(uint32, AUTOMATIC) outputLength);
+FUNC(Std_ReturnType, CRYPTO_CODE) Crypto_ProcessAlgorithm(void);
 
 #define CRYPTO_STOP_SEC_CODE
 #include "Crypto_MemMap.h"
@@ -139,7 +141,7 @@ FUNC(Std_ReturnType, CRY_CODE) Crypto_ProcessAlgorithm(void);
 #include "Crypto_MemMap.h"
 static VAR(Crypto_JobType, AUTOMATIC) Crypto_StoredJob;
 #if (CRYPTO_JOB_QUEUING == STD_ON)
-static P2VAR(Crypto_JobType, AUTOMATIC, CRY_APPL_DATA) Crypto_JobInQueue[CRYPTO_MAX_QUEUE_SIZE];
+static P2VAR(Crypto_JobType, AUTOMATIC, CRYPTO_APPL_DATA) Crypto_JobInQueue[CRYPTO_MAX_QUEUE_SIZE];
 
 Crypto_JobType Crypto_JobTempBuf; /* PRQA S 1514  */ /* MISRA Rule 8.9 */
 #endif
@@ -148,13 +150,13 @@ Crypto_JobType Crypto_JobTempBuf; /* PRQA S 1514  */ /* MISRA Rule 8.9 */
 
 #define CRYPTO_START_SEC_VAR_CLEARED_BOOLEAN
 #include "Crypto_MemMap.h"
-static VAR(boolean, Crypto_VAR_CLEARED_BOOLEAN) Crypto_AsynFlag = FALSE;
+static VAR(boolean, CRYPTO_VAR_CLEARED_BOOLEAN) Crypto_AsynFlag = FALSE;
 #define CRYPTO_STOP_SEC_VAR_CLEARED_BOOLEAN
 #include "Crypto_MemMap.h"
 #define CRYPTO_START_SEC_VAR_CLEARED_8
 #include "Crypto_MemMap.h"
-static VAR(Crypto_DriverStatusType, CRY_VAR) Crypto_DriverStatus = CRYPTO_DRIVER_UNINIT;
-VAR(Crypto_KeyStateType, CRY_VAR) CryptoKeyStatus[CRYPTO_MAXKEY_CONFIGURED];
+static VAR(Crypto_DriverStatusType, CRYPTO_VAR) Crypto_DriverStatus = CRYPTO_DRIVER_UNINIT;
+VAR(Crypto_KeyStateType, CRYPTO_VAR) CryptoKeyStatus[CRYPTO_MAXKEY_CONFIGURED];
 #define CRYPTO_STOP_SEC_VAR_CLEARED_8
 #include "Crypto_MemMap.h"
 
@@ -163,7 +165,7 @@ VAR(Crypto_KeyStateType, CRY_VAR) CryptoKeyStatus[CRYPTO_MAXKEY_CONFIGURED];
 *******************************************************************************/
 #define CRYPTO_START_SEC_VAR_CLEARED_UNSPECIFIED
 #include "Crypto_MemMap.h"
-extern CONST(Crypto_KeyCfgType, CRY_CONST) Crypto_Key[CRYPTO_MAXKEY_CONFIGURED];
+extern CONST(Crypto_KeyCfgType, CRYPTO_CONST) Crypto_Key[CRYPTO_MAXKEY_CONFIGURED];
 #define CRYPTO_STOP_SEC_VAR_CLEARED_UNSPECIFIED
 #include "Crypto_MemMap.h"
 
@@ -172,7 +174,7 @@ extern CONST(Crypto_KeyCfgType, CRY_CONST) Crypto_Key[CRYPTO_MAXKEY_CONFIGURED];
 *******************************************************************************/
 #define CRYPTO_START_SEC_CODE
 #include "Crypto_MemMap.h"
-static FUNC(void, CRY_CODE) Crypto_ClearStoredJob(void)
+static FUNC(void, CRYPTO_CODE) Crypto_ClearStoredJob(void)
 {
     Crypto_StoredJob.jobId = CRYPTO_JOB_NOT_VALID;
     Crypto_StoredJob.jobInfo = NULL_PTR;
@@ -194,7 +196,7 @@ static FUNC(void, CRY_CODE) Crypto_ClearStoredJob(void)
 
 /* @req SRS_BSW_00101,SRS_BSW_00358,SRS_BSW_00414*/
 
-FUNC(void, CRY_CODE) Crypto_Init(P2CONST(Crypto_ConfigType, AUTOMATIC, CRYPTO_APPL_DATA) configPtr)
+FUNC(void, CRYPTO_CODE) Crypto_Init(P2CONST(Crypto_ConfigType, AUTOMATIC, CRYPTO_APPL_DATA) configPtr)
 {
     uint32 index;
     uint32 Keyindex;
@@ -245,7 +247,7 @@ FUNC(void, CRY_CODE) Crypto_Init(P2CONST(Crypto_ConfigType, AUTOMATIC, CRYPTO_AP
 
 #if (CRYPTO_VERSION_INFO_API == STD_ON)
 /* @req SWS_Crypto_910011,SRS_BSW_00407 */
-FUNC(void, CRY_CODE) Crypto_GetVersionInfo(P2VAR(Std_VersionInfoType, AUTOMATIC, CRY_APPL_DATA) versioninfo)
+FUNC(void, CRYPTO_CODE) Crypto_GetVersionInfo(P2VAR(Std_VersionInfoType, AUTOMATIC, CRYPTO_APPL_DATA) versioninfo)
 {
 #if (CRYPTO_DEV_ERROR_DETECT == STD_ON)
     /*@req SWS_Crypto_00047*/
@@ -291,8 +293,8 @@ FUNC(void, CRY_CODE) Crypto_GetVersionInfo(P2VAR(Std_VersionInfoType, AUTOMATIC,
  */
 
 /* @req SWS_Crypto_91003 */
-FUNC(Std_ReturnType, CRY_CODE)
-Crypto_ProcessJob(VAR(uint32, AUTOMATIC) objectId, P2VAR(Crypto_JobType, AUTOMATIC, CRY_APPL_DATA) job)
+FUNC(Std_ReturnType, CRYPTO_CODE)
+Crypto_ProcessJob(VAR(uint32, AUTOMATIC) objectId, P2VAR(Crypto_JobType, AUTOMATIC, CRYPTO_APPL_DATA) job)
 {
     Std_ReturnType Status = E_OK;
 
@@ -436,8 +438,8 @@ Crypto_ProcessJob(VAR(uint32, AUTOMATIC) objectId, P2VAR(Crypto_JobType, AUTOMAT
  *      CRYPTO_E_JOB_CANCELED: The job has been cancelled but is still processed.
  */
 
-FUNC(Std_ReturnType, CRY_CODE)
-Crypto_CancelJob(VAR(uint32, AUTOMATIC) objectId, P2VAR(Crypto_JobType, AUTOMATIC, CRY_APPL_DATA) job)
+FUNC(Std_ReturnType, CRYPTO_CODE)
+Crypto_CancelJob(VAR(uint32, AUTOMATIC) objectId, P2VAR(Crypto_JobType, AUTOMATIC, CRYPTO_APPL_DATA) job)
 {
     Std_ReturnType Status = E_OK; /* PRQA S 2981  */ /* MISRA Rule 2.2 */
 #if (CRYPTO_DEV_ERROR_DETECT == STD_ON)
@@ -535,11 +537,11 @@ Crypto_CancelJob(VAR(uint32, AUTOMATIC) objectId, P2VAR(Crypto_JobType, AUTOMATI
  *    CRYPTO_E_KEY_NOT_AVAILABLE: Request failed because the key is not available.
  *    CRYPTO_E_KEY_SIZE_MISMATCH: Request failed,key element size does not match size of provided data.
  */
-FUNC(Std_ReturnType, CRY_CODE)
+FUNC(Std_ReturnType, CRYPTO_CODE)
 Crypto_KeyElementSet(
     uint32 cryptokeyId,
     uint32 keyElementId,
-    P2CONST(uint8, AUTOMATIC, CSM_APPL_DATA) keyPtr,
+    P2CONST(uint8, AUTOMATIC, CRYPTO_APPL_DATA) keyPtr,
     uint32 keyLength)
 {
 
@@ -584,7 +586,7 @@ Crypto_KeyElementSet(
  *
  */
 
-FUNC(Std_ReturnType, CRY_CODE) Crypto_KeySetValid(VAR(uint32, AUTOMATIC) cryptoKeyId)
+FUNC(Std_ReturnType, CRYPTO_CODE) Crypto_KeySetValid(VAR(uint32, AUTOMATIC) cryptoKeyId)
 {
     Std_ReturnType Status = E_NOT_OK; /* PRQA S 2981  */ /* MISRA Rule 2.2 */
 #if (CRYPTO_DEV_ERROR_DETECT == STD_ON)
@@ -627,12 +629,12 @@ FUNC(Std_ReturnType, CRY_CODE) Crypto_KeySetValid(VAR(uint32, AUTOMATIC) cryptoK
  * @api
  *
  */
-FUNC(Std_ReturnType, CRY_CODE)
+FUNC(Std_ReturnType, CRYPTO_CODE)
 Crypto_KeyElementGet(
     VAR(uint32, AUTOMATIC) cryptoKeyId,
     VAR(uint32, AUTOMATIC) keyElementId,
-    P2VAR(uint8, AUTOMATIC, CRY_APPL_DATA) resultPtr,
-    P2VAR(uint32, AUTOMATIC, CRY_APPL_DATA) resultLengthPtr)
+    P2VAR(uint8, AUTOMATIC, CRYPTO_APPL_DATA) resultPtr,
+    P2VAR(uint32, AUTOMATIC, CRYPTO_APPL_DATA) resultLengthPtr)
 {
 
     Std_ReturnType Status = (Std_ReturnType)E_NOT_OK; /* PRQA S 2981  */ /* MISRA Rule 2.2 */
@@ -720,7 +722,7 @@ Crypto_KeyElementGet(
  *
  */
 
-FUNC(Std_ReturnType, CRY_CODE)
+FUNC(Std_ReturnType, CRYPTO_CODE)
 Crypto_KeyElementCopy(
     VAR(uint32, AUTOMATIC) cryptoKeyId,
     VAR(uint32, AUTOMATIC) keyElementId,
@@ -836,7 +838,7 @@ Crypto_KeyElementCopy(
  * @api
  *
  */
-FUNC(Std_ReturnType, CRY_CODE)
+FUNC(Std_ReturnType, CRYPTO_CODE)
 Crypto_KeyElementCopyPartial(
     VAR(uint32, AUTOMATIC) cryptoKeyId,
     VAR(uint32, AUTOMATIC) keyElementId,
@@ -963,7 +965,7 @@ Crypto_KeyElementCopyPartial(
  * @api
  *
  */
-FUNC(Std_ReturnType, CRY_CODE)
+FUNC(Std_ReturnType, CRYPTO_CODE)
 Crypto_KeyCopy(VAR(uint32, AUTOMATIC) cryptoKeyId, VAR(uint32, AUTOMATIC) targetCryptoKeyId)
 {
     Std_ReturnType Status = (Std_ReturnType)E_NOT_OK;
@@ -1063,13 +1065,13 @@ Crypto_KeyCopy(VAR(uint32, AUTOMATIC) cryptoKeyId, VAR(uint32, AUTOMATIC) target
  *
  */
 
-FUNC(Std_ReturnType, CRY_CODE)
+FUNC(Std_ReturnType, CRYPTO_CODE)
 Crypto_KeyElementIdsGet(
     VAR(uint32, AUTOMATIC) cryptoKeyId,
     /* PRQA S 2980 ++ */ /* MISRA Rule 2.2 */
-    P2VAR(uint32, AUTOMATIC, CRY_APPL_DATA) keyElementIdsPtr,
+    P2VAR(uint32, AUTOMATIC, CRYPTO_APPL_DATA) keyElementIdsPtr,
 
-    P2VAR(uint32, AUTOMATIC, CRY_APPL_DATA) keyElementIdsLengthPtr)
+    P2VAR(uint32, AUTOMATIC, CRYPTO_APPL_DATA) keyElementIdsLengthPtr)
 /* PRQA S 2980 -- */ /* MISRA Rule 2.2 */
 {
     Std_ReturnType Status = E_OK;
@@ -1129,10 +1131,10 @@ Crypto_KeyElementIdsGet(
  * @api
  *
  */
-FUNC(Std_ReturnType, CRY_CODE)
+FUNC(Std_ReturnType, CRYPTO_CODE)
 Crypto_RandomSeed(
     VAR(uint32, AUTOMATIC) cryptoKeyId,
-    P2CONST(uint8, AUTOMATIC, CRY_APPL_DATA) seedPtr,
+    P2CONST(uint8, AUTOMATIC, CRYPTO_APPL_DATA) seedPtr,
     VAR(uint32, AUTOMATIC) seedLength)
 {
     Std_ReturnType Status = E_OK; /* PRQA S 2981 */ /* MISRA Rule 2.2*/
@@ -1179,7 +1181,7 @@ Crypto_RandomSeed(
  * @api
  *
  */
-FUNC(Std_ReturnType, CRY_CODE) Crypto_KeyGenerate(VAR(uint32, AUTOMATIC) cryptoKeyId)
+FUNC(Std_ReturnType, CRYPTO_CODE) Crypto_KeyGenerate(VAR(uint32, AUTOMATIC) cryptoKeyId)
 {
     Std_ReturnType Status = (Std_ReturnType)E_NOT_OK;
 #if (CRYPTO_DEV_ERROR_DETECT == STD_ON)
@@ -1219,7 +1221,7 @@ FUNC(Std_ReturnType, CRY_CODE) Crypto_KeyGenerate(VAR(uint32, AUTOMATIC) cryptoK
  * @api
  *
  */
-FUNC(Std_ReturnType, CRY_CODE)
+FUNC(Std_ReturnType, CRYPTO_CODE)
 Crypto_KeyDerive(VAR(uint32, AUTOMATIC) cryptoKeyId, VAR(uint32, AUTOMATIC) targetCryptoKeyId)
 {
     Std_ReturnType Status = (Std_ReturnType)E_NOT_OK; /* PRQA S 2981 */ /* MISRA Rule 2.2*/
@@ -1266,11 +1268,11 @@ Crypto_KeyDerive(VAR(uint32, AUTOMATIC) cryptoKeyId, VAR(uint32, AUTOMATIC) targ
  *
  */
 
-FUNC(Std_ReturnType, CRY_CODE)
+FUNC(Std_ReturnType, CRYPTO_CODE)
 Crypto_KeyExchangeCalcPubVal(
     VAR(uint32, AUTOMATIC) cryptoKeyId,
-    P2VAR(uint8, AUTOMATIC, CRY_APPL_DATA) publicValuePtr,
-    P2VAR(uint32, AUTOMATIC, CRY_APPL_DATA) publicValueLengthPtr)
+    P2VAR(uint8, AUTOMATIC, CRYPTO_APPL_DATA) publicValuePtr,
+    P2VAR(uint32, AUTOMATIC, CRYPTO_APPL_DATA) publicValueLengthPtr)
 {
     Std_ReturnType Status = (Std_ReturnType)E_NOT_OK; /* PRQA S 2981 */ /* MISRA Rule 2.2*/
 
@@ -1323,10 +1325,10 @@ Crypto_KeyExchangeCalcPubVal(
  *
  */
 
-FUNC(Std_ReturnType, CRY_CODE)
+FUNC(Std_ReturnType, CRYPTO_CODE)
 Crypto_KeyExchangeCalcSecret(
     VAR(uint32, AUTOMATIC) cryptoKeyId,
-    P2CONST(uint8, AUTOMATIC, CRY_APPL_DATA) partnerPublicValuePtr,
+    P2CONST(uint8, AUTOMATIC, CRYPTO_APPL_DATA) partnerPublicValuePtr,
     VAR(uint32, AUTOMATIC) partnerPublicValueLength)
 {
     Std_ReturnType Status = (Std_ReturnType)E_NOT_OK; /* PRQA S 2981 */ /* MISRA Rule 2.2*/
@@ -1374,7 +1376,7 @@ Crypto_KeyExchangeCalcSecret(
  * @api
  *
  */
-FUNC(Std_ReturnType, CRY_CODE)
+FUNC(Std_ReturnType, CRYPTO_CODE)
 Crypto_CertificateParse(VAR(uint32, AUTOMATIC) cryptoKeyId)
 {
     Std_ReturnType Status = (Std_ReturnType)E_NOT_OK; /* PRQA S 2981 */ /* MISRA Rule 2.2*/
@@ -1420,12 +1422,12 @@ Crypto_CertificateParse(VAR(uint32, AUTOMATIC) cryptoKeyId)
  *
  */
 
-FUNC(Std_ReturnType, CRY_CODE)
+FUNC(Std_ReturnType, CRYPTO_CODE)
 Crypto_CertificateVerify(
     VAR(uint32, AUTOMATIC) cryptoKeyId,
     VAR(uint32, AUTOMATIC) verifyCryptoKeyId,
     /* PRQA S 3673 ++ */ /* MISRA Rule 8.13*/
-    P2VAR(Crypto_VerifyResultType, AUTOMATIC, CRY_APPL_DATA) verifyPtr)
+    P2VAR(Crypto_VerifyResultType, AUTOMATIC, CRYPTO_APPL_DATA) verifyPtr)
 /* PRQA S 3673-- */ /* MISRA Rule 8.13*/
 {
     Std_ReturnType Status = (Std_ReturnType)E_NOT_OK; /* PRQA S 2981 */ /* MISRA Rule 2.2*/
@@ -1546,9 +1548,9 @@ FUNC(void, CSM_CODE) Crypto_MainFunction(void)
 #define CRYPTO_START_SEC_CODE
 #include "Crypto_MemMap.h"
 #if (CRYPTO_JOB_QUEUING == STD_ON)
-static FUNC(void, CRY_CODE) Crypto_SetQueueBuf(
-    P2VAR(Crypto_JobType, AUTOMATIC, CRY_APPL_DATA) destJob,
-    P2VAR(Crypto_JobType, AUTOMATIC, CRY_APPL_DATA) srcJob)
+static FUNC(void, CRYPTO_CODE) Crypto_SetQueueBuf(
+    P2VAR(Crypto_JobType, AUTOMATIC, CRYPTO_APPL_DATA) destJob,
+    P2VAR(Crypto_JobType, AUTOMATIC, CRYPTO_APPL_DATA) srcJob)
 {
     destJob->jobId = srcJob->jobId;
     destJob->jobState = srcJob->jobState;
@@ -1560,7 +1562,7 @@ static FUNC(void, CRY_CODE) Crypto_SetQueueBuf(
     destJob->targetCryptoKeyId = srcJob->targetCryptoKeyId;
 }
 
-FUNC(Std_ReturnType, CRY_CODE) Crypto_QueueJob(P2VAR(Crypto_JobType, AUTOMATIC, CRY_APPL_DATA) job)
+FUNC(Std_ReturnType, CRYPTO_CODE) Crypto_QueueJob(P2VAR(Crypto_JobType, AUTOMATIC, CRYPTO_APPL_DATA) job)
 {
     uint32 offset;
     Std_ReturnType Status = E_NOT_OK;
@@ -1626,7 +1628,7 @@ FUNC(Std_ReturnType, CRY_CODE) Crypto_QueueJob(P2VAR(Crypto_JobType, AUTOMATIC, 
  * @retval         E_NOT_OK                       : job has not been found.
  *                 E_OK                           : job has been found and removed from the queue.
  */
-FUNC(Std_ReturnType, CRY_CODE) Crypto_CancelQueuedJob(P2CONST(Crypto_JobType, AUTOMATIC, CRY_APPL_DATA) job)
+FUNC(Std_ReturnType, CRYPTO_CODE) Crypto_CancelQueuedJob(P2CONST(Crypto_JobType, AUTOMATIC, CRYPTO_APPL_DATA) job)
 {
     uint32 offset;
     uint8 shift;
@@ -1659,7 +1661,8 @@ FUNC(Std_ReturnType, CRY_CODE) Crypto_CancelQueuedJob(P2CONST(Crypto_JobType, AU
 }
 #endif
 
-FUNC(Std_ReturnType, CRY_CODE) Crypto_ProcessSYNCJob(P2CONST(Crypto_JobType, AUTOMATIC, CRY_APPL_DATA) job)
+FUNC(Std_ReturnType, CRYPTO_CODE)
+Crypto_ProcessSYNCJob(P2CONST(Crypto_JobType, AUTOMATIC, CRYPTO_APPL_DATA) job)
 {
     Std_ReturnType Status = E_NOT_OK;
     switch (job->jobPrimitiveInputOutput.mode)
@@ -1702,7 +1705,8 @@ FUNC(Std_ReturnType, CRY_CODE) Crypto_ProcessSYNCJob(P2CONST(Crypto_JobType, AUT
     return Status;
 }
 
-FUNC(Std_ReturnType, CRY_CODE) Crypto_ProcessASYNCJob_NONQUEUE(P2CONST(Crypto_JobType, AUTOMATIC, CRY_APPL_DATA) job)
+FUNC(Std_ReturnType, CRYPTO_CODE)
+Crypto_ProcessASYNCJob_NONQUEUE(P2CONST(Crypto_JobType, AUTOMATIC, CRYPTO_APPL_DATA) job)
 {
     Std_ReturnType Status = E_OK;
     Crypto_AsynFlag = TRUE;
@@ -1743,7 +1747,7 @@ FUNC(Std_ReturnType, CRY_CODE) Crypto_ProcessASYNCJob_NONQUEUE(P2CONST(Crypto_Jo
     return Status;
 }
 
-FUNC(void, CRY_CODE) Crypto_Start(P2CONST(Crypto_JobType, AUTOMATIC, CRY_APPL_DATA) job)
+FUNC(void, CRYPTO_CODE) Crypto_Start(P2CONST(Crypto_JobType, AUTOMATIC, CRYPTO_APPL_DATA) job)
 {
     Crypto_StoredJob = *job;
     Crypto_StoredJob.jobState = CRYPTO_JOBSTATE_ACTIVE;
@@ -1751,14 +1755,14 @@ FUNC(void, CRY_CODE) Crypto_Start(P2CONST(Crypto_JobType, AUTOMATIC, CRY_APPL_DA
     return;
 }
 
-FUNC(Std_ReturnType, CRY_CODE) Crypto_Update(void)
+FUNC(Std_ReturnType, CRYPTO_CODE) Crypto_Update(void)
 {
     Std_ReturnType ret;
     ret = Crypto_ProcessAlgorithm();
     return ret;
 }
 
-FUNC(Std_ReturnType, CRY_CODE) Crypto_Finish(void)
+FUNC(Std_ReturnType, CRYPTO_CODE) Crypto_Finish(void)
 {
     Std_ReturnType ret;
     ret = Crypto_ProcessAlgorithm();
@@ -1775,10 +1779,10 @@ FUNC(Std_ReturnType, CRY_CODE) Crypto_Finish(void)
     return ret;
 }
 
-FUNC(Std_ReturnType, CRY_CODE)
+FUNC(Std_ReturnType, CRYPTO_CODE)
 Crypto_RandomSeedInternal(
     VAR(uint32, AUTOMATIC) cryptoKeyId,
-    P2CONST(uint8, AUTOMATIC, CRY_APPL_DATA) seedPtr,
+    P2CONST(uint8, AUTOMATIC, CRYPTO_APPL_DATA) seedPtr,
     VAR(uint32, AUTOMATIC) seedLength)
 {
     Std_ReturnType Status;
@@ -1799,7 +1803,7 @@ Crypto_RandomSeedInternal(
     return Status;
 }
 
-FUNC(Std_ReturnType, CRY_CODE) Crypto_KeySetValid_internal(VAR(uint32, AUTOMATIC) cryptoKeyId)
+FUNC(Std_ReturnType, CRYPTO_CODE) Crypto_KeySetValid_internal(VAR(uint32, AUTOMATIC) cryptoKeyId)
 {
 
     Std_ReturnType Status = E_NOT_OK; /* PRQA S 2981 */ /* MISRA Rule 2.2*/
@@ -1819,11 +1823,11 @@ FUNC(Std_ReturnType, CRY_CODE) Crypto_KeySetValid_internal(VAR(uint32, AUTOMATIC
     return Status;
 }
 
-FUNC(Std_ReturnType, CRY_CODE)
+FUNC(Std_ReturnType, CRYPTO_CODE)
 Crypto_KeyExchangeCalcPubVal_internal(
     VAR(uint32, AUTOMATIC) cryptoKeyId,
-    P2VAR(uint8, AUTOMATIC, CRY_APPL_DATA) publicValuePtr,
-    P2VAR(uint32, AUTOMATIC, CRY_APPL_DATA) publicValueLengthPtr)
+    P2VAR(uint8, AUTOMATIC, CRYPTO_APPL_DATA) publicValuePtr,
+    P2VAR(uint32, AUTOMATIC, CRYPTO_APPL_DATA) publicValueLengthPtr)
 {
     Std_ReturnType Status = (Std_ReturnType)E_NOT_OK;
 #if (CRYPTO_ALGORITHM_DH == STD_ON)
@@ -1832,10 +1836,10 @@ Crypto_KeyExchangeCalcPubVal_internal(
     return Status;
 }
 
-FUNC(Std_ReturnType, CRY_CODE)
+FUNC(Std_ReturnType, CRYPTO_CODE)
 Crypto_KeyExchangeCalcSecret_internal(
     VAR(uint32, AUTOMATIC) cryptoKeyId,
-    P2CONST(uint8, AUTOMATIC, CRY_APPL_DATA) partnerPublicValuePtr,
+    P2CONST(uint8, AUTOMATIC, CRYPTO_APPL_DATA) partnerPublicValuePtr,
     VAR(uint32, AUTOMATIC) partnerPublicValueLength)
 {
     Std_ReturnType Status = (Std_ReturnType)E_NOT_OK;
@@ -1845,7 +1849,7 @@ Crypto_KeyExchangeCalcSecret_internal(
     return Status;
 }
 
-FUNC(Std_ReturnType, CRY_CODE) Crypto_sha256_Process()
+FUNC(Std_ReturnType, CRYPTO_CODE) Crypto_sha256_Process()
 {
     Std_ReturnType ret = E_NOT_OK;
     uint8 output[32];
@@ -1931,7 +1935,7 @@ FUNC(Std_ReturnType, CMAC_CODE) Crypto_VerifyMAC_Process()
     return ret;
 }
 
-FUNC(Std_ReturnType, CRY_CODE) Crypto_AESEncryptProcess()
+FUNC(Std_ReturnType, CRYPTO_CODE) Crypto_AESEncryptProcess()
 {
     uint8 key[16];
     uint8 iv[16];
@@ -1983,7 +1987,7 @@ FUNC(Std_ReturnType, CRY_CODE) Crypto_AESEncryptProcess()
     return ret;
 }
 
-FUNC(Std_ReturnType, CRY_CODE) Crypto_AESDecryptProcess()
+FUNC(Std_ReturnType, CRYPTO_CODE) Crypto_AESDecryptProcess()
 {
     uint8 key[16];
     uint8 iv[16];
@@ -2036,7 +2040,7 @@ FUNC(Std_ReturnType, CRY_CODE) Crypto_AESDecryptProcess()
     return ret;
 }
 
-FUNC(Std_ReturnType, CRY_CODE) Crypto_CtrDrbgProcess()
+FUNC(Std_ReturnType, CRYPTO_CODE) Crypto_CtrDrbgProcess()
 {
     Std_ReturnType ret;
     uint8 key[16];
@@ -2055,7 +2059,7 @@ FUNC(Std_ReturnType, CRY_CODE) Crypto_CtrDrbgProcess()
     }
     return ret;
 }
-FUNC(Std_ReturnType, CRY_CODE) Crypto_AlgorithmGetInput(P2VAR(uint8, AUTOMATIC, CRY_APPL_DATA) buf)
+FUNC(Std_ReturnType, CRYPTO_CODE) Crypto_AlgorithmGetInput(P2VAR(uint8, AUTOMATIC, CRYPTO_APPL_DATA) buf)
 {
     Std_ReturnType ret = E_NOT_OK;
     uint32 i, p;
@@ -2072,7 +2076,7 @@ FUNC(Std_ReturnType, CRY_CODE) Crypto_AlgorithmGetInput(P2VAR(uint8, AUTOMATIC, 
     return ret;
 }
 
-FUNC(Std_ReturnType, CRY_CODE) Crypto_AlgorithmGetSecondInput(P2VAR(uint8, AUTOMATIC, CRY_APPL_DATA) buf)
+FUNC(Std_ReturnType, CRYPTO_CODE) Crypto_AlgorithmGetSecondInput(P2VAR(uint8, AUTOMATIC, CRYPTO_APPL_DATA) buf)
 {
     Std_ReturnType ret = E_NOT_OK;
     uint32 i, p;
@@ -2088,8 +2092,8 @@ FUNC(Std_ReturnType, CRY_CODE) Crypto_AlgorithmGetSecondInput(P2VAR(uint8, AUTOM
     }
     return ret;
 }
-FUNC(void, CRY_CODE)
-Crypto_AlgorithmOutput(P2CONST(uint8, AUTOMATIC, CRY_APPL_DATA) buf, VAR(uint32, AUTOMATIC) outputLength)
+FUNC(void, CRYPTO_CODE)
+Crypto_AlgorithmOutput(P2CONST(uint8, AUTOMATIC, CRYPTO_APPL_DATA) buf, VAR(uint32, AUTOMATIC) outputLength)
 {
     uint32 i;
     for (i = 0; i < outputLength; i++)
@@ -2098,7 +2102,7 @@ Crypto_AlgorithmOutput(P2CONST(uint8, AUTOMATIC, CRY_APPL_DATA) buf, VAR(uint32,
     }
 }
 
-FUNC(Std_ReturnType, CRY_CODE) Crypto_ProcessAlgorithm(void)
+FUNC(Std_ReturnType, CRYPTO_CODE) Crypto_ProcessAlgorithm(void)
 {
     Std_ReturnType Result = E_NOT_OK;
     /* Service cases*/

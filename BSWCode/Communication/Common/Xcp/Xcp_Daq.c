@@ -169,7 +169,7 @@ static FUNC(void, XCP_CODE) Xcp_ClearDaqOdt(Xcp_DaqNumType daqNum);
 static FUNC(void, XCP_CODE) Xcp_SortDaqbypriority(void);
 #endif
 /* PRQA S 3432 ++ */ /* MISRA Rule 20.7 */
-static FUNC(void, XCP_CODE) Xcp_FillEventBuffer(P2CONST(Xcp_DaqType, AUTOMATIC, AUTOMATIC) daqPtr);
+static FUNC(void, XCP_CODE) Xcp_FillEventBuffer(Xcp_DaqType* daqPtr);
 /* PRQA S 3432 -- */ /* MISRA Rule 20.7 */
 static FUNC(void, XCP_CODE) Xcp_EventChannelDaqHal(uint16 eventNum, const Xcp_DaqNumType daqNum);
 /* PRQA S 3432 ++ */ /* MISRA Rule 20.7 */
@@ -414,7 +414,7 @@ static FUNC(void, XCP_CODE) Xcp_ClearDaqOdt(Xcp_DaqNumType daqNum)
  */
 /******************************************************************************/
 /* PRQA S 3432 ++ */ /* MISRA Rule 20.7 */
-static FUNC(void, XCP_CODE) Xcp_FillEventBuffer(P2CONST(Xcp_DaqType, AUTOMATIC, AUTOMATIC) daqPtr)
+static FUNC(void, XCP_CODE) Xcp_FillEventBuffer(Xcp_DaqType* daqPtr)
 /* PRQA S 3432 -- */ /* MISRA Rule 20.7 */
 {
     P2CONST(Xcp_EntryType, AUTOMATIC, AUTOMATIC) entryPtr;

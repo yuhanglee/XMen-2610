@@ -3477,21 +3477,24 @@ static FUNC(void, NVM_CODE) NvM_MemCpyStep(void) /* PRQA S 0709 */ /* MISRA Rule
     uint8 MirrorOrNot =
         NvM_GetWordBitState(NvM_AdminBlock[NvM_CurRunning.BlockId - 1U].FlagGroup, NVM_ADMIN_RAMMIRROR_OR_NOT);
     uint8 Loss;
-    if (((uint8)STD_ON == MirrorOrNot) && (NvM_CurRunning.RepeatMirrorCounter > 0U))
+    if ((uint8)STD_ON == MirrorOrNot)
     {
-        if ((Std_ReturnType)E_OK == NvM_MemCpy(NvM_NvDataBuffer, NvM_CurRunning.RamAddr))
+        if (NvM_CurRunning.RepeatMirrorCounter > 0U)
         {
-            Loss = NvM_GetWordBitState(NvM_CurRunning.AdminFlagGroup, NVM_ADMIN_REDUNDANCY_LOSS);
-            if ((uint8)STD_ON == Loss)
+            if ((Std_ReturnType)E_OK == NvM_MemCpy(NvM_NvDataBuffer, NvM_CurRunning.RamAddr))
             {
-                NvM_SetWordBitState(&NvM_CurRunning.AdminFlagGroup, NVM_ADMIN_NV_REPAIR, STD_ON);
-                NvM_RepireDataSave(NvM_CurRunning.RamAddr, NvM_CurRunning.Length);
+                Loss = NvM_GetWordBitState(NvM_CurRunning.AdminFlagGroup, NVM_ADMIN_REDUNDANCY_LOSS);
+                if ((uint8)STD_ON == Loss)
+                {
+                    NvM_SetWordBitState(&NvM_CurRunning.AdminFlagGroup, NVM_ADMIN_NV_REPAIR, STD_ON);
+                    NvM_RepireDataSave(NvM_CurRunning.RamAddr, NvM_CurRunning.Length);
 #if (STD_ON == NVM_DEM_E_LOSS_OF_REDUNDANCY)
-                Dem_ReportErrorStatus(NVM_E_LOSS_OF_REDUNDANCY, DEM_EVENT_STATUS_FAILED);
+                    Dem_ReportErrorStatus(NVM_E_LOSS_OF_REDUNDANCY, DEM_EVENT_STATUS_FAILED);
 #endif
+                }
+                NvM_UpdateValidandChangeStatus(STD_ON, STD_OFF);
+                NvM_JobOverSetFlag(NVM_REQ_OK, NVM_CRC_UPDATE);
             }
-            NvM_UpdateValidandChangeStatus(STD_ON, STD_OFF);
-            NvM_JobOverSetFlag(NVM_REQ_OK, NVM_CRC_UPDATE);
         }
         else if (NvM_CurRunning.RepeatMirrorCounter == 0U)
         {

@@ -172,10 +172,8 @@ typedef struct
 #if (STD_ON == DCM_GENERIC_CONNECTION)
     uint16 Dcm_MetaData_SA;
     uint16 Dcm_MetaData_TA;
-    uint8 Dcm_MetaData_AE;
     uint16 Dcm_MetaData_SA_Backup;
     uint16 Dcm_MetaData_TA_Backup;
-    uint8 Dcm_MetaData_AE_Backup;
     PduIdType DcmRxPduId;
 #endif
 } Dcm_MsgCtrlType;

@@ -42,7 +42,7 @@ typedef struct
 {
     uint32 Mask;
     uint16 InputDidSize;
-    uint8 DidCfgIndex;
+    uint16 DidCfgIndex;
     P2CONST(Dcm_DspDidControlType, AUTOMATIC, DCM_APPL_CONST) pDspDidControl;
     P2VAR(uint16, AUTOMATIC, AUTOMATIC) ControlStatusRecordSize; /* PRQA S 3432 */ /* MISRA Rule 20.7 */
     uint16 Offset;
@@ -88,12 +88,12 @@ FUNC(void, DCM_CODE) Dcm_UDS0x2FCheckNewSession(Dcm_SesCtrlType NewSes) /* PRQA 
     uint8 SesIndex;
     uint8 iloop;
     uint16 DidIndex;
-    uint8 SingalIndex;
+    uint16 SingalIndex;
     Dcm_NegativeResponseCodeType ErrorCode;
     const Dcm_DsdServiceCfgType* pDsdService;
     const Dcm_DspDataType* pDidData;
     uint16 DidId;
-    uint8 DidSignal_Num;
+    uint16 DidSignal_Num;
     const Dcm_DspDidType* pDcmDspDid;
 
     for (ProtocolCtrlIdIndex = 0;
@@ -201,11 +201,11 @@ FUNC(void, DCM_CODE) Dcm_UDS0x2FCheckNewSecurity(Dcm_SecLevelType NewSec) /* PRQ
     uint8 SesIndex;
     uint8 iloop;
     uint16 DidIndex;
-    uint8 SingalIndex;
+    uint16 SingalIndex;
     Dcm_NegativeResponseCodeType ErrorCode;
     const Dcm_DsdServiceCfgType* pService;
     const Dcm_DspDataType* pDidData;
-    uint8 DidSignal_Num = Dcm_DspCfg.pDcmDspDid->DcmDspDidSignalNum;
+    uint16 DidSignal_Num = Dcm_DspCfg.pDcmDspDid->DcmDspDidSignalNum;
 
     for (ProtocolCtrlIdIndex = 0;
          (ProtocolCtrlIdIndex < Dcm_Cfg.pDcmDsdCfg->DcmDsdServiceTable_Num) && (FALSE == Support);
@@ -648,11 +648,11 @@ static FUNC(Std_ReturnType, DCM_CODE) Dcm_Uds0x2FServiceDidCallAPI(
 static Std_ReturnType DspInternalUDS0x2F_DidCheck(
     uint16 RecDid,
     /* PRQA S 3432++ */ /* MISRA Rule 20.7 */
-    P2VAR(uint8, AUTOMATIC, AUTOMATIC) pDidCfgIndex,
+    P2VAR(uint16, AUTOMATIC, AUTOMATIC) pDidCfgIndex,
     P2VAR(Dcm_NegativeResponseCodeType, AUTOMATIC, AUTOMATIC) pNrc)
 /* PRQA S 3432-- */ /* MISRA Rule 20.7 */
 {
-    uint8 Index;
+    uint16 Index;
     Std_ReturnType ret = E_NOT_OK;
 
     /*find the corresponding DID in configuration*/
@@ -697,7 +697,7 @@ static Std_ReturnType DspInternalUDS0x2F_DidCheck(
 static FUNC(Std_ReturnType, DCM_CODE) Dcm_Uds0x2FServiceConditionCheck(
     uint8 ProtocolCtrlId,
     /* PRQA S 3432++ */ /* MISRA Rule 20.7 */
-    P2VAR(uint8, AUTOMATIC, AUTOMATIC) DidCfgIndex,
+    P2VAR(uint16, AUTOMATIC, AUTOMATIC) DidCfgIndex,
     P2VAR(uint16, AUTOMATIC, AUTOMATIC) InputDidSize,
     P2VAR(Dcm_NegativeResponseCodeType, AUTOMATIC, DCM_VAR) ErrorCode)
 /* PRQA S 3432-- */ /* MISRA Rule 20.7 */
@@ -706,7 +706,7 @@ static FUNC(Std_ReturnType, DCM_CODE) Dcm_Uds0x2FServiceConditionCheck(
     uint8 MsgCtrlId = Dcm_ProtocolCtrl[ProtocolCtrlId].MsgCtrlIndex;
     P2CONST(Dcm_DspDidSignalType, TYPEDEF, DCM_CONST) pDcmDspDidSignal = NULL_PTR;
 #if (STD_ON == DCM_DSP_DID_FUNC_ENABLED)
-    uint8 DidInfoCfgIndex;
+    uint16 DidInfoCfgIndex;
     uint16 RecDid;
     uint8 InputOutControlParameter;
     uint8 iloop;
@@ -808,27 +808,38 @@ static FUNC(Std_ReturnType, DCM_CODE) Dcm_Uds0x2FServiceConditionCheck(
 #endif /* STD_ON == DCM_SESSION_FUNC_ENABLED */
     if (E_OK == ret)
     {
-        /*Calculate the InputDidSize*/
-        if (((Dcm_DspCfg.pDcmDspDid)[*DidCfgIndex].pDcmDspDidSignal != NULL_PTR)
-            && (InputOutControlParameter == DCM_UDS0X2F_SHORTTERMADJUSTMENT))
+        if ((InputOutControlParameter == DCM_UDS0X2F_SHORTTERMADJUSTMENT))
         {
-            pDcmDspDidSignal = (Dcm_DspCfg.pDcmDspDid)[*DidCfgIndex].pDcmDspDidSignal;
-            for (iloop = 0; iloop < (Dcm_DspCfg.pDcmDspDid)[*DidCfgIndex].DcmDspDidSignalNum; iloop++)
+            const Dcm_DspDidType* pDcmDspDid = &Dcm_DspCfg.pDcmDspDid[*DidCfgIndex];
+            if (pDcmDspDid->pDcmDspDidSignal != NULL_PTR)
             {
-                (*InputDidSize) += ((pDcmDspDidSignal->pDcmDspDidData->DcmDspDataSize + 7u) >> 3u);
-                pDcmDspDidSignal++;
+                pDcmDspDidSignal = pDcmDspDid->pDcmDspDidSignal;
+                for (iloop = 0; ((iloop < pDcmDspDid->DcmDspDidSignalNum) && (ret == E_OK)); iloop++)
+                {
+                    (*InputDidSize) += pDcmDspDidSignal->pDcmDspDidData->DcmDspDataSize;
+                    /*configuration check*/
+                    if ((pDspDidControl->DcmDspDidControlMask != DCM_CONTROLMASK_NO)
+                        && ((pDcmDspDidSignal->pDcmDspDidData->DcmDspDataUsePort == USE_DATA_SENDER_RECEIVER)
+                            || (pDcmDspDidSignal->pDcmDspDidData->DcmDspDataUsePort
+                                == USE_DATA_SENDER_RECEIVER_AS_SERVICE)))
+                    {
+                        /* send NRC 0x13*/
+                        *ErrorCode = DCM_E_INCORRECTMESSAGELENGTHORINVALIDFORMAT;
+                        ret = E_NOT_OK;
+                    }
+                    pDcmDspDidSignal++;
+                }
             }
-            pDcmDspDidSignal = (Dcm_DspCfg.pDcmDspDid)[*DidCfgIndex].pDcmDspDidSignal;
         }
-        /*configuration check*/
-        if ((NULL_PTR != pDcmDspDidSignal)
-            && ((pDspDidControl->DcmDspDidControlMask != DCM_CONTROLMASK_NO)
-                && ((pDcmDspDidSignal->pDcmDspDidData->DcmDspDataUsePort == USE_DATA_SENDER_RECEIVER)
-                    || (pDcmDspDidSignal->pDcmDspDidData->DcmDspDataUsePort == USE_DATA_SENDER_RECEIVER_AS_SERVICE))))
+        else
         {
-            /* send NRC 0x13*/
-            *ErrorCode = DCM_E_INCORRECTMESSAGELENGTHORINVALIDFORMAT;
-            ret = E_NOT_OK;
+            if ((DCM_UDS0X2F_REQ_DATA_MINLENGTH + pDspDidControl->DcmDspDidControlMaskSize)
+                != Dcm_MsgCtrl[MsgCtrlId].MsgContext.ReqDataLen)
+            {
+                /* send NRC 0x13*/
+                *ErrorCode = DCM_E_INCORRECTMESSAGELENGTHORINVALIDFORMAT;
+                ret = E_NOT_OK;
+            }
         }
     }
 #endif
@@ -866,7 +877,7 @@ static FUNC(Std_ReturnType, DCM_CODE) Dcm_UDS0x2FSubDeal(
     uint8 MsgCtrlId = Dcm_ProtocolCtrl[ProtocolCtrlId].MsgCtrlIndex;
     uint8 InputOutControlParameter = Dcm_MsgCtrl[MsgCtrlId].MsgContext.pReqData[3u];
     P2CONST(Dcm_DspDidSignalType, TYPEDEF, DCM_CONST) pDcmDspDidSignal;
-    uint8 DidSignal_Num;
+    uint16 DidSignal_Num;
 
     /*total length check*/
     if (((Dcm_MsgCtrl[MsgCtrlId].MsgContext.ReqDataLen
@@ -981,8 +992,8 @@ Dcm_UDS0x2F(
     uint16 RecDid;
     uint16 InputDidSize = 0;
     uint32 Offset;
-    uint8 DidCfgIndex;
-    uint8 DidInfoCfgIndex;
+    uint16 DidCfgIndex;
+    uint16 DidInfoCfgIndex;
     uint8 TxChannelCtrlIndex;
     uint8 TxChannelCfgIndex;
     uint16 ControlStatusRecordSize = 0;

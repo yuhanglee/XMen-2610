@@ -129,6 +129,8 @@
  *               2024-08-23  xue.han        CPT-10127, add DTCAttributeCfg NULL_PTR check
  *               2024-09-27  xue.han        QAC
  *  V2.0.24      2024-10-14  xue.han        CPT-10684,Fix reading error when 1903 is requested
+ *               2024-11-06  peng.wu        CPT-11153, Fixed max J1939 DTCOC value to 0x7E
+ *               2024-12-18  peng.wu        CPT-12007, Fixed null pointer judgment
  *******************************************************************************/
 /*******************************************************************************
 **                      Include Section                                       **

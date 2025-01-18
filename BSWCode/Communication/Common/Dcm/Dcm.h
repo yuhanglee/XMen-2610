@@ -127,6 +127,13 @@
  *              2024-09-27   xue.han      QAC
  *                           peng.wu      CPT-9403, fix DemFreezeFrameRecordNumber range
  * V2.0.27      2024-10-14   xue.han      CPT-10773,add NRC process if channel is NULL
+ *              2024-10-22   xue.han      CPT-10607,delete AE process
+ *              2024-10-31   xue.han      CPT-10991,fix data types associated with DID
+ *              2024-11-23   xinrun.wang  modify function message length for all cases in startOfReception
+ *              2024-11-23   xue.han      CPT-11435,fix 0x2F totaldatalength check
+ *              2024-12-12   xue.han      CPT-11934,fix DCM_DELAY_COMM_INACTIVE function
+ *              2024-12-27   tao.yu       CPT-10785,Dispel warnings
+ *              2024-01-06   xue.han      CPT-11943,fix Dcm_UDS0x2A_SubFunSubDeal for UDS service 0x2A
 ============================================================================*/
 
 /*=======[V E R S I O N  I N F O R M A T I O N]===============================*/

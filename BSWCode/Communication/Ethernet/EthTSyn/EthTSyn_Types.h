@@ -149,6 +149,8 @@ typedef struct
     /* This represents the reference to the Ethernet interface taken to fetch the
     global time information. */
     uint8 EthTSynGlobalTimeEthIfRef;
+    /* Stbm if use EthFreerunning */
+    boolean SynchronizedTimeBaseUseEthFreerunning;
     /* Configuration of cyclic propagation delay measurement. */
     EthTSynPdelayConfigCfgType EthTSynPdelayConfig;
     /* Specifying the Role of the EthTSyn-Port (Master or Slave). */
@@ -178,8 +180,6 @@ typedef struct
     uint8 EthTSynGlobalTimeDomainId;
     /* Mandatory reference to the required synchronized time-base. */
     uint8 EthTSynSynchronizedTimeBaseRef;
-    /* Stbm if use EthFreerunning */
-    boolean SynchronizedTimeBaseUseEthFreerunning;
     /* The DataIDList for Follow_Up message ensures the identification of data elements due to CRC
 calculation and message authentication process. */
     const EthTSynGlobalTimeFollowUpDataIDListCfgType* EthTSynGlobalTimeFollowUpDataIDList;

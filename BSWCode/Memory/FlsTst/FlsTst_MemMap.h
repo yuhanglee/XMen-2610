@@ -139,7 +139,7 @@
 #endif /* START_WITH_IF */
 
 #if defined MEMMAP_ERROR
-// #error "FlsTst_MemMap.h, wrong pragma command"
+#error "FlsTst_MemMap.h, wrong pragma command"
 #endif
 
 #include "MemMap.h"

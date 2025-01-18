@@ -189,7 +189,7 @@ static const uint32 Cal_Crc32Tab[256] = {
 #include "Crc_MemMap.h"
 #endif /* STD_ON == CRC32_ALGORITHM && CRC_TABLE == CRC32_MODE */
 
-#if ((STD_ON == CRC32_ALGORITHM) && (CRC_TABLE == CRC32P4_MODE))
+#if ((STD_ON == CRC32P4_ALGORITHM) && (CRC_TABLE == CRC32P4_MODE))
 #define CRC_START_SEC_CONST_32BIT
 #include "Crc_MemMap.h"
 static const uint32 Cal_Crc32p4Tab[256] = {
@@ -228,7 +228,7 @@ static const uint32 Cal_Crc32p4Tab[256] = {
 };
 #define CRC_STOP_SEC_CONST_32BIT
 #include "Crc_MemMap.h"
-#endif /* STD_ON == CRC32_ALGORITHM  &&  CRC_TABLE == CRC32P4_MODE */
+#endif /*((STD_ON == CRC32P4_ALGORITHM) && (CRC_TABLE == CRC32P4_MODE))*/
 
 #if ((STD_ON == CRC16_ALGORITHM) && (CRC_TABLE == CRC16_MODE))
 #define CRC_START_SEC_CONST_16BIT
@@ -282,7 +282,7 @@ static const uint8 Cal_Crc8Tab[256] = {
 #include "Crc_MemMap.h"
 #endif /* STD_ON == CRC8_ALGORITHM  &&  CRC_TABLE == CRC8_MODE */
 
-#if ((STD_ON == CRC8_ALGORITHM) && (CRC_TABLE == CRC8H2F_MODE))
+#if ((STD_ON == CRC8H2F_ALGORITHM) && (CRC_TABLE == CRC8H2F_MODE))
 #define CRC_START_SEC_CONST_8BIT
 #include "Crc_MemMap.h"
 static const uint8 Cal_Crc8H2FTab[256] = {
@@ -305,7 +305,7 @@ static const uint8 Cal_Crc8H2FTab[256] = {
 };
 #define CRC_STOP_SEC_CONST_8BIT
 #include "Crc_MemMap.h"
-#endif /* STD_ON == CRC8_ALGORITHM  &&  CRC_TABLE == CRC8H2F_MODE */
+#endif
 
 #if ((STD_ON == CRC64_ALGORITHM) && (CRC_TABLE == CRC64_MODE))
 #define CRC_START_SEC_CONST_64BIT
@@ -370,7 +370,21 @@ static const uint64 Cal_Crc64Tab[256] = {
 #endif /* STD_ON == CRC64_ALGORITHM CRC_TABLE == CRC64_MODE */
 /*=======[ I N T E R N A L F U N C T I O N   ]===========================*/
 
-#if (STD_ON == CRC32_ALGORITHM)
+/*
+|    CRC function    |     polynomial      | Input data reflected | Result data reflected |
+| :----------------: | :-----------------: | :------------------: | :-------------------: |
+|       CRC-8        |        0x1Dh        |          NO          |          NO           |
+|      CRC-8H2F      |        0x2Fh        |          NO          |          NO           |
+| CCITT FALSE CRC-16 |       0x1021h       |          NO          |          NO           |
+|       CRC-16       |       0x8005h       |         YES          |          YES          |
+|  IEEE-802.3 CRC32  |     0x04C11DB7h     |         YES          |          YES          |
+|      CRC32P4       |     0xF4ACFB13h     |         YES          |          YES          |
+|       CRC64        | 0x42F0E1EBA9EA3693h |         YES          |          YES          |
+*/
+#if (                                                                   \
+    ((STD_ON == CRC32_ALGORITHM) && (CRC_RUNTIME == CRC32_MODE))        \
+    || ((STD_ON == CRC32P4_ALGORITHM) && (CRC_RUNTIME == CRC32P4_MODE)) \
+    || ((STD_ON == CRC64_ALGORITHM)) && (CRC_RUNTIME == CRC64_MODE))
 /*************************************************************************/
 /*
  * Brief               get the reflection of char type data
@@ -402,6 +416,11 @@ static FUNC(uint8, CRC_CODE) Crc_GetReflection_char(VAR(uint8, AUTOMATIC) input)
 #define CRC_STOP_SEC_CODE
 #include "Crc_MemMap.h"
 
+#endif
+
+#if (                                                            \
+    ((STD_ON == CRC32_ALGORITHM) && (CRC_RUNTIME == CRC32_MODE)) \
+    || ((STD_ON == CRC32P4_ALGORITHM) && (CRC_RUNTIME == CRC32P4_MODE)))
 /*************************************************************************/
 /*
  * Brief               get the reflection of uint32 type data
@@ -433,7 +452,7 @@ static FUNC(uint32, CRC_CODE) Crc_GetReflection_int(VAR(uint32, AUTOMATIC) input
 #define CRC_STOP_SEC_CODE
 #include "Crc_MemMap.h"
 
-#endif /* STD_ON == CRC32_ALGORITHM */
+#endif
 
 /*************************************************************************/
 /*
@@ -449,7 +468,7 @@ static FUNC(uint32, CRC_CODE) Crc_GetReflection_int(VAR(uint32, AUTOMATIC) input
  * CallByAPI           Crc_CalculateCRC32
  */
 /*************************************************************************/
-#if (STD_ON == CRC64_ALGORITHM)
+#if ((STD_ON == CRC64_ALGORITHM) && (CRC_RUNTIME == CRC64_MODE))
 #define CRC_START_SEC_CODE
 #include "Crc_MemMap.h"
 static FUNC(uint64, CRC_CODE) Crc_GetReflection_longlong(VAR(uint64, AUTOMATIC) input)

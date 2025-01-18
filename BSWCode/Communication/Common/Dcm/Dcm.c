@@ -321,7 +321,7 @@ FUNC(void, DCM_CODE) Dcm_Init(P2CONST(Dcm_CfgType, DCM_CONST, DCM_CONST_PBCFG) C
     uint16 Offest = 0;
     P2VAR(uint8, AUTOMATIC, DCM_VAR) VIN_Data; /* PRQA S 3432 */ /* MISRA Rule 20.7 */
     Dcm_NegativeResponseCodeType ErrorCode;
-    uint8 DidSignal_Num;
+    uint16 DidSignal_Num;
     const Dcm_DspDataType* pDidData;
 #endif
 #if (STD_ON == DCM_DEV_ERROR_DETECT)

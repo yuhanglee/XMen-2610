@@ -258,7 +258,11 @@ FiM_Init(P2CONST(FiM_ConfigType, AUTOMATIC, FIM_APPL_DATA) FiMConfigPtr)
 #endif
     {
         FiM_CfgPtr = FiMConfigPtr;
+#if (STD_OFF == FIM_EVENT_UPDATE_TRIGGERED_BY_DEM)
+        FiM_InitStep = FIM_INIT_STEP_DEM;
+#else
         FiM_InitStep = FIM_INIT_STEP_LOCAL;
+#endif
         /* PRQA S 2877++ */ /* MISRA Dir 4.1 */
         for (index = 0u; (FIM_INIT_STEP_LOCAL == FiM_InitStep) && (index < FiM_CfgPtr->InhibitionCfgCnt); index++)
         /* PRQA S 2877-- */ /* MISRA Dir 4.1 */
@@ -296,7 +300,11 @@ FiM_Init(P2CONST(FiM_ConfigType, AUTOMATIC, FIM_APPL_DATA) FiMConfigPtr)
         }
 
 #if (STD_ON == FIM_DEV_ERROR_DETECT)
+#if (STD_OFF == FIM_EVENT_UPDATE_TRIGGERED_BY_DEM)
+        if (FIM_INIT_STEP_DEM != FiM_InitStep)
+#else
         if (FIM_INIT_STEP_LOCAL != FiM_InitStep)
+#endif
         {
             FIM_DET_REPORT(FIM_SERVICE_ID_INIT, FIM_E_INIT_FAILED);
         }

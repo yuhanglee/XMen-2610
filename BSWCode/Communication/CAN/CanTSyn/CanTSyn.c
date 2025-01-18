@@ -1553,6 +1553,8 @@ static FUNC(void, CANTSYN_CODE)
             T3 -= (uint64)T3Sec * (uint64)CANTSYN_1NS_SECOND;
             globalTimePtr.seconds = OVS + slaveTimeInfo->T0SYNC + T3Sec;
             globalTimePtr.nanoseconds = SyncTimeNSec + (uint32)T3;
+            globalTimePtr.seconds += globalTimePtr.nanoseconds / CANTSYN_1NS_SECOND;
+            globalTimePtr.nanoseconds = globalTimePtr.nanoseconds % CANTSYN_1NS_SECOND;
 
             /* set new global time */
             (void)StbM_BusSetGlobalTime(timeBaseId, &globalTimePtr, &userData, &measurmentData, &localTimePtr);

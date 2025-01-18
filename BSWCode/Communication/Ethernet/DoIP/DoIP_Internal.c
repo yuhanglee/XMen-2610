@@ -1920,7 +1920,6 @@ FUNC(void, DOIP_CODE) DoIP_SendVehicleIdentificationRsp(VAR(uint16, AUTOMATIC) t
     uint8 i, j;
     boolean findFlag = FALSE;
     uint16 sa;
-    DoIPGetGidCallbackFncType GetGid;
     DoIPFurtherActionByteCallbackFncType GetFurtherActionByte;
     SoAd_SoConIdType SoConId;
     uint8 byte;
@@ -1929,6 +1928,7 @@ FUNC(void, DOIP_CODE) DoIP_SendVehicleIdentificationRsp(VAR(uint16, AUTOMATIC) t
 #if (FALSE == DOIP_GID_CONFIGURED)
     uint8 temp[6];
     Std_ReturnType ret;
+    DoIPGetGidCallbackFncType GetGid;
 #endif /*FALSE == DOIP_GID_CONFIGURED*/
 #if (TRUE == DOIP_USE_VEHICLEIDENTIFICATIONSYNCSTATUS)
     uint8 vinGidStatus;

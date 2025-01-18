@@ -616,7 +616,7 @@ Dem_J1939DcmGetNextFilteredDTC(uint32* J1939DTC, uint8* OccurenceCounter)
                                         Dem_GetEventDTC(dtcRef, DEM_DTC_FORMAT_J1939, J1939DTC);
                                         /* SWS_Dem_00882 */
                                         *OccurenceCounter =
-                                            (pEvent->OccurrenceCounter < 0x7Fu) ? pEvent->OccurrenceCounter : 0x7Fu;
+                                            (pEvent->OccurrenceCounter < 0x7Eu) ? pEvent->OccurrenceCounter : 0x7Eu;
                                         if (0u != *J1939DTC)
                                         {
                                             ret = DEM_FILTERED_OK;
@@ -786,7 +786,7 @@ Dem_J1939DcmGetNextDTCwithLampStatus(Dem_J1939DcmLampStatusType* LampStatus, uin
                                     Dem_GetEventDTC(dtcRef, DEM_DTC_FORMAT_J1939, J1939DTC);
                                     /* SWS_Dem_00882 */
                                     *OccurenceCounter =
-                                        (pEvent->OccurrenceCounter < 0x7Fu) ? pEvent->OccurrenceCounter : 0x7Fu;
+                                        (pEvent->OccurrenceCounter < 0x7Eu) ? pEvent->OccurrenceCounter : 0x7Eu;
                                     if (0u != *J1939DTC)
                                     {
                                         ret = DEM_FILTERED_OK;
@@ -1142,62 +1142,65 @@ Dem_J1939DcmGetNextFreezeFrame(uint32* J1939DTC, uint8* OccurenceCounter, uint8*
                                     {
                                         const Dem_DTCAttributesType* pDTCAttr =
                                             &DemPbCfgPtr->DemDTCAttributes[pDTC[dtcRef].DemDTCAttributesRef];
-                                        uint8 DemJ1939FFClassRef = pDTCAttr->DemJ1939FreezeFrameClassRef;
-                                        uint8 DemJ1939EFFClassRef = pDTCAttr->DemJ1939ExpandedFreezeFrameClassRef;
-                                        /* SWS_Dem_00882 */
-                                        *OccurenceCounter =
-                                            (pEvent->OccurrenceCounter < 0x7Fu) ? pEvent->OccurrenceCounter : 0x7Fu;
-                                        /* PRQA S 2877++ */ /* MISRA Dir 4.1 */
-                                        for (uint8 iloop = 0; iloop < DEM_MAX_NUMBER_FF_RECORDS; iloop++)
-                                        /* PRQA S 2877-- */ /* MISRA Dir 4.1 */
+                                        if (pDTCAttr != NULL_PTR)
                                         {
-#if (DEM_J1939_FREEZE_FRAME_CLASS_NUM > 0u)
-                                            const uint8* pFF = pEntry->FFList[iloop].Data;
-#endif /* DEM_J1939_FREEZE_FRAME_CLASS_NUM > 0u */
-                                            switch (DemJ1939DcmFreezeFrameFilter.FreezeFrameKind)
+                                            uint8 DemJ1939FFClassRef = pDTCAttr->DemJ1939FreezeFrameClassRef;
+                                            uint8 DemJ1939EFFClassRef = pDTCAttr->DemJ1939ExpandedFreezeFrameClassRef;
+                                            /* SWS_Dem_00882 */
+                                            *OccurenceCounter =
+                                                (pEvent->OccurrenceCounter < 0x7Eu) ? pEvent->OccurrenceCounter : 0x7Eu;
+                                            /* PRQA S 2877++ */ /* MISRA Dir 4.1 */
+                                            for (uint8 iloop = 0; iloop < DEM_MAX_NUMBER_FF_RECORDS; iloop++)
+                                            /* PRQA S 2877-- */ /* MISRA Dir 4.1 */
                                             {
 #if (DEM_J1939_FREEZE_FRAME_CLASS_NUM > 0u)
-                                            case DEM_J1939DCM_FREEZEFRAME:
-                                                if (DemJ1939FFClassRef != DEM_J1939_FREEZE_FRAME_INVALID)
-                                                {
-                                                    uint16 DataSize =
-                                                        DemJ1939FreezeFrameClass[DemJ1939FFClassRef].DataSize;
-                                                    ret = DEM_FILTERED_BUFFER_TOO_SMALL;
-                                                    if (*BufSize >= DataSize)
-                                                    {
-#if (DEM_DATA_ELEMENT_CLASS_NUM > 0u)
-                                                        Dem_MemCopy(DestBuffer, pFF, DataSize);
-#endif /* DEM_DATA_ELEMENT_CLASS_NUM > 0u */
-                                                        *BufSize = DataSize;
-                                                        ret = DEM_FILTERED_OK;
-                                                    }
-                                                }
-                                                break;
-                                            case DEM_J1939DCM_EXPANDED_FREEZEFRAME:
-                                                if (DemJ1939EFFClassRef != DEM_J1939_FREEZE_FRAME_INVALID)
-                                                {
-                                                    uint16 DataSize =
-                                                        DemJ1939FreezeFrameClass[DemJ1939EFFClassRef].DataSize;
-                                                    ret = DEM_FILTERED_BUFFER_TOO_SMALL;
-                                                    if (*BufSize >= DataSize)
-                                                    {
-#if (DEM_DATA_ELEMENT_CLASS_NUM > 0u)
-                                                        Dem_MemCopy(DestBuffer, pFF, DataSize);
-#endif /* DEM_DATA_ELEMENT_CLASS_NUM > 0u */
-                                                        *BufSize = DataSize;
-                                                        ret = DEM_FILTERED_OK;
-                                                    }
-                                                }
-                                                break;
+                                                const uint8* pFF = pEntry->FFList[iloop].Data;
 #endif /* DEM_J1939_FREEZE_FRAME_CLASS_NUM > 0u */
-                                            case DEM_J1939DCM_SPNS_IN_EXPANDED_FREEZEFRAME:
-                                            default:
+                                                switch (DemJ1939DcmFreezeFrameFilter.FreezeFrameKind)
+                                                {
+#if (DEM_J1939_FREEZE_FRAME_CLASS_NUM > 0u)
+                                                case DEM_J1939DCM_FREEZEFRAME:
+                                                    if (DemJ1939FFClassRef != DEM_J1939_FREEZE_FRAME_INVALID)
+                                                    {
+                                                        uint16 DataSize =
+                                                            DemJ1939FreezeFrameClass[DemJ1939FFClassRef].DataSize;
+                                                        ret = DEM_FILTERED_BUFFER_TOO_SMALL;
+                                                        if (*BufSize >= DataSize)
+                                                        {
+#if (DEM_DATA_ELEMENT_CLASS_NUM > 0u)
+                                                            Dem_MemCopy(DestBuffer, pFF, DataSize);
+#endif /* DEM_DATA_ELEMENT_CLASS_NUM > 0u */
+                                                            *BufSize = DataSize;
+                                                            ret = DEM_FILTERED_OK;
+                                                        }
+                                                    }
+                                                    break;
+                                                case DEM_J1939DCM_EXPANDED_FREEZEFRAME:
+                                                    if (DemJ1939EFFClassRef != DEM_J1939_FREEZE_FRAME_INVALID)
+                                                    {
+                                                        uint16 DataSize =
+                                                            DemJ1939FreezeFrameClass[DemJ1939EFFClassRef].DataSize;
+                                                        ret = DEM_FILTERED_BUFFER_TOO_SMALL;
+                                                        if (*BufSize >= DataSize)
+                                                        {
+#if (DEM_DATA_ELEMENT_CLASS_NUM > 0u)
+                                                            Dem_MemCopy(DestBuffer, pFF, DataSize);
+#endif /* DEM_DATA_ELEMENT_CLASS_NUM > 0u */
+                                                            *BufSize = DataSize;
+                                                            ret = DEM_FILTERED_OK;
+                                                        }
+                                                    }
+                                                    break;
+#endif /* DEM_J1939_FREEZE_FRAME_CLASS_NUM > 0u */
+                                                case DEM_J1939DCM_SPNS_IN_EXPANDED_FREEZEFRAME:
+                                                default:
 #if (STD_ON == DEM_DEV_ERROR_DETECT)
-                                                DEM_DET_REPORT(
-                                                    DEM_SID_J1939DCMGETNEXTFREEZEFRAME,
-                                                    DEM_E_WRONG_CONDITION);
+                                                    DEM_DET_REPORT(
+                                                        DEM_SID_J1939DCMGETNEXTFREEZEFRAME,
+                                                        DEM_E_WRONG_CONDITION);
 #endif /* STD_ON == DEM_DEV_ERROR_DETECT */
-                                                break;
+                                                    break;
+                                                }
                                             }
                                         }
                                     }
@@ -1290,7 +1293,8 @@ Dem_J1939DcmGetNextSPNInFreezeFrame(uint32* SPNSupported, uint8* SPNDataLength)
                                 uint16 ObdDTCRef = pDTC[dtcRef].DemObdDTCRef;
                                 /* match J1939DTC */
                                 if ((DEM_OBD_DTC_INVALID != ObdDTCRef)
-                                    && (pObdDTC[ObdDTCRef].DemJ1939DTCValue != DEM_J1939_DTC_CFG_INVALID))
+                                    && (pObdDTC[ObdDTCRef].DemJ1939DTCValue != DEM_J1939_DTC_CFG_INVALID)
+                                    && (pDTCAttr != NULL_PTR))
                                 {
 #if (DEM_J1939_FREEZE_FRAME_CLASS_NUM > 0u)
                                     uint8 DemJ1939ExFFClassRef =

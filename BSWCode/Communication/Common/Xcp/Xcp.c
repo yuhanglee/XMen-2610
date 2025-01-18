@@ -65,6 +65,7 @@
  *  V2.0.8       2024-2-28  qinchun.yang    QAC-2024 Version.
  *  V2.0.9       2024-03-13 Jian.Jiang          Rectification of QAC based on new rule sets
  *  V2.0.10      2024-09-10 Shaoqiang.Liang     Replace the Frt interface with the internal XCP ReadOutMS interface;
+ *  V2.0.11      2024-10-25 Shaoqiang.Liang     Modify DAQ TimeStamp transmit bug;
  */
 /*============================================================================*/
 
@@ -110,7 +111,7 @@
 #define XCP_C_AR_PATCH_VERSION 0u
 #define XCP_C_SW_MAJOR_VERSION 2u
 #define XCP_C_SW_MINOR_VERSION 0u
-#define XCP_C_SW_PATCH_VERSION 10u
+#define XCP_C_SW_PATCH_VERSION 11u
 
 #include "Xcp_Internal.h"
 #include "SchM_Xcp.h"
@@ -722,7 +723,6 @@ Xcp_GetVersionInfo(P2VAR(Std_VersionInfoType, AUTOMATIC, XCP_APPL_DATA) versioni
     {
         versioninfo->moduleID = Xcp_VersionInfo.moduleID;
         versioninfo->vendorID = Xcp_VersionInfo.vendorID;
-        versioninfo->instanceID = Xcp_VersionInfo.instanceID;
         versioninfo->sw_major_version = Xcp_VersionInfo.sw_major_version;
         versioninfo->sw_minor_version = Xcp_VersionInfo.sw_minor_version;
         versioninfo->sw_patch_version = Xcp_VersionInfo.sw_patch_version;
@@ -1129,7 +1129,7 @@ Xcp_SendResp(void)
 {
 #if (XCP_SLAVE_BLOCK_MODE == STD_ON)
     P2CONST(Xcp_AGType, AUTOMATIC, XCP_CONST) sourPtr;
-    P2VAR(Xcp_AGType, AUTOMATIC, BSWM_VAR_CLEARED) destPtr; /* PRQA S 3432 */ /* MISRA Rule 20.7 */
+    P2VAR(Xcp_AGType, AUTOMATIC, XCP_VAR_CLEARED) destPtr; /* PRQA S 3432 */ /* MISRA Rule 20.7 */
     uint8 pos;
     uint8 len;
 #endif

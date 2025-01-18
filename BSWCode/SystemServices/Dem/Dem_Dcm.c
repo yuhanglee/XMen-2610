@@ -1461,9 +1461,9 @@ Dem_DcmGetSizeOfFreezeFrameByDTC(
                 {
                     const Dem_EventMemEntryType* pEntry =
                         Dem_MemEntryGet(Dem_GetEventExternalId(*pDTCMapping), memDest);
-                    if (pEntry != NULL_PTR)
+                    const Dem_DTCAttributesType* pDTCAttr = Dem_EventDTCAttributesCfg(*pDTCMapping);
+                    if ((pEntry != NULL_PTR) && (pDTCAttr != NULL_PTR))
                     {
-                        const Dem_DTCAttributesType* pDTCAttr = Dem_EventDTCAttributesCfg(*pDTCMapping);
                         uint16 DataSize = DemFreezeFrameClass[pDTCAttr->DemFreezeFrameClassRef].DataSize;
                         if (RecordNumber == 0xFFu)
                         {

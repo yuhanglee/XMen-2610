@@ -89,11 +89,11 @@ typedef enum
     CRYPTO_KEYSTATE_VALID = 0x01u    /*Job is in the state "Invalid".*/
 } Crypto_KeyStateType;
 
-extern CONST(Crypto_KeyCfgType, CRY_CONST) Crypto_Key[CRYPTO_MAXKEY_CONFIGURED];
+extern CONST(Crypto_KeyCfgType, CRYPTO_CONST) Crypto_Key[CRYPTO_MAXKEY_CONFIGURED];
 
-extern VAR(Crypto_KeyStateType, CRY_VAR) CryptoKeyStatus[CRYPTO_MAXKEY_CONFIGURED];
+extern VAR(Crypto_KeyStateType, CRYPTO_VAR) CryptoKeyStatus[CRYPTO_MAXKEY_CONFIGURED];
 
-extern CONST(Crypto_DriverObjectCfgType, CRY_CONST) Crypto_DriverObjects[CRYPTO_MAX_DRIVER_OBJECT];
+extern CONST(Crypto_DriverObjectCfgType, CRYPTO_CONST) Crypto_DriverObjects[CRYPTO_MAX_DRIVER_OBJECT];
 
 #endif /* CRYPTO_MAXKEY_CONFIGURED > 0 */
 
@@ -101,25 +101,25 @@ extern CONST(Crypto_DriverObjectCfgType, CRY_CONST) Crypto_DriverObjects[CRYPTO_
 **                      Global Function Definitions                           **
 *******************************************************************************/
 
-FUNC(Std_ReturnType, CRY_CODE)
+FUNC(Std_ReturnType, CRYPTO_CODE)
 Crypto_KeyElementIndexFind(
     VAR(uint32, AUTOMATIC) cryptokeyId,
     VAR(uint32, AUTOMATIC) keyElementId,
-    P2VAR(uint32, AUTOMATIC, CRY_APPL_DATA) getkeyElementId);
+    P2VAR(uint32, AUTOMATIC, CRYPTO_APPL_DATA) getkeyElementId);
 /* PRQA S 3432  */ /* MISRA Rule 20.7 */
-FUNC(uint32, CRY_CODE) Crypto_KeyIndexFind(VAR(uint32, AUTOMATIC) cryptokeyId);
-FUNC(Std_ReturnType, CRY_CODE)
+FUNC(uint32, CRYPTO_CODE) Crypto_KeyIndexFind(VAR(uint32, AUTOMATIC) cryptokeyId);
+FUNC(Std_ReturnType, CRYPTO_CODE)
 Get_Key(
     VAR(uint32, AUTOMATIC) cryptoKeyId,
-    P2VAR(uint8, AUTOMATIC, CRY_APPL_DATA) key,
+    P2VAR(uint8, AUTOMATIC, CRYPTO_APPL_DATA) key,
     /* PRQA S 3432  */ /* MISRA Rule 20.7 */
     VAR(uint8, AUTOMATIC) keyelementid);
 
-FUNC(Std_ReturnType, CRY_CODE)
+FUNC(Std_ReturnType, CRYPTO_CODE)
 Crypto_KeyElementSetInternal(
     uint32 cryptokeyId,
     uint32 keyElementId,
-    P2CONST(uint8, AUTOMATIC, CSM_APPL_DATA) keyPtr,
+    P2CONST(uint8, AUTOMATIC, CRYPTO_APPL_DATA) keyPtr,
     uint32 keyLength);
 
 #endif

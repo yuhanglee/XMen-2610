@@ -90,6 +90,9 @@
                                               negative response, CPT-9640
  *  V2.0.23      2024-08-26   hao.wen         Modify interface's service ID
                  2024-09-27   xue.han         QAC
+                 2024-10-23   hao.wen         Fix CPT-9656,alive check response message was received but the route
+                                              activation request that triggered the sending of the alive check was
+                                              not processed.
 ============================================================================*/
 
 /*******************************************************************************

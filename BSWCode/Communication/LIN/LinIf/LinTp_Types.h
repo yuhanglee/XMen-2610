@@ -57,7 +57,7 @@ typedef enum
 
 typedef struct
 {
-    uint8 LinTpLinIfChannelRef; /* Refer to LinIf channel */
+    NetworkHandleType LinTpLinIfChannelRef; /* Refer to LinIf channel */
     boolean LinTpDropNotRequestedNad;
 #if (STD_ON == LINTP_SCHEDULE_CHANGE_DIAG_SUPPORT)
     boolean LinTpScheduleChangeDiag;
@@ -67,7 +67,7 @@ typedef struct
 
 typedef struct
 {
-    uint8 LinTpLinIfChannelRef; /* Refer to LinIf channel */
+    NetworkHandleType LinTpLinIfChannelRef; /* Refer to LinIf channel */
     uint16 LinTpNcrCnt;
     PduIdType LinTpRxNSduId;
     uint8 LinTpRxNSduNad;
@@ -77,7 +77,7 @@ typedef struct
 
 typedef struct
 {
-    uint8 LinTpLinIfChannelRef; /* Refer to LinIf channel */
+    NetworkHandleType LinTpLinIfChannelRef; /* Refer to LinIf channel */
     uint8 LinTpMaxBufReq;
     uint16 LinTpNasCnt;
     uint16 LinTpNcsCnt;

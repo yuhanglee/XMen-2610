@@ -49,25 +49,25 @@
 #define CRYPTO_START_SEC_CODE
 #include "Crypto_MemMap.h"
 #if (CRYPTO_ALGORITHM_CTRG == STD_ON)
-FUNC(Std_ReturnType, CRY_CODE)
-Crypto_ctr_drbg_reseed(Crypto_CtrDrbgData* ctx, P2CONST(uint8, AUTOMATIC, CRY_APPL_DATA) additional, uint32 len);
+FUNC(Std_ReturnType, CRYPTO_CODE)
+Crypto_ctr_drbg_reseed(Crypto_CtrDrbgData* ctx, P2CONST(uint8, AUTOMATIC, CRYPTO_APPL_DATA) additional, uint32 len);
 
-FUNC(Std_ReturnType, CRY_CODE)
+FUNC(Std_ReturnType, CRYPTO_CODE)
 Crypto_ctr_drbg_update_ret(
     Crypto_CtrDrbgData* ctx,
-    P2CONST(uint8, AUTOMATIC, CRY_APPL_DATA) additional,
+    P2CONST(uint8, AUTOMATIC, CRYPTO_APPL_DATA) additional,
     uint32 add_len);
 
-FUNC(Std_ReturnType, CRY_CODE)
+FUNC(Std_ReturnType, CRYPTO_CODE)
 Crypto_ctr_drbg_random_with_add(
     void* p_rng,
-    P2VAR(uint8, AUTOMATIC, CRY_APPL_DATA) output,
+    P2VAR(uint8, AUTOMATIC, CRYPTO_APPL_DATA) output,
     uint32 output_len,
-    P2CONST(uint8, AUTOMATIC, CRY_APPL_DATA) additional,
+    P2CONST(uint8, AUTOMATIC, CRYPTO_APPL_DATA) additional,
     uint32 add_len);
 
-FUNC(void, CRY_CODE)
-Crypto_ctr_drbg_update(Crypto_CtrDrbgData* ctx, P2CONST(uint8, AUTOMATIC, CRY_APPL_DATA) additional, uint32 add_len);
+FUNC(void, CRYPTO_CODE)
+Crypto_ctr_drbg_update(Crypto_CtrDrbgData* ctx, P2CONST(uint8, AUTOMATIC, CRYPTO_APPL_DATA) additional, uint32 add_len);
 /******************************************************************************/
 /*
  * Brief               Derivation function.
@@ -82,9 +82,9 @@ Crypto_ctr_drbg_update(Crypto_CtrDrbgData* ctx, P2CONST(uint8, AUTOMATIC, CRY_AP
  *                           E_NOT_OK: State not accepted
  */
 /******************************************************************************/
-static FUNC(Std_ReturnType, CRY_CODE) block_cipher_df(
-    P2VAR(uint8, AUTOMATIC, CRY_APPL_DATA) output,
-    P2CONST(uint8, AUTOMATIC, CRY_APPL_DATA) data,
+static FUNC(Std_ReturnType, CRYPTO_CODE) block_cipher_df(
+    P2VAR(uint8, AUTOMATIC, CRYPTO_APPL_DATA) output,
+    P2CONST(uint8, AUTOMATIC, CRYPTO_APPL_DATA) data,
     uint32 data_len)
 {
     uint8 buf[CTR_DRBG_MAX_SEED_INPUT + CTR_DRBG_BLOCKSIZE + 16];
@@ -181,7 +181,7 @@ static FUNC(Std_ReturnType, CRY_CODE) block_cipher_df(
  *                           E_NOT_OK: State not accepted
  */
 /******************************************************************************/
-static FUNC(Std_ReturnType, CRY_CODE)
+static FUNC(Std_ReturnType, CRYPTO_CODE)
     ctr_drbg_update_internal(Crypto_CtrDrbgData* ctx, const uint8 data[CTR_DRBG_SEEDLEN])
 {
     uint8 tmp[CTR_DRBG_SEEDLEN];
@@ -234,8 +234,11 @@ static FUNC(Std_ReturnType, CRY_CODE)
  *                           E_NOT_OK: State not accepted
  */
 /******************************************************************************/
-FUNC(Std_ReturnType, CRY_CODE)
-Crypto_ctr_drbg_update_ret(Crypto_CtrDrbgData* ctx, P2CONST(uint8, AUTOMATIC, CRY_APPL_DATA) additional, uint32 add_len)
+FUNC(Std_ReturnType, CRYPTO_CODE)
+Crypto_ctr_drbg_update_ret(
+    Crypto_CtrDrbgData* ctx,
+    P2CONST(uint8, AUTOMATIC, CRYPTO_APPL_DATA) additional,
+    uint32 add_len)
 {
     uint8 add_input[CTR_DRBG_SEEDLEN];
     Std_ReturnType ret;
@@ -254,7 +257,7 @@ Crypto_ctr_drbg_update_ret(Crypto_CtrDrbgData* ctx, P2CONST(uint8, AUTOMATIC, CR
 
 void Crypto_ctr_drbg_update(
     Crypto_CtrDrbgData* ctx,
-    P2CONST(uint8, AUTOMATIC, CRY_APPL_DATA) additional,
+    P2CONST(uint8, AUTOMATIC, CRYPTO_APPL_DATA) additional,
     uint32 add_len)
 {
     /* MAX_INPUT would be more logical here,but we have to match
@@ -282,7 +285,7 @@ void Crypto_ctr_drbg_update(
  *                           E_NOT_OK: State not accepted
  */
 /******************************************************************************/
-FUNC(Std_ReturnType, CRY_CODE) Crypto_ctr_drbg_reseed(Crypto_CtrDrbgData* ctx, const uint8* additional, uint32 len)
+FUNC(Std_ReturnType, CRYPTO_CODE) Crypto_ctr_drbg_reseed(Crypto_CtrDrbgData* ctx, const uint8* additional, uint32 len)
 {
     uint8 seed[CTR_DRBG_MAX_SEED_INPUT] = {0x00}; /* PRQA S 0686  */ /* MISRA Rule 9.3 */
     uint32 seedlen = 0;
@@ -352,14 +355,14 @@ static uint32 good_nonce_len(uint32 entropy_len)
  *                           E_NOT_OK: State not accepted
  */
 /******************************************************************************/
-FUNC(Std_ReturnType, CRY_CODE)
+FUNC(Std_ReturnType, CRYPTO_CODE)
 Crypto_ctr_drbg_seed(
-    P2VAR(Crypto_CtrDrbgData, AUTOMATIC, CRY_APPL_DATA) ctx,
+    P2VAR(Crypto_CtrDrbgData, AUTOMATIC, CRYPTO_APPL_DATA) ctx,
     /* PRQA S 1335 ++ */ /* MISRA Rule 8.2 */
     Std_ReturnType (*f_entropy)(void*, uint8*, uint32),
     /* PRQA S 1335 -- */ /* MISRA Rule 8.2 */
 
-    P2VAR(Crypto_entropy_context, AUTOMATIC, CRY_APPL_DATA) p_entropy,
+    P2VAR(Crypto_entropy_context, AUTOMATIC, CRYPTO_APPL_DATA) p_entropy,
     const uint8* custom,
     uint32 len)
 {
@@ -411,10 +414,10 @@ Crypto_ctr_drbg_seed(
  *                           E_NOT_OK: State not accepted
  */
 /******************************************************************************/
-FUNC(Std_ReturnType, CRY_CODE)
+FUNC(Std_ReturnType, CRYPTO_CODE)
 Crypto_ctr_drbg_random_with_add(
     void* p_rng,
-    P2VAR(uint8, AUTOMATIC, CRY_APPL_DATA) output,
+    P2VAR(uint8, AUTOMATIC, CRYPTO_APPL_DATA) output,
     uint32 output_len,
     const uint8* additional,
     uint32 add_len)
@@ -512,8 +515,8 @@ Crypto_ctr_drbg_random_with_add(
  *                           E_NOT_OK: State not accepted
  */
 /******************************************************************************/
-FUNC(Std_ReturnType, CRY_CODE)
-Crypto_ctr_drbg_random(void* p_rng, P2VAR(uint8, AUTOMATIC, CRY_APPL_DATA) output, uint32 output_len)
+FUNC(Std_ReturnType, CRYPTO_CODE)
+Crypto_ctr_drbg_random(void* p_rng, P2VAR(uint8, AUTOMATIC, CRYPTO_APPL_DATA) output, uint32 output_len)
 {
     Std_ReturnType ret;
     Crypto_CtrDrbgData* ctx = (Crypto_CtrDrbgData*)p_rng;
@@ -752,7 +755,7 @@ exit:
  *                     E_NOT_OK
  */
 /******************************************************************************/
-FUNC(Std_ReturnType, CRY_CODE) Crypto_CtrDrbg(uint8 key[16], uint8 buf[16])
+FUNC(Std_ReturnType, CRYPTO_CODE) Crypto_CtrDrbg(uint8 key[16], uint8 buf[16])
 {
     Crypto_CtrDrbgData ctx;
     Crypto_entropy_context entropy;

@@ -165,19 +165,19 @@ typedef enum
  * the crypto primitive.,ref@01009*/
 typedef struct
 {
-    P2CONST(uint8, TYPEDEF, CSM_APPL_DATA) inputPtr;
+    P2CONST(uint8, TYPEDEF, CRYPTO_APPL_DATA) inputPtr;
     uint32 inputLength;
-    P2CONST(uint8, TYPEDEF, CSM_APPL_DATA) secondaryInputPtr;
+    P2CONST(uint8, TYPEDEF, CRYPTO_APPL_DATA) secondaryInputPtr;
     uint32 secondaryInputLength;
-    P2CONST(uint8, TYPEDEF, CSM_APPL_DATA) tertiaryInputPtr;
+    P2CONST(uint8, TYPEDEF, CRYPTO_APPL_DATA) tertiaryInputPtr;
     uint32 tertiaryInputLength;
-    P2VAR(uint8, TYPEDEF, CSM_APPL_DATA) outputPtr;
-    P2VAR(uint32, TYPEDEF, CSM_APPL_DATA) outputLengthPtr;
-    P2VAR(uint8, TYPEDEF, CSM_APPL_DATA) secondaryOutputPtr;
-    P2VAR(uint32, TYPEDEF, CSM_APPL_DATA) secondaryOutputLengthPtr;
+    P2VAR(uint8, TYPEDEF, CRYPTO_APPL_DATA) outputPtr;
+    P2VAR(uint32, TYPEDEF, CRYPTO_APPL_DATA) outputLengthPtr;
+    P2VAR(uint8, TYPEDEF, CRYPTO_APPL_DATA) secondaryOutputPtr;
+    P2VAR(uint32, TYPEDEF, CRYPTO_APPL_DATA) secondaryOutputLengthPtr;
     uint64 input64;
-    P2VAR(Crypto_VerifyResultType, TYPEDEF, CSM_APPL_DATA) verifyPtr;
-    P2VAR(uint64, TYPEDEF, CSM_APPL_DATA) output64Ptr;
+    P2VAR(Crypto_VerifyResultType, TYPEDEF, CRYPTO_APPL_DATA) verifyPtr;
+    P2VAR(uint64, TYPEDEF, CRYPTO_APPL_DATA) output64Ptr;
     Crypto_OperationModeType mode;
     uint32 cryIfKeyId;
     uint32 targetCryIfKeyId;
@@ -275,7 +275,7 @@ typedef struct
     P2CONST(Crypto_JobPrimitiveInfoType, TYPEDEF, CSM_CONST) jobPrimitiveInfo;
     P2CONST(Crypto_JobInfoType, TYPEDEF, CSM_CONST) jobInfo;
     uint32 cryptoKeyId;
-    P2VAR(Crypto_JobRedirectionInfoType, TYPEDEF, CSM_APPL_DATA) jobRedirectionInfoRef;
+    P2VAR(Crypto_JobRedirectionInfoType, TYPEDEF, CRYPTO_APPL_DATA) jobRedirectionInfoRef;
     uint32 targetCryptoKeyId;
 } Crypto_JobType;
 

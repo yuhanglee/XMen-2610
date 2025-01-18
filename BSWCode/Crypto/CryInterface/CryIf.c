@@ -1156,7 +1156,7 @@ CryIf_KeyExchangeCalcSecret(
 FUNC(void, CRYIF_CODE)
 CryIf_CallbackNotification(
     P2VAR(Crypto_JobType, AUTOMATIC, CRYIF_APPL_DATA) job,
-    VAR(Crypto_ResultType, CSM_APPL_DATA) result)
+    VAR(Crypto_ResultType, CRYPTO_APPL_DATA) result)
 {
 #if (STD_ON == CRYIF_DEV_ERROR_DETECT)
     /* @req [SWS_CryIf_00107] */

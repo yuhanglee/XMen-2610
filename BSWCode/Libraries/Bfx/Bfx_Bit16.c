@@ -136,7 +136,7 @@ Bfx_GetBit_u16u8_u8(uint16 data, uint8 bitPn)
 
 /**
  * Set the input data to "1" or "0" based on the "Status"
- * data from "BitStartPn" to "BitStartPn+BitLn".
+ * data from "BitStartPn" to "BitStartPn+BitLn".
  * Service ID: 0x21
  * Sync/Async: Synchronous
  * Reentrancy: Reentrant

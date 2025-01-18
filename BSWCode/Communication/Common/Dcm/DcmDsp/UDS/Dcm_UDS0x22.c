@@ -98,7 +98,7 @@ static FUNC(Std_ReturnType, DCM_CODE) Dcm_UdsAssembleResponse_0x2CSubDeal(
     uint16 Did;
     uint8 Pos;
     uint8 Data[DCM_TEMP_BUFFER_LENGTH] = {0};
-    uint8 Index;
+    uint16 Index;
     uint16 pDidCfgIndex = 0;
     uint16 DidSignalPos = 0;
     uint16 Size;
@@ -587,7 +587,7 @@ static FUNC(Std_ReturnType, DCM_CODE) DspInternalUDS0x22_DidInfoCheck(uint8 DidI
 #define DCM_START_SEC_CODE
 #include "Dcm_MemMap.h"
 static FUNC(Std_ReturnType, DCM_CODE) DspInternalUDS0x22_DidSessionCheck(
-    uint8 DidInfoCfgIndex,
+    uint16 DidInfoCfgIndex,
     /* PRQA S 3432++ */ /* MISRA Rule 20.7 */
     P2VAR(uint8, AUTOMATIC, AUTOMATIC) DidSessionSupportNum,
     P2VAR(Dcm_NegativeResponseCodeType, AUTOMATIC, AUTOMATIC) pNrc)
@@ -658,8 +658,8 @@ static FUNC(Std_ReturnType, DCM_CODE) Dsp_UDS0x22_DidEcuSignalCheck(
 #endif
     const Dcm_0x22Types* Dcm_0x22Type) /* PRQA S 3432 */ /* MISRA Rule 20.7 */
 {
-    uint8 DidSignalIndex;
-    uint8 DidSignalNum;
+    uint16 DidSignalIndex;
+    uint16 DidSignalNum;
     P2CONST(Dcm_DspDataType, TYPEDEF, DCM_CONST) pDspDidData;
     Std_ReturnType ret = E_NOT_OK;
 #if ((NVM_ENABLE == STD_ON) && (DCM_DATA_USE_BLOCK_ID_ENABLED == STD_ON))
@@ -745,8 +745,8 @@ static FUNC(Std_ReturnType, DCM_CODE) DspInternalUDS0x22_DidConditionCheck(
     uint16 DidCfgIndex,
     P2VAR(Dcm_NegativeResponseCodeType, AUTOMATIC, AUTOMATIC) pNrc) /* PRQA S 3432 */ /* MISRA Rule 20.7 */
 {
-    uint8 DidSignalIndex;
-    uint8 DidSignalNum;
+    uint16 DidSignalIndex;
+    uint16 DidSignalNum;
     P2CONST(Dcm_DspDataType, TYPEDEF, DCM_CONST) pDspDidData;
     Std_ReturnType ret = E_OK;
 
@@ -896,8 +896,8 @@ static FUNC(Std_ReturnType, DCM_CODE) Dcm_UdsAssembleResponse(
 /* PRQA S 3432-- */ /* MISRA Rule 20.7 */
 {
     uint32 DidSignalPos;
-    uint8 DidSignalIndex;
-    uint8 DidSignalNum;
+    uint16 DidSignalIndex;
+    uint16 DidSignalNum;
     P2CONST(Dcm_DspDataType, TYPEDEF, DCM_CONST) pDspDidData;
     Std_ReturnType ret = E_OK;
     uint16 Size;
@@ -1465,7 +1465,7 @@ static FUNC(Std_ReturnType, DCM_CODE) DspInternalUDS0x22_NonObdDidNOrangeDeal(
     uint32 Offset = (Dcm_DslCfg.pDcmChannelCfg)[TxChannelCfgIndex].offset;
 #endif
 #if ((STD_ON == DCM_UDS_SERVICE0X2C_ENABLED) && (DCM_DSP_DDDID_MAX_NUMBER > 0u))
-    uint8 DidInfoIndex;
+    uint16 DidInfoIndex;
 #endif
 
     ret = Dsp_UDS0x22_DidEcuSignalCheck(
@@ -1551,11 +1551,12 @@ static FUNC(Std_ReturnType, DCM_CODE) DspInternalUDS0x22_NonObdDidDeal(
     P2VAR(Dcm_NegativeResponseCodeType, AUTOMATIC, DCM_VAR) ErrorCode) /* PRQA S 3432 */ /* MISRA Rule 20.7 */
 {
     Std_ReturnType ret;
-    uint8 DidInfoCfgIndex;
+    uint16 DidInfoCfgIndex;
 #if ((STD_ON == DCM_DID_RANGE_ENABLED) || (TRUE == DCM_PAGEDBUFFER_ENABLED))
     uint16 DidSize = 0;
-#endif
     uint8 MsgCtrlId = Dcm_ProtocolCtrl[ProtocolCtrlId].MsgCtrlIndex;
+#endif
+
 #if (TRUE == DCM_PAGEDBUFFER_ENABLED)
     uint8 TxChannelCfgIndex = Dcm_ChannelCtrl[Dcm_MsgCtrl[MsgCtrlId].Dcm_TxCtrlChannelIndex].Dcm_ChannelCfgIndex;
     uint32 Offset = (Dcm_DslCfg.pDcmChannelCfg)[TxChannelCfgIndex].offset;
@@ -1831,7 +1832,7 @@ Dcm_UDS0x22(
     uint32 ReqOffset;
     uint8 TxChannelCtrlIndex;
     uint8 TxChannelCfgIndex;
-    uint8 DidNum;
+    uint16 DidNum;
     uint16 Index0;
     uint8 DidSessionSupportNum = 0;
     uint8 NoFindDidNum = 0;

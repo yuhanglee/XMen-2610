@@ -1057,7 +1057,7 @@ static FUNC(Std_ReturnType, CANTRCV_CODE)
     if (FALSE == CANTRCV_CHANNEL(Transceiver).CanTrcvSpiAccessSynchronous)
     {
         /* Asynchronous transmission */
-        //      result = Spi_AsyncTransmit(CANTRCV_SPI_SEQUENCE(Transceiver));
+        /* result = Spi_AsyncTransmit(CANTRCV_SPI_SEQUENCE(Transceiver)); */
     }
     else
     {

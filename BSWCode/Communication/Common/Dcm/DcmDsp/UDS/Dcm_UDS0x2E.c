@@ -42,9 +42,9 @@
 typedef struct
 {
     P2VAR(uint8, AUTOMATIC, DCM_VAR_NOINIT) pRangeDidCfgIndex; /* PRQA S 3432 */ /* MISRA Rule 20.7 */
-    P2VAR(uint8, AUTOMATIC, AUTOMATIC) pDidCfgIndex; /* PRQA S 3432 */           /* MISRA Rule 20.7 */
+    P2VAR(uint16, AUTOMATIC, AUTOMATIC) pDidCfgIndex; /* PRQA S 3432 */          /* MISRA Rule 20.7 */
     P2VAR(boolean, AUTOMATIC, DCM_VAR_NOINIT) pRangeDidFlag; /* PRQA S 3432 */   /* MISRA Rule 20.7 */
-    P2VAR(uint8, AUTOMATIC, AUTOMATIC) DidInfoCfgIndex; /* PRQA S 3432 */        /* MISRA Rule 20.7 */
+    P2VAR(uint16, AUTOMATIC, AUTOMATIC) DidInfoCfgIndex; /* PRQA S 3432 */       /* MISRA Rule 20.7 */
 } Dcm_0x2ETypes;
 /***************************/
 /**********************************************************************/
@@ -70,7 +70,7 @@ static Std_ReturnType DspInternalUDS0x2E_DidCheck(
     const Dcm_0x2ETypes* Dcm_0x2EType,
     P2VAR(Dcm_NegativeResponseCodeType, AUTOMATIC, AUTOMATIC) pNrc) /* PRQA S 3432 */ /* MISRA Rule 20.7 */
 {
-    uint8 Index;
+    uint16 Index;
     boolean Flag = FALSE;
     Std_ReturnType ret = E_NOT_OK;
 #if (DCM_DID_RANGE_ENABLED == STD_ON)
@@ -175,7 +175,7 @@ static Std_ReturnType DspInternalUDS0x2E_DidCheck(
 #if (STD_ON == DCM_DSP_DID_FUNC_ENABLED)
 #define DCM_START_SEC_CODE
 #include "Dcm_MemMap.h"
-static Std_ReturnType DspInternalUDS0x2E_DidSesCheck(uint8 DidInfoCfgIndex)
+static Std_ReturnType DspInternalUDS0x2E_DidSesCheck(uint16 DidInfoCfgIndex)
 {
     uint8 Index;
     Std_ReturnType ret = E_NOT_OK;
@@ -230,7 +230,7 @@ static Std_ReturnType DspInternalUDS0x2E_DidSesCheck(uint8 DidInfoCfgIndex)
 #define DCM_START_SEC_CODE
 #include "Dcm_MemMap.h"
 static Std_ReturnType DspInternalUDS0x2E_DidSecCheck(
-    uint8 DidInfoCfgIndex,
+    uint16 DidInfoCfgIndex,
     P2VAR(Dcm_NegativeResponseCodeType, AUTOMATIC, AUTOMATIC) pNrc) /* PRQA S 3432 */ /* MISRA Rule 20.7 */
 {
     P2CONST(Dcm_DspDidWriteType, AUTOMATIC, DCM_APPL_CONST) pDspDidWrite;
@@ -291,13 +291,13 @@ static Std_ReturnType DspInternalUDS0x2E_DidSecCheck(
 #define DCM_START_SEC_CODE
 #include "Dcm_MemMap.h"
 static Std_ReturnType DspInternalUDS0x2E_DidWriteDataLength(
-    uint8 DidCfgIndex,
+    uint16 DidCfgIndex,
     P2VAR(uint16, AUTOMATIC, AUTOMATIC) pDidSize) /* PRQA S 3432 */ /* MISRA Rule 20.7 */
 {
-    uint8 DidSignalIndex;
+    uint16 DidSignalIndex;
     P2CONST(Dcm_DspDataType, TYPEDEF, DCM_CONST) pDspDidData;
     Std_ReturnType ret = E_OK;
-    uint8 DidSignalNum = Dcm_DspCfg.pDcmDspDid[DidCfgIndex].DcmDspDidSignalNum;
+    uint16 DidSignalNum = Dcm_DspCfg.pDcmDspDid[DidCfgIndex].DcmDspDidSignalNum;
 
     *pDidSize = 0;
     for (DidSignalIndex = 0; DidSignalIndex < DidSignalNum; DidSignalIndex++)
@@ -339,11 +339,11 @@ static Std_ReturnType DspInternalUDS0x2E_DidWriteDataLength(
 static Std_ReturnType DspInternalUDS0x2E_DidWrite(
     Dcm_OpStatusType OpStatus,
     uint8 MsgCtrlId,
-    uint8 DidCfgIndex,
+    uint16 DidCfgIndex,
     P2VAR(Dcm_NegativeResponseCodeType, AUTOMATIC, AUTOMATIC) pNrc) /* PRQA S 3432 */ /* MISRA Rule 20.7 */
 {
-    uint8 DidSignalIndex;
-    uint8 DidSignalNum;
+    uint16 DidSignalIndex;
+    uint16 DidSignalNum;
     uint16 DidSignalPos;
     uint16 Offest = 0;
     P2CONST(Dcm_DspDataType, TYPEDEF, DCM_CONST) pDspDidData;
@@ -600,12 +600,12 @@ Dcm_UDS0x2E(
     uint16 RecDid;
     uint16 DidSize = 0;
     uint32 Offset;
-    uint8 DidCfgIndex;
+    uint16 DidCfgIndex;
     uint8 TxChannelCtrlIndex;
     uint8 TxChannelCfgIndex;
     uint8 RangeDidCfgIndex;
     boolean RangeDidFlag;
-    uint8 DidInfoCfgIndex;
+    uint16 DidInfoCfgIndex;
 #endif
     uint8 MsgCtrlId;
     Std_ReturnType ret;

@@ -910,7 +910,7 @@ EthSwt_PortInit(P2CONST(EthSwt_ConfigType, AUTOMATIC, ETHSWT_APPL_CONST) SwtCfgP
 
         EthSwt_WriteRegister(SwtCfgPtr->SwtIdx, portCfgPtr->PortIdx, ETHSWT_REG_PORT_CTRL2, regVal);
 #endif /*ETHSWT_802_1Q_MODE != ETHSWT_802_1Q_MODE_DISABLE*/
-        /*egress mode:  Default to Unmodified mode – frames are transmitted*/
+        /*egress mode:  Default to Unmodified mode - frames are transmitted*/
 
         /*1000 or 2000M, force duplex, add delay to rx/tx clock*/
         EthSwt_ReadRegister(SwtCfgPtr->SwtIdx, portCfgPtr->PortIdx, ETHSWT_REG_PHY_CTRL, &regVal);

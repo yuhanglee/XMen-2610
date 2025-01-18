@@ -121,8 +121,8 @@ typedef struct
     uint32 RamTstStartAddress;
     uint32 RamTstFillPattern;
     RamTst_Policy RamTstTestPolicy;
-    RamTst_BlockTestUseMethod BlockTestUseMethod; /* Block use foreground test or background test  0：initial
-                                                     1:foreground  2:background   3:both */
+    RamTst_BlockTestUseMethod BlockTestUseMethod; /* Block use foreground test or background test
+                                                     0:initial  1:foreground  2:background   3:both */
 } RamTst_BlockParams;
 
 typedef struct

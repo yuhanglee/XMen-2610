@@ -151,7 +151,8 @@ static FUNC(boolean, LINIF_CODE) LinTp_IsRxCF(
     P2VAR(LinTp_MasterRuntimeType, AUTOMATIC, LINIF_APPL_DATA) tpChPtr,
     P2CONST(uint8, AUTOMATIC, LINIF_APPL_DATA) sdu);
 
-static FUNC(P2CONST(LinTp_ChannelConfigType, AUTOMATIC, LINIF_APPL_CONST), LINIF_CODE) LinTp_GetChannelConfig(uint8 ch);
+static FUNC(P2CONST(LinTp_ChannelConfigType, AUTOMATIC, LINIF_APPL_CONST), LINIF_CODE)
+    LinTp_GetChannelConfig(NetworkHandleType ch);
 
 static FUNC(void, LINIF_CODE)
     LinTp_RxBufferRequestStart(P2VAR(LinTp_MasterRuntimeType, AUTOMATIC, LINIF_APPL_DATA) tpChPtr);
@@ -1477,11 +1478,12 @@ static FUNC(boolean, LINIF_CODE) LinTp_IsRxCF(
  * CallByAPI: This is a internal function
  */
 /******************************************************************************/
-static FUNC(P2CONST(LinTp_ChannelConfigType, AUTOMATIC, LINIF_APPL_CONST), LINIF_CODE) LinTp_GetChannelConfig(uint8 ch)
+static FUNC(P2CONST(LinTp_ChannelConfigType, AUTOMATIC, LINIF_APPL_CONST), LINIF_CODE)
+    LinTp_GetChannelConfig(NetworkHandleType ch)
 {
     P2CONST(LinTp_ChannelConfigType, AUTOMATIC, LINIF_APPL_CONST)
     chCfgPtr = &LINTP_GET_CHANNEL_CONFIG(0);
-    uint8 idx = LINIF_NUMBER_OF_CHANNELS;
+    NetworkHandleType idx = LINIF_NUMBER_OF_CHANNELS;
 
     while (idx > 0u)
     {
@@ -1814,7 +1816,7 @@ static FUNC(void, LINIF_CODE)
         && (LINTP_IS_TRS_EVENT(LINTP_TRS_EVT_FUN_TX_REQ | LINTP_TRS_EVT_PHY_TX_REQ)))
     {
         P2CONST(LinTp_ChannelConfigType, AUTOMATIC, LINIF_APPL_CONST)
-        chCfgPtr = LinTp_GetChannelConfig((uint8)ch);
+        chCfgPtr = LinTp_GetChannelConfig(ch);
 
         if (LINTP_IS_TRS_EVENT(LINTP_TRS_EVT_FUN_TX_REQ))
         {

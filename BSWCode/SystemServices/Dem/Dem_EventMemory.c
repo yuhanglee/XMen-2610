@@ -490,7 +490,7 @@ FUNC(void, DEM_CODE) Dem_EventTestFailed(Dem_EventIdType IntId)
             if (Find == FALSE)
 #endif /* DEM_EVENT_COMBINATION_SUPPORT == DEM_EVCOMB_ONSTORAGE */
             {
-                if (DTCRef != DEM_DTC_REF_INVALID)
+                if ((DTCRef != DEM_DTC_REF_INVALID) && (pDTCAttr != NULL_PTR))
                 {
                     const uint8* pMemDest = pDTCAttr->DemMemoryDestinationRef;
 #if (DEM_MEM_DEST_MAX_NUM_OF_DTC > 1u)
@@ -673,7 +673,11 @@ FUNC(void, DEM_CODE) Dem_ResponseOnDtcStatusChange(Dem_EventIdType IntId)
             if (Dem_DTCStatusChangedInd == TRUE)
             {
 #if (DEM_TRIGGER_DCM_REPORTS == STD_ON)
+#if (                                                                                            \
+    (DEM_CALLBACK_DTC_STATUS_CHANGED_NUM > 0u) || (DEM_CALLBACK_OBD_DTC_STATUS_CHANGED_NUM > 0u) \
+    || (DEM_CALLBACK_J1939_DTC_STATUS_CHANGED_NUM > 0u))
                 uint32 DTC = 0x00;
+#endif
 #if (DEM_CALLBACK_DTC_STATUS_CHANGED_NUM > 0u)
                 /* SWS_Dem_00284 */
                 Dem_GetEventDTC(dtcRef, DEM_DTC_FORMAT_UDS, &DTC);
@@ -1339,9 +1343,9 @@ Dem_EventDataStorageTrigger(Dem_EventIdType IntId, uint8 Trigger)
 /* PRQA S 3432-- */ /* MISRA Rule 20.7 */
 {
     uint16 TempRef = DemPbCfgPtr->DemEventParameter[IntId].DemDTCRef;
-    if (TempRef != DEM_DTC_REF_INVALID)
+    const Dem_DTCAttributesType* pDTCAttr = Dem_EventDTCAttributesCfg(IntId);
+    if ((TempRef != DEM_DTC_REF_INVALID) && (pDTCAttr != NULL_PTR))
     {
-        const Dem_DTCAttributesType* pDTCAttr = Dem_EventDTCAttributesCfg(IntId);
         Dem_Pending = TRUE;
         const uint8* pMemDest = pDTCAttr->DemMemoryDestinationRef;
 #if (DEM_MEM_DEST_MAX_NUM_OF_DTC > 1u)

@@ -234,7 +234,7 @@ EthIf_Transmit(
 FUNC(void, ETHIF_CODE) EthIf_GetVersionInfo(Std_VersionInfoType* VersionInfoPtr);
 #endif
 #if (STD_ON == ETH_GET_CTRLIDX_LIST)
-FUNC(Std_ReturnType, Std_ReturnType)
+FUNC(Std_ReturnType, ETHIF_CODE)
 EthIf_GetCtrlIdxList(
     P2VAR(uint8, ETHIF_APPL_DATA, ETHIF_VAR) NumberOfCtrlIdx,
     P2VAR(uint8, ETHIF_APPL_DATA, ETHIF_VAR) CtrlIdxListPtr);

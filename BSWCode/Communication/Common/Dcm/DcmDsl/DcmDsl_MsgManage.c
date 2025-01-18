@@ -287,10 +287,8 @@ FUNC(void, DCM_CODE) DslInternal_InitMsgCtrl(uint8 MsgCtrlId)
         pMsgCtrl->Dcm_Ret = E_NOT_OK;
         pMsgCtrl->Dcm_OpStatus = DCM_INITIAL;
 #if (STD_ON == DCM_GENERIC_CONNECTION)
-        pMsgCtrl->Dcm_MetaData_AE = DCM_INVALID_UINT8;
         pMsgCtrl->Dcm_MetaData_SA = DCM_INVALID_UINT16;
         pMsgCtrl->Dcm_MetaData_TA = DCM_INVALID_UINT16;
-        pMsgCtrl->Dcm_MetaData_AE_Backup = DCM_INVALID_UINT8;
         pMsgCtrl->Dcm_MetaData_SA_Backup = DCM_INVALID_UINT16;
         pMsgCtrl->Dcm_MetaData_TA_Backup = DCM_INVALID_UINT16;
         pMsgCtrl->DcmRxPduId = DCM_INVALID_PDUID;
@@ -662,17 +660,6 @@ static FUNC(BufReq_ReturnType, DCM_CODE)
 #endif
             }
         }
-        if (((DcmDslMetaDataFlag & DCM_ADDRESS_EXTENSION_8_MASK) == DCM_ADDRESS_EXTENSION_8_MASK) && (NULL_PTR != info))
-        {
-            if (DCM_PHYSICAL == RxAddrType)
-            {
-                pMsgCtrl->Dcm_MetaData_AE = info->MetaDataPtr[4u];
-            }
-            else
-            {
-                pMsgCtrl->Dcm_MetaData_AE_Backup = info->MetaDataPtr[4u];
-            }
-        }
         SchM_Exit_Dcm(Dcm_MsgCtrl);
         if (DCM_PHYSICAL == RxAddrType)
         {
@@ -757,7 +744,9 @@ static FUNC(BufReq_ReturnType, DCM_CODE) Dcm_StartOfReception_Checklength(
 #if (STD_ON == DCM_SESSION_FUNC_ENABLED)
         /*Start of a multi-frame request message or Reception of single-frame request message.*/
         /*Stop S3Server timer*/
+#if !DCM_DELAY_COMM_INACTIVE
         if (DCM_DEFAULT_SESSION != Dcm_MkCtrl.Dcm_ActiveSes)
+#endif
         {
             DslInternal_S3ServerStop();
         }
@@ -1025,7 +1014,7 @@ Dcm_StartOfReception(
                 }
                 else
                 {
-                    /* idle */
+                    Dcm_FunctionalMessage.Length = info->SduLength;
                 }
 #endif /* STD_ON == DCM_REQUEST_QUEUED_ENABLED */
             }
@@ -1280,10 +1269,8 @@ static FUNC(Std_ReturnType, DCM_CODE) Dcm_TpRxIndication_IsFuncAddress(PduIdType
                 Dcm_FunctionalMessage.Length = 0;
                 pMsgCtrl->MsgContext.pReqData = &Dcm_Channel[Offset];
 #if (STD_ON == DCM_GENERIC_CONNECTION)
-                pMsgCtrl->Dcm_MetaData_AE = pMsgCtrl->Dcm_MetaData_AE_Backup;
                 pMsgCtrl->Dcm_MetaData_SA = pMsgCtrl->Dcm_MetaData_SA_Backup;
                 pMsgCtrl->Dcm_MetaData_TA = pMsgCtrl->Dcm_MetaData_TA_Backup;
-                pMsgCtrl->Dcm_MetaData_AE_Backup = DCM_INVALID_UINT8;
                 pMsgCtrl->Dcm_MetaData_SA_Backup = DCM_INVALID_UINT16;
                 pMsgCtrl->Dcm_MetaData_TA_Backup = DCM_INVALID_UINT16;
 #endif
@@ -2026,11 +2013,6 @@ FUNC(void, DCM_CODE) DslInternal_ProcessingDone(uint8 ProtocolCtrlId)
     DcmRxPduIdx = pMsgCtrl->DcmRxPduId;
     if ((Dsl_Protocol_Connection_RxCfg[DcmRxPduIdx].DcmDslMetaDataFlag & DCM_METADATA_LENGTH_MASK) > 0u)
     {
-        if ((Dsl_Protocol_Connection_RxCfg[DcmRxPduIdx].DcmDslMetaDataFlag & DCM_ADDRESS_EXTENSION_8_MASK)
-            == DCM_ADDRESS_EXTENSION_8_MASK)
-        {
-            PduInfo.MetaDataPtr[4u] = pMsgCtrl->Dcm_MetaData_AE;
-        }
         if ((Dsl_Protocol_Connection_RxCfg[DcmRxPduIdx].DcmDslMetaDataFlag & DCM_SA16_AND_TA16_MASK)
             == DCM_SA16_AND_TA16_MASK)
         {

@@ -42,13 +42,12 @@
  * V2.0.3 [2020/12/23] [YangBo] Change loop i to suitable size
  * V2.0.4 [2021/05/18] [YangBo] Change loop i to suitable size
  * V2.0.5 [2024/03/11] [darren] QAC Fixed
+ * v2.0.6 [2024/10/28] [qinmei.chen] CPT-10780 fix corresponding macro error between definition and invoke.
  */
 
 #ifndef CRC_H_
 #define CRC_H_
-/*******************************************************************************
-**                      Revision Control History                              **
-*******************************************************************************/
+
 /*@ req<SWS_Crc_00048> */
 #define CRC_VENDOR_ID                   (62u)
 #define CRC_MODULE_ID                   (201u)
@@ -87,7 +86,6 @@
     {                                                           \
         (VersionInfo)->vendorID = CRC_VENDOR_ID;                \
         (VersionInfo)->moduleID = CRC_MODULE_ID;                \
-        (VersionInfo)->instanceID = 0u;                         \
         (VersionInfo)->sw_major_version = CRC_SW_MAJOR_VERSION; \
         (VersionInfo)->sw_minor_version = CRC_SW_MINOR_VERSION; \
         (VersionInfo)->sw_patch_version = CRC_SW_PATCH_VERSION; \

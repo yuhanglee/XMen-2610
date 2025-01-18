@@ -3019,7 +3019,7 @@ static FUNC(Std_ReturnType, DLT_APPL_CODE)
     uint32 ServiceID;
     uint16 loffset = offset;
     Std_ReturnType ret;
-    static CONST(Dlt_ServiceDeal, NVM_CONST) Dlt_ServiceTable[] = {
+    static CONST(Dlt_ServiceDeal, DLT_CONST) Dlt_ServiceTable[] = {
         Dlt_ServiceNotSupport,              /* ServiceID == 0u and ServiceID > 0x24u */
         Dlt_ServiceSetLogLevel,             /* ServiceID: 0x00000001 */
         Dlt_ServiceSetTraceStatus,          /* ServiceID: 0x00000002 */

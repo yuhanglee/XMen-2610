@@ -110,6 +110,8 @@
  *  V2.0.23   2024-01-31   xiaojian.liang
  *      CPT-8061 Source NID is always zero if CanNmNodeIdEnabled is true but CanNmNodeDetectionEnabled is false
  *      Replace the std library with the istd library
+ *  V2.0.24   2024-10-30   xiaojian.liang
+ *      Fixed CPT-10964 If CanNmComUserDataSupport is enabled the API CanNm_SetUserData shall not be available.
  */
 
 /**
@@ -122,6 +124,9 @@
 
     \li PRQA S 1531, 1532 MISRA Rule 8.7 .<br>
     Reason:The exception is global configuration data(1531) and API(1532).
+
+    \li PRQA S 3678 VL_QAC_3678 .<br>
+    Reason: Variables cannot be prefixed with const because they are used under other conditions to be compiled
  */
 /*******************************************************************************
 **                      Imported Compiler Switch Check                        **
@@ -131,7 +136,7 @@
 #define CANNM_C_AR_RELEASE_PATCH_VERSION 0u
 #define CANNM_C_SW_MAJOR_VERSION         2u
 #define CANNM_C_SW_MINOR_VERSION         0u
-#define CANNM_C_SW_PATCH_VERSION         23u
+#define CANNM_C_SW_PATCH_VERSION         24u
 /*******************************************************************************
 **                      Include Section                                       **
 *******************************************************************************/
@@ -763,11 +768,10 @@ Std_ReturnType CanNm_EnableCommunication(NetworkHandleType nmChannelHandle) /* P
 }
 #endif /* STD_ON == CANNM_COM_CONTROL_ENABLED */
 
-/* @SWS_CanNm_00266
-optional avaliable
-@SWS_CanNm_00327
-COM user data is not need this api */
-#if (STD_ON == CANNM_USER_DATA_ENABLED) && (STD_OFF == CANNM_PASSIVE_MODE_ENABLED)
+/* @SWS_CanNm_00266 optional avaliable
+   @SWS_CanNm_00327 COM user data is not need this api */
+#if (CANNM_USER_DATA_ENABLED == STD_ON) && (CANNM_COM_USERDATA_SUPPORT == STD_OFF) \
+    && (CANNM_PASSIVE_MODE_ENABLED == STD_OFF)
 /******************************************************************************/
 /*
  * Brief               Set user data for NM PDUs transmitted next on the bus.
@@ -1503,7 +1507,7 @@ Std_ReturnType CanNm_TriggerTransmit(PduIdType TxPduId, PduInfoType* PduInfoPtr)
     if (CanNm_ValidateTxPdu(CANNM_SERVICE_ID_TRIGGERTRANSMIT, TxPduId, PduInfoPtr))
 #endif
     {
-        const CanNm_InnerChannelType* chRTPtr = NULL_PTR;
+        CanNm_InnerChannelType* chRTPtr = NULL_PTR; /* PRQA S 3678 */ /* VL_QAC_3678 */
         uint8 chIndex;
 #if (STD_ON == CANNM_COM_USERDATA_SUPPORT)
         PduInfoType pduInfo;
@@ -1739,7 +1743,7 @@ static FUNC(void, CANNM_CODE) CanNm_EntryRepeatMessageState(uint8 chIndex, boole
 
         if (0u == chRTPtr->msgTxCylceTimer)
         {
-            chRTPtr->msgTxCylceTimer = 1;
+            chRTPtr->msgTxCylceTimer = 1u;
         }
 
 #if (STD_ON == CANNM_VER_4_2_2)

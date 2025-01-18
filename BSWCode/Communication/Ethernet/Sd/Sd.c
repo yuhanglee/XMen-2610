@@ -2881,7 +2881,7 @@ static uint32 Sd_CalcServerServiceDelayTime(
     boolean isRxUseMulticast)
 {
     const Sd_ServerTimerType* timerPtr;
-    uint32 seedForRand, tRandom, delayMin, delayMax;
+    uint32 tRandom, delayMin, delayMax;
 
     if (TRUE == isRxUseMulticast)
     {
@@ -4134,7 +4134,7 @@ static Std_ReturnType Sd_BuildStopSubscribeEventgroupEntry(
 static uint32 Sd_CalcClientServiceDelayTime(const Sd_ConsumedEventGroupType* eventHandlerPtr, boolean isRxUseMulticast)
 {
     const Sd_ClientTimerType* timerPtr;
-    uint32 seedForRand, tRandom, delayMin, delayMax;
+    uint32 tRandom, delayMin, delayMax;
 
     if (TRUE == isRxUseMulticast)
     {
@@ -5125,7 +5125,7 @@ static void Sd_ServerServiceDownPhaseHandle(
     const Sd_SoAdSoConGroupType* soAdSoConGroupPtr;
     const Sd_EventHandlerMulticastType* eventHandlerMulticastPtr;
     Sd_ServerServiceRTType* sRtDataPtr;
-    uint32 seedForRand, tRandom, delayMin, delayMax;
+    uint32 tRandom, delayMin, delayMax;
     uint16 soConIdNum;
     uint16 index;
     uint16 eventGroupIdx;
@@ -5571,7 +5571,7 @@ static void Sd_ServerServiceInitialWaitEnter(
     const Sd_ProvidedMethodsType* provideMethodPtr;
     const Sd_SoAdSoConGroupType* soadSoConGroupPtr;
     Sd_ServerServiceRTType* sRtDataPtr;
-    uint32 seedForRand, tRandom, delayMin, delayMax;
+    uint32 tRandom, delayMin, delayMax;
     uint16 soConIdNum;
     uint16 index;
 
@@ -6111,7 +6111,7 @@ static void Sd_ClientServiceInitialWaitEnter(
     Sd_ClientServiceRTType* cRtDataPtr)
 {
     const Sd_ClientTimerType* timerPtr;
-    uint32 seedForRand, tRandom, delayMin, delayMax;
+    uint32 tRandom, delayMin, delayMax;
 
     /* Enter Initial Wait Phase */
     cRtDataPtr->phase = SD_CLIENT_PHASE_INITIAL_WAIT;
@@ -8500,7 +8500,7 @@ static void Sd_TransmitUnicastMessage(
     uint8 numPerAddrKind[SD_MAX_ENTRIES_PER_FRAME];
     uint8 numAllKind;
     Sd_SendQueueType* sendQue[SD_MAX_ENTRIES_PER_FRAME];
-    uint8 sendQueEleList[SD_MAX_ENTRIES_PER_FRAME][SD_MAX_ENTRIES_PER_FRAME] = {0};
+    uint8 sendQueEleList[SD_MAX_ENTRIES_PER_FRAME][SD_MAX_ENTRIES_PER_FRAME] = {{0}};
     PduInfoType pduInfo;
     SoAd_SoConIdType soConId;
     TcpIp_SockAddrType destAddr;

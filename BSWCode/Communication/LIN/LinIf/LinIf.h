@@ -56,7 +56,7 @@
 
 #define LINIF_H_SW_MAJOR_VERSION            2U
 #define LINIF_H_SW_MINOR_VERSION            0U
-#define LINIF_H_SW_PATCH_VERSION            15U
+#define LINIF_H_SW_PATCH_VERSION            19U
 
 /*instance id*/
 #define LINIF_INSTANCE_ID (uint8)0x00

@@ -38,7 +38,6 @@
 *******************************************************************************/
 #include "Com_Internal.h"
 
-#if ((0u < COM_GWMAPPING_NUMBER) && (0u < COM_RXIPDU_NUMBER) && (0u < COM_TXIPDU_NUMBER))
 /*******************************************************************************
 **                      Private Function Declarations                         **
 *******************************************************************************/
@@ -156,7 +155,6 @@ Com_DestSignalTMCCalculate(
     }
     return ret;
 }
-#endif
 #define COM_STOP_SEC_CODE
 #include "Com_MemMap.h"
 #endif /* 0u < COM_GWMAPPING_NUMBER && 0u < COM_RXIPDU_NUMBER && 0u < COM_TXIPDU_NUMBER */

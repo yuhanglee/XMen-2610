@@ -435,7 +435,7 @@ extern FUNC(void, DCM_CODE) Dcm_UDS0x2ACheckNewSession(Dcm_SesCtrlType NewSes);
 extern FUNC(void, DCM_CODE) Dcm_UDS0x2ACheckNewSecurity(void);
 
 #if (DCM_DSP_DDDID_MAX_NUMBER > 0u)
-extern FUNC(void, DCM_CODE) Dcm_UDS0x2A_DDDidStop(uint8 iloop);
+extern FUNC(void, DCM_CODE) Dcm_UDS0x2A_DDDidStop(uint16 iloop);
 #endif /*DCM_DSP_DDDID_MAX_NUMBER > 0u  */
 
 #endif

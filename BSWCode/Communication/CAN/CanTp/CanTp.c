@@ -93,7 +93,7 @@ VAR(uint32, CANTP_VAR_POWER_ON_INIT) CanTp_Timer = 0u;
 #if (STD_ON == CANTP_RX_QUEUE)
 #define CANTP_START_SEC_VAR_NO_INIT_8
 #include "CanTp_MemMap.h"
-CANTP_LOCAL VAR(uint8, CANTP_VAR_NO_INIT) CanTp_RxQueue[CANTP_CHANNEL_NUMBER];
+CANTP_LOCAL VAR(uint8, CANTP_VAR_NOINIT) CanTp_RxQueue[CANTP_CHANNEL_NUMBER];
 #define CANTP_STOP_SEC_VAR_NO_INIT_8
 #include "CanTp_MemMap.h"
 #endif /* STD_ON == CANTP_RX_QUEUE */
@@ -818,8 +818,8 @@ FUNC(void, CANTP_APPL_CODE) CanTp_MainFunction(void)
         }
         for (ChannelId = 0; ChannelId < CanTp_ConfigPtr->ChannelNum; ChannelId++)
         {
-            connectionChannel = &CanTp_Channels[ChannelId];
             index = (tempQueueSize > 0u) ? tempQueue[ChannelId] : ChannelId;
+            connectionChannel = &CanTp_Channels[index];
 #else  /* STD_ON == CANTP_RX_QUEUE */
         for (index = 0; index < CanTp_ConfigPtr->ChannelNum; index++)
         {
@@ -1883,8 +1883,7 @@ CANTP_LOCAL FUNC(void, CANTP_CODE) CanTp_RxSubDealWithFFToUp(
 
     upperpduInfo.MetaDataPtr = data;
     if (((RxNSduCfgPtr->CanTpPduFlag & CANTP_METADATA_LENGTH_MASK) > 0u)
-        && ((CANTP_ADDRESS_EXTENSION_8_MASK == (RxNSduCfgPtr->CanTpPduFlag & CANTP_ADDRESS_EXTENSION_8_MASK))
-            || (CANTP_SA16_AND_TA16_MASK == (RxNSduCfgPtr->CanTpPduFlag & CANTP_SA16_AND_TA16_MASK))))
+        && (CANTP_SA16_AND_TA16_MASK == (RxNSduCfgPtr->CanTpPduFlag & CANTP_SA16_AND_TA16_MASK)))
     {
         CanTp_ConstructForwardRxMetaData(RxchannelPtr, RxNSduCfgPtr, upperpduInfoPtr);
     }
@@ -2124,8 +2123,7 @@ CANTP_LOCAL FUNC(void, CANTP_CODE) CanTp_RxSubDealWithSFToUp(
             }
 #if (CANTP_GENERIC_CONNECTION_SUPPORT == STD_ON)
             if (((RxNSduCfgPtr->CanTpPduFlag & CANTP_METADATA_LENGTH_MASK) > 0u)
-                && ((CANTP_ADDRESS_EXTENSION_8_MASK == (RxNSduCfgPtr->CanTpPduFlag & CANTP_ADDRESS_EXTENSION_8_MASK))
-                    || (CANTP_SA16_AND_TA16_MASK == (RxNSduCfgPtr->CanTpPduFlag & CANTP_SA16_AND_TA16_MASK))))
+                && (CANTP_SA16_AND_TA16_MASK == (RxNSduCfgPtr->CanTpPduFlag & CANTP_SA16_AND_TA16_MASK)))
             {
                 CanTp_ConstructForwardRxMetaData(RxchannelPtr, RxNSduCfgPtr, upperpduInfoPtr);
             }
@@ -2728,7 +2726,7 @@ CANTP_LOCAL FUNC(void, CANTP_CODE) CanTp_TxHandleLargeStart(CanTp_ConnectionChan
                         CanTp_MemorySet(
                             &pduInfo.SduDataPtr[pduInfo.SduLength],
                             CANTP_PADDING_BYTE,
-                            (CAN_DL - pduInfo.SduLength));
+                            (uint16)(CAN_DL - pduInfo.SduLength));
                         pduInfo.SduLength = CAN_DL;
                     }
 #if (CANTP_DYN_ID_SUPPORT == STD_ON)

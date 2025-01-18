@@ -81,7 +81,6 @@
     {                                                           \
         (VersionInfo)->vendorID = E2E_VENDOR_ID;                \
         (VersionInfo)->moduleID = E2E_MODULE_ID;                \
-        (VersionInfo)->instanceID = 0u;                         \
         (VersionInfo)->sw_major_version = E2E_SW_MAJOR_VERSION; \
         (VersionInfo)->sw_minor_version = E2E_SW_MINOR_VERSION; \
         (VersionInfo)->sw_patch_version = E2E_SW_PATCH_VERSION; \

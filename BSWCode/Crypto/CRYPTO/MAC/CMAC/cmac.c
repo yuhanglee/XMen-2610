@@ -51,21 +51,21 @@ FUNC(void, CMAC_CODE) leftshift(int len, uint8* add, uint8* des);
 FUNC(void, CMAC_CODE) ArrayXor(int len, uint8* a1, uint8* a2, uint8* des);
 FUNC(Std_ReturnType, CMAC_CODE)
 LoadMacKey(
-    P2VAR(Crypto_AESData, AUTOMATIC, CRY_APPL_DATA) aes,
-    P2VAR(uint8, AUTOMATIC, CRY_APPL_DATA) key,
-    P2VAR(uint8, AUTOMATIC, CRY_APPL_DATA) IVkey,
-    P2VAR(uint8, AUTOMATIC, CRY_APPL_DATA) k1,
-    P2VAR(uint8, AUTOMATIC, CRY_APPL_DATA) k2);
+    P2VAR(Crypto_AESData, AUTOMATIC, CRYPTO_APPL_DATA) aes,
+    P2VAR(uint8, AUTOMATIC, CRYPTO_APPL_DATA) key,
+    P2VAR(uint8, AUTOMATIC, CRYPTO_APPL_DATA) IVkey,
+    P2VAR(uint8, AUTOMATIC, CRYPTO_APPL_DATA) k1,
+    P2VAR(uint8, AUTOMATIC, CRYPTO_APPL_DATA) k2);
 FUNC(Std_ReturnType, CMAC_CODE)
 internal_GenerateMAC(
-    P2VAR(Crypto_AESData, AUTOMATIC, CRY_APPL_DATA) aes,
+    P2VAR(Crypto_AESData, AUTOMATIC, CRYPTO_APPL_DATA) aes,
     VAR(uint8, AUTOMATIC) len,
-    P2VAR(uint8, AUTOMATIC, CRY_APPL_DATA) add,
-    P2VAR(uint8, AUTOMATIC, CRY_APPL_DATA) macvalue,
-    P2VAR(uint8, AUTOMATIC, CRY_APPL_DATA) Key,
-    P2VAR(uint8, AUTOMATIC, CRY_APPL_DATA) IVKey,
-    P2VAR(uint8, AUTOMATIC, CRY_APPL_DATA) k1,
-    P2VAR(uint8, AUTOMATIC, CRY_APPL_DATA) k2);
+    P2VAR(uint8, AUTOMATIC, CRYPTO_APPL_DATA) add,
+    P2VAR(uint8, AUTOMATIC, CRYPTO_APPL_DATA) macvalue,
+    P2VAR(uint8, AUTOMATIC, CRYPTO_APPL_DATA) Key,
+    P2VAR(uint8, AUTOMATIC, CRYPTO_APPL_DATA) IVKey,
+    P2VAR(uint8, AUTOMATIC, CRYPTO_APPL_DATA) k1,
+    P2VAR(uint8, AUTOMATIC, CRYPTO_APPL_DATA) k2);
 /******************************************************************************/
 /*
  * Brief               This function do left shift for add and des .
@@ -127,11 +127,11 @@ FUNC(void, CMAC_CODE) ArrayXor(int len, uint8* a1, uint8* a2, uint8* des)
 /******************************************************************************/
 FUNC(Std_ReturnType, CMAC_CODE)
 LoadMacKey(
-    P2VAR(Crypto_AESData, AUTOMATIC, CRY_APPL_DATA) aes,
-    P2VAR(uint8, AUTOMATIC, CRY_APPL_DATA) key,
-    P2VAR(uint8, AUTOMATIC, CRY_APPL_DATA) IVkey,
-    P2VAR(uint8, AUTOMATIC, CRY_APPL_DATA) k1,
-    P2VAR(uint8, AUTOMATIC, CRY_APPL_DATA) k2)
+    P2VAR(Crypto_AESData, AUTOMATIC, CRYPTO_APPL_DATA) aes,
+    P2VAR(uint8, AUTOMATIC, CRYPTO_APPL_DATA) key,
+    P2VAR(uint8, AUTOMATIC, CRYPTO_APPL_DATA) IVkey,
+    P2VAR(uint8, AUTOMATIC, CRYPTO_APPL_DATA) k1,
+    P2VAR(uint8, AUTOMATIC, CRYPTO_APPL_DATA) k2)
 {
     Std_ReturnType ret;
     uint8 c0[16];
@@ -182,14 +182,14 @@ LoadMacKey(
 /******************************************************************************/
 FUNC(Std_ReturnType, CMAC_CODE)
 internal_GenerateMAC(
-    P2VAR(Crypto_AESData, AUTOMATIC, CRY_APPL_DATA) aes,
+    P2VAR(Crypto_AESData, AUTOMATIC, CRYPTO_APPL_DATA) aes,
     VAR(uint8, AUTOMATIC) len,
-    P2VAR(uint8, AUTOMATIC, CRY_APPL_DATA) add,
-    P2VAR(uint8, AUTOMATIC, CRY_APPL_DATA) macvalue,
-    P2VAR(uint8, AUTOMATIC, CRY_APPL_DATA) Key,
-    P2VAR(uint8, AUTOMATIC, CRY_APPL_DATA) IVKey,
-    P2VAR(uint8, AUTOMATIC, CRY_APPL_DATA) k1,
-    P2VAR(uint8, AUTOMATIC, CRY_APPL_DATA) k2)
+    P2VAR(uint8, AUTOMATIC, CRYPTO_APPL_DATA) add,
+    P2VAR(uint8, AUTOMATIC, CRYPTO_APPL_DATA) macvalue,
+    P2VAR(uint8, AUTOMATIC, CRYPTO_APPL_DATA) Key,
+    P2VAR(uint8, AUTOMATIC, CRYPTO_APPL_DATA) IVKey,
+    P2VAR(uint8, AUTOMATIC, CRYPTO_APPL_DATA) k1,
+    P2VAR(uint8, AUTOMATIC, CRYPTO_APPL_DATA) k2)
 {
     Std_ReturnType ret;
     int i, block;

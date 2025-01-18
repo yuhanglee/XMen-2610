@@ -48,9 +48,6 @@ static FUNC(Std_ReturnType, DCM_CODE) Dcm_UDS0x14_ConditionCheck(
     P2VAR(Dcm_NegativeResponseCodeType, AUTOMATIC, DCM_VAR) ErrorCode) /* PRQA S 3432 */ /* MISRA Rule 20.7 */
 {
     uint8 MsgCtrlId;
-    uint8 TxChannelCtrlIndex;
-    uint8 TxChannelCfgIndex;
-    uint32 Offset;
     uint32 groupOfDTC;
     Dem_ReturnClearDTCType returnClearDTC;
     Std_ReturnType ret = E_OK; /* PRQA S 2981 */ /* MISRA Rule 2.2 */
@@ -93,10 +90,6 @@ static FUNC(Std_ReturnType, DCM_CODE) Dcm_UDS0x14_ConditionCheck(
         groupOfDTC = (((uint32)(Dcm_MsgCtrl[MsgCtrlId].MsgContext.pReqData[1])) << 16u)
                      | (((uint32)(Dcm_MsgCtrl[MsgCtrlId].MsgContext.pReqData[2])) << 8u)
                      | ((uint32)(Dcm_MsgCtrl[MsgCtrlId].MsgContext.pReqData[3]));
-
-        TxChannelCtrlIndex = Dcm_MsgCtrl[MsgCtrlId].Dcm_TxCtrlChannelIndex;
-        TxChannelCfgIndex = Dcm_ChannelCtrl[TxChannelCtrlIndex].Dcm_ChannelCfgIndex;
-        Offset = (Dcm_DslCfg.pDcmChannelCfg)[TxChannelCfgIndex].offset;
 
         returnClearDTC = Dem_DcmCheckClearParameter(groupOfDTC, DEM_DTC_FORMAT_UDS, DEM_DTC_ORIGIN_PRIMARY_MEMORY);
         switch (returnClearDTC)

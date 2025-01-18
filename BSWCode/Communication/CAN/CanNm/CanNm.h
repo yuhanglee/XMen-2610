@@ -468,7 +468,8 @@ Std_ReturnType CanNm_DisableCommunication(NetworkHandleType nmChannelHandle);
 Std_ReturnType CanNm_EnableCommunication(NetworkHandleType nmChannelHandle);
 #endif /* STD_ON == CANNM_COM_CONTROL_ENABLED */
 
-#if (CANNM_USER_DATA_ENABLED == STD_ON) && (CANNM_PASSIVE_MODE_ENABLED == STD_OFF)
+#if (CANNM_USER_DATA_ENABLED == STD_ON) && (CANNM_COM_USERDATA_SUPPORT == STD_OFF) \
+    && (CANNM_PASSIVE_MODE_ENABLED == STD_OFF)
 /******************************************************************************/
 /*
  * Brief               Set user data for NM PDUs transmitted next on the bus.
@@ -482,6 +483,7 @@ Std_ReturnType CanNm_EnableCommunication(NetworkHandleType nmChannelHandle);
  * Param-Name[in/out]  None
  * Return              E_OK: No error
  *                     E_NOT_OK: Setting of user data has failed
+ * Trace               SWS_CanNm_00327
  */
 /******************************************************************************/
 Std_ReturnType CanNm_SetUserData(NetworkHandleType nmChannelHandle, const uint8* nmUserDataPtr);

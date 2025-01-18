@@ -484,7 +484,7 @@ FUNC(Std_ReturnType, ECUM_CODE) EcuM_RequestPOST_RUN(EcuM_UserType user)
  *               E_NOT_OK: The release request was not accepted by EcuM,
  *                         a detailed error condition was sent to DET (see Error Codes).
  */
-FUNC(Std_ReturnType, ECUM_COE) EcuM_ReleasePOST_RUN(EcuM_UserType user)
+FUNC(Std_ReturnType, ECUM_CODE) EcuM_ReleasePOST_RUN(EcuM_UserType user)
 {
     uint8 uid;
     Std_ReturnType ret = E_OK;

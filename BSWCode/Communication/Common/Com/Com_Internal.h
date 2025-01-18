@@ -638,7 +638,7 @@ extern FUNC(BufReq_ReturnType, COM_CODE) Com_CopyTxDataHandle(
 **********************************************************************/
 /*Called by Com_ReceiveSignal.
  *Receive group signal handle*/
-#if (0u < COM_RXSIGNALGROUP_NUMBER > 0u) && (0u < COM_RXGROUPSIGNAL_NUMBER) && (0u < COM_RXIPDU_NUMBER)
+#if (0u < COM_RXSIGNALGROUP_NUMBER) && (0u < COM_RXGROUPSIGNAL_NUMBER) && (0u < COM_RXIPDU_NUMBER)
 extern FUNC(uint8, COM_CODE)
     Com_ReceiveGroupSignalHandle(Com_SignalIdType SignalId, P2VAR(void, AUTOMATIC, COM_APPL_CONST) SignalDataPtr);
 #endif

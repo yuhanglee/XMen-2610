@@ -306,28 +306,31 @@ typedef uint8 CanTp_FramePCIType;
 #define CANTP_AE_OFFSET_META_MIX 0u
 /*mix29 meta data AE*/
 #define CANTP_AE_OFFSET_META_MIX29 0u
+
 #if (CPU_BYTE_ORDER == HIGH_BYTE_FIRST)
-/*normal fix meta data SA and TA*/
-#define CANTP_SA_OFFSET_META_NF_MSB 3u
-#define CANTP_TA_OFFSET_META_NF_MSB 2u
-/*mix29 meta data SA and TA*/
-#define CANTP_SA_OFFSET_META_MIX29_MSB 3u
-#define CANTP_TA_OFFSET_META_MIX29_MSB 2u
-
-#define CANTP_SA_FOR_DCM_MSB           1u
-#define CANTP_TA_FOR_DCM_MSB           3u
+#define CANTP_SA_OFFSET_META_IF 3u
+#define CANTP_TA_OFFSET_META_IF 2u
 #else
-/*normal fix meta data SA and TA*/
-#define CANTP_SA_OFFSET_META_NF_LSB    0u
-#define CANTP_TA_OFFSET_META_NF_LSB    1u
-/*mix29 meta data SA and TA*/
-#define CANTP_SA_OFFSET_META_MIX29_LSB 0u
-#define CANTP_TA_OFFSET_META_MIX29_LSB 1u
-
-#define CANTP_SA_FOR_DCM_LSB           0u
-#define CANTP_TA_FOR_DCM_LSB           2u
+#define CANTP_SA_OFFSET_META_IF 0u
+#define CANTP_TA_OFFSET_META_IF 1u
 #endif
-#define CANTP_AE_FOR_DCM 4u
+
+#if (CPU_BYTE_ORDER == HIGH_BYTE_FIRST)
+#define CANTP_SA_OFFSET_META_UPPER 1u
+#define CANTP_TA_OFFSET_META_UPPER 3u
+#else
+#define CANTP_SA_OFFSET_META_UPPER 0u
+#define CANTP_TA_OFFSET_META_UPPER 2u
+#endif
+
+#if (CPU_BYTE_ORDER == HIGH_BYTE_FIRST)
+#define CANTP_SA_OFFSET_META_UPPER 1u
+#define CANTP_TA_OFFSET_META_UPPER 3u
+#else
+
+#define CANTP_SA_OFFSET_META_UPPER 0u
+#define CANTP_TA_OFFSET_META_UPPER 2u
+#endif
 
 /*Event flags*/
 #define CANTP_EVENT_RXBSCHANGED      (uint8)0x01

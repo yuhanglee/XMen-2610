@@ -439,7 +439,8 @@ Std_ReturnType UdpNm_DisableCommunication(NetworkHandleType nmChannelHandle);
 Std_ReturnType UdpNm_EnableCommunication(NetworkHandleType nmChannelHandle);
 #endif /* STD_ON == UDPNM_COM_CONTROL_ENABLED */
 
-#if (STD_ON == UDPNM_USER_DATA_ENABLED) && (STD_OFF == UDPNM_PASSIVE_MODE_ENABLED)
+#if (UDPNM_USER_DATA_ENABLED == STD_ON) && (UDPNM_COM_USERDATA_SUPPORT == STD_OFF) \
+    && (UDPNM_PASSIVE_MODE_ENABLED == STD_OFF)
 /******************************************************************************/
 /*
  * Brief               Set user data for all NM messages transmitted on the bus
@@ -454,11 +455,10 @@ Std_ReturnType UdpNm_EnableCommunication(NetworkHandleType nmChannelHandle);
  * Param-Name[in/out]  None
  * Return              E_OK: No error
  *                     E_NOT_OK: Setting of user data has failed.
+ * Trace               SWS_UdpNm_00312
  */
 /******************************************************************************/
-Std_ReturnType UdpNm_SetUserData(
-    NetworkHandleType nmChannelHandle,
-    P2CONST(uint8, AUTOMATIC, UDPNM_APPL_DATA) nmUserDataPtr);
+Std_ReturnType UdpNm_SetUserData(NetworkHandleType nmChannelHandle, const uint8* nmUserDataPtr);
 #endif
 
 #if (STD_ON == UDPNM_USER_DATA_ENABLED)

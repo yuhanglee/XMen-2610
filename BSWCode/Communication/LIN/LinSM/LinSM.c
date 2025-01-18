@@ -50,7 +50,7 @@
  *   1> Resolves an exception that is raised when LinSMConfirmationTimeout is
  *   set to 0(JIRA:PRD0042022-590)
  * V2.0.6      20231123   sunshengnan   Performance optimization.
- * V2.0.7      20231204   sunshengnan   LinSM is UNINIT，NetworkHandle is NULL_PTR
+ * V2.0.7      20231204   sunshengnan   LinSM is UNINIT, NetworkHandle is NULL_PTR
  * V2.0.8      20240227   sunshengnan   QAC_PH_2024 check.
  * V2.0.9      20240710   liucaihong     Remove the LINSM_GOTOSLEEP_TIMER requirement
  */

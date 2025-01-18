@@ -631,14 +631,14 @@ TCPIP_LOCAL FUNC(uintx, TCPIP_CODE) TcpIp_CloseAllSocket(VAR(uint8, AUTOMATIC) c
  * @param pcbPtr the new connection pcb
  * @return TcpIp_SocketHandleType *,is not null,meas malloc ok,another is failed
  */
-// *INDENT-OFF*
+/* *INDENT-OFF* */
 TCPIP_LOCAL FUNC_P2VAR(TcpIp_SocketHandleType, AUTOMATIC, TCPIP_CODE) TcpIp_MallocTcpSocketIdByPcb(
     TcpIp_SocketHandleType* socketMngPtr,
     /* PRQA S 3673++ */ /* MISRA Rule 8.13 */
     struct tcp_pcb* pcbPtr
     /* PRQA S 3673-- */ /* MISRA Rule 8.13 */
 )
-// *INDENT-ON*
+/* *INDENT-ON* */
 {
     TcpIp_SocketHandleType* newSocketMngPtr = NULL_PTR;
 

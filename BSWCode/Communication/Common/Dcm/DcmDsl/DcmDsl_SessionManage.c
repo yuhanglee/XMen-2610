@@ -216,6 +216,19 @@ FUNC(void, DCM_CODE) DslInternal_S3ServerTimeout(void) /* PRQA S 1532 */ /* MISR
     Dcm_SesCtrl.Dcm_NewSes = DCM_DEFAULT_SESSION;
     SchM_Exit_Dcm(Dcm_SesCtrl);
     DslInternal_SesRefresh(Dcm_SesCtrl.Dcm_NewSes);
+
+    /************************************************************
+     * The session state from the default to the default,
+     * specific needs to be done temporarily unclear, to be added
+     ************************************************************/
+#if DCM_DELAY_COMM_INACTIVE
+    if (DCM_S3TIMER_ON == Dcm_SesCtrl.Dcm_S3Ctrl.Dcm_S3State)
+    {
+        /*Notice ComM exit "FULL Communication"*/
+        ComM_DCM_InactiveDiagnostic(Dcm_MkCtrl.Dcm_ActiveNetwork);
+        Dcm_MkCtrl.Dcm_ActiveNetwork = DCM_INVALID_UINT8;
+    }
+#endif
     /***stop S3Timer***/
     DslInternal_S3ServerStop();
 }
@@ -404,21 +417,6 @@ static FUNC(void, DCM_CODE) DslInternal_DefaultToDefault(Dcm_SesCtrlType NewSes)
     DslInternal_SetSesCtrlType(NewSes);
 
     DslInternal_SetSesTimingValues(NewSes);
-    /************************************************************
-     * The session state from the default to the default,
-     * specific needs to be done temporarily unclear, to be added
-     ************************************************************/
-
-#if DCM_DELAY_COMM_INACTIVE
-    if (DCM_S3TIMER_ON == Dcm_SesCtrl.Dcm_S3Ctrl.Dcm_S3State)
-    {
-        /*Notice ComM exit "FULL Communication"*/
-        ComM_DCM_InactiveDiagnostic(Dcm_MkCtrl.Dcm_ActiveNetwork);
-        SchM_Enter_Dcm(Dcm_MkCtrl);
-        Dcm_MkCtrl.Dcm_ActiveNetwork = DCM_INVALID_UINT8;
-        SchM_Exit_Dcm(Dcm_MkCtrl);
-    }
-#endif
 }
 #define DCM_STOP_SEC_CODE
 #include "Dcm_MemMap.h"
@@ -539,6 +537,7 @@ static FUNC(void, DCM_CODE) DslInternal_UndefaultTodefault(Dcm_SesCtrlType NewSe
     Rte_EnableAllDtcsRecord();
 #endif
 
+#if !DCM_DELAY_COMM_INACTIVE
     /*Notice Comm Module exit "Full Communication"*/
     ComM_DCM_InactiveDiagnostic(NetworkChannel);
     /************************************************************
@@ -547,6 +546,7 @@ static FUNC(void, DCM_CODE) DslInternal_UndefaultTodefault(Dcm_SesCtrlType NewSe
      ************************************************************/
     /*this is add for FOTA,when download is break,notifi FOTA*/
     (void)DslInternal_ProtocolStop(Dcm_MkCtrl.Dcm_ActiveProtocolCfgCtrlId);
+#endif
 }
 #define DCM_STOP_SEC_CODE
 #include "Dcm_MemMap.h"

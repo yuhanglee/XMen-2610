@@ -76,6 +76,8 @@
  *  V2.1.22      2024-06-03  hao.wen      Fix calculation currentBS error, CPT-9136
  *               2024-09-24  xue.han      CPT-10450，fix PduR_CanTpTxConfirmation call repeated
  *                                        CPT-10075，fix STmin range from 0 to 127
+ *               2024-10-23  xue.han      CPT-10607, fix metadata transmition
+ *               2024-12-03  xue.han      CPT-11771, fix CanTp QueueProcess
  */
 /*============================================================================*/
 

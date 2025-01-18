@@ -68,7 +68,7 @@ typedef struct Crypto_CtrDrbgData
     int reseed_interval;       /*!< The reseed interval. */
     Crypto_AESData aes_ctx;    /*!< The AES context. */
     void* p_entropy;           /*!< The context for the entropy function. */
-    Std_ReturnType (*f_entropy)(void*, P2VAR(uint8, AUTOMATIC, CRY_APPL_DATA), uint32);
+    Std_ReturnType (*f_entropy)(void*, P2VAR(uint8, AUTOMATIC, CRYPTO_APPL_DATA), uint32);
 } Crypto_CtrDrbgData;
 
 typedef int (*entropy_f_source_ptr)(void* data, unsigned char* output, uint32 len, uint32* olen);
@@ -96,21 +96,21 @@ typedef struct
 
 } Crypto_entropy_context;
 
-FUNC(Std_ReturnType, CRY_CODE)
+FUNC(Std_ReturnType, CRYPTO_CODE)
 Crypto_ctr_drbg_seed(
-    P2VAR(Crypto_CtrDrbgData, AUTOMATIC, CRY_APPL_DATA) ctx,
+    P2VAR(Crypto_CtrDrbgData, AUTOMATIC, CRYPTO_APPL_DATA) ctx,
     Std_ReturnType (*f_entropy)(void*, uint8*, uint32),
-    P2VAR(Crypto_entropy_context, AUTOMATIC, CRY_APPL_DATA) p_entropy,
+    P2VAR(Crypto_entropy_context, AUTOMATIC, CRYPTO_APPL_DATA) p_entropy,
     const uint8* custom,
     uint32 len);
 /* PRQA S 1336 */ /* MISRA Rule 8.2 */
 
-FUNC(Std_ReturnType, CRY_CODE)
-Crypto_ctr_drbg_random(void* p_rng, P2VAR(uint8, AUTOMATIC, CRY_APPL_DATA) output, uint32 output_len);
+FUNC(Std_ReturnType, CRYPTO_CODE)
+Crypto_ctr_drbg_random(void* p_rng, P2VAR(uint8, AUTOMATIC, CRYPTO_APPL_DATA) output, uint32 output_len);
 
-FUNC(Std_ReturnType, CRY_CODE) Crypto_entropy_func(void* data, uint8* output, uint32 len);
+FUNC(Std_ReturnType, CRYPTO_CODE) Crypto_entropy_func(void* data, uint8* output, uint32 len);
 
-FUNC(Std_ReturnType, CRY_CODE) Crypto_CtrDrbg(uint8 key[16], uint8 buf[16]);
+FUNC(Std_ReturnType, CRYPTO_CODE) Crypto_CtrDrbg(uint8 key[16], uint8 buf[16]);
 
 void Crypto_ctr_drbg_init(Crypto_CtrDrbgData* ctx);
 #endif /* CRYPTO_ALGORITHM_CTRG == STD_ON */

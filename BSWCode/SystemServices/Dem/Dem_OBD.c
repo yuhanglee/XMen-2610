@@ -1666,7 +1666,7 @@ Dem_DcmReadDataOfOBDFreezeFrame(uint8 PID, uint8 DataElementIndexOfPID, uint8* D
                 const Dem_DTCAttributesType* pDTCAttr = &DemPbCfgPtr->DemDTCAttributes[pDTC->DemDTCAttributesRef];
                 if (((ObdDTCRef != DEM_OBD_DTC_INVALID)
                      && ((DemPbCfgPtr->DemObdDTC[ObdDTCRef].DemDtcValue != DEM_OBD_DTC_CFG_INVALID)))
-                    && (pDTCAttr->DemFreezeFrameClassRef == DEM_FREEZE_FRAME_INVALID)
+                    && (pDTCAttr != NULL_PTR) && (pDTCAttr->DemFreezeFrameClassRef == DEM_FREEZE_FRAME_INVALID)
                     && (pDTCAttr->DemWWHOBDFreezeFrameClassRef == DEM_WWHOBD_FREEZE_FRAME_INVALID)
                     && (pDTCAttr->DemJ1939FreezeFrameClassRef == DEM_J1939_FREEZE_FRAME_INVALID)
                     && (pDTCAttr->DemJ1939ExpandedFreezeFrameClassRef == DEM_J1939_FREEZE_FRAME_INVALID))

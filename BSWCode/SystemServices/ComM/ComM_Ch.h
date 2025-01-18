@@ -90,7 +90,7 @@ void ComM_ChInit(const ComM_ChannelConfigType* channelConfigPtr, uint32 chNum);
 FUNC(void, COMM_CODE)
 ComM_ChGetState(uintx chIdx, ComM_StateType* chStu);
 
-void ComM_ChGetMaxAllowMode(uintx chIdx, ComM_ModeType* chMode);
+ComM_ModeType ComM_ChGetMaxAllowMode(uintx chIdx);
 
 FUNC(Std_ReturnType, COMM_CODE)
 ComM_ChGetCurrentComMode(uintx chIdx, ComM_ModeType* ComMode);

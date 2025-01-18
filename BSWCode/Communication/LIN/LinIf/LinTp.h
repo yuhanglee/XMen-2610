@@ -47,7 +47,7 @@
 *******************************************************************************/
 #define LINTP_H_SW_MAJOR_VERSION 2U
 #define LINTP_H_SW_MINOR_VERSION 0U
-#define LINTP_H_SW_PATCH_VERSION 13U
+#define LINTP_H_SW_PATCH_VERSION 15U
 
 #if (LINIF_DEV_ERROR_DETECT == STD_ON)
 #define LINTP_INIT_ID            (uint8)0x40

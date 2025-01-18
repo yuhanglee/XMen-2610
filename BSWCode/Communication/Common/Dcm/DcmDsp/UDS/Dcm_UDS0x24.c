@@ -61,7 +61,7 @@ static FUNC(Std_ReturnType, DCM_CODE)
     DspInternalUDS0x24_DidCheck(uint16 receiveDid, P2VAR(uint16, AUTOMATIC, DCM_VAR_NOINIT) pDidCfgIndex)
 /* PRQA S 3432-- */ /* MISRA Rule 20.7 */
 {
-    uint8 Index;
+    uint16 Index;
     Std_ReturnType ret = E_NOT_OK;
 
     for (Index = 0; (Index < Dcm_DspCfg.DcmDspDidNum) && (E_NOT_OK == ret); Index++)
@@ -220,8 +220,8 @@ Dcm_UDS0x24(
 #if (STD_ON == DCM_DSP_DID_FUNC_ENABLED)
     uint16 DidCfgIndex;
     uint16 RecDid;
-    uint8 SignalNum;
-    uint8 iloop;
+    uint16 SignalNum;
+    uint16 iloop;
     P2CONST(Dcm_DspDidSignalType, TYPEDEF, DCM_CONST) pDcmDspDidSignal;
     uint32 DidSignalPos = 0;
     uint32 ResOffset;

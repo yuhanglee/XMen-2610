@@ -330,7 +330,7 @@ extern FUNC(Std_ReturnType, ETHTRCV_CODE)
 /******************************************************************************/
 extern FUNC(Std_ReturnType, ETHTRCV_CODE) EthTrcv_GetTransceiverWakeupMode(
     uint8 TrcvIdx,
-    P2VAR(EthTrcv_WakeupModeType, AUTOMATIC, _APPL_DATA) TrcvWakeupModePtr);
+    P2VAR(EthTrcv_WakeupModeType, AUTOMATIC, ETHTRCV_APPL_DATA) TrcvWakeupModePtr);
 
 /******************************************************************************/
 /*
@@ -507,7 +507,7 @@ EthTrcv_GetPhyIdentifier(uint8 TrcvIdx, uint32* OrgUniqueIdPtr, uint8* ModelNrPt
  */
 /******************************************************************************/
 extern FUNC(void, ETHTRCV_CODE)
-    EthTrcv_GetVersionInfo(P2VAR(Std_VersionInfoType, AUTOMATIC, _APPL_DATA) VersionInfoPtr);
+    EthTrcv_GetVersionInfo(P2VAR(Std_VersionInfoType, AUTOMATIC, ETHTRCV_APPL_DATA) VersionInfoPtr);
 #endif /* ETHTRCV_VERSION_INFO_API == STD_ON */
 
 #endif /* ETHTRCV_H_ */

@@ -539,7 +539,6 @@ BswM_GetVersionInfo(P2VAR(Std_VersionInfoType, AUTOMATIC, BSWM_APPL_DATA) Versio
     {
         VersionInfo->moduleID = BSWM_MODULE_ID;
         VersionInfo->vendorID = BSWM_VENDOR_ID;
-        VersionInfo->instanceID = BSWM_INSTANCE_ID;
         VersionInfo->sw_major_version = BSWM_SW_MAJOR_VERSION;
         VersionInfo->sw_minor_version = BSWM_SW_MINOR_VERSION;
         VersionInfo->sw_patch_version = BSWM_SW_PATCH_VERSION;

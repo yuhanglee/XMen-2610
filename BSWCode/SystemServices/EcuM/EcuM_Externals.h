@@ -406,7 +406,7 @@ EcuM_StopWakeupSources(EcuM_WakeupSourceType wakeupSource);
  * Return              uint32: Current timestamp in milliseconds.
  */
 /******************************************************************************/
-FUNC(uint32, EcuM_CurrentTimestampMS_CODE) EcuM_CurrentTimestampMS(void);
+FUNC(uint32, ECUM_CURRENTTIMESTAMPMS_CODE) EcuM_CurrentTimestampMS(void);
 
 /******************************************************************************/
 /*

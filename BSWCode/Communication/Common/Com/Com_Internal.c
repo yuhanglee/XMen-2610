@@ -514,7 +514,7 @@ Com_TxSignalPackHandle(
         bufPtr[0u] |= (IPduBufferPtr[sigLsbBytePos] & (COM_UNUSED_UINT8 >> (8u - lsbPosInByte)));
         SchM_Exit_Com_Context();
         /* MSB Byte*/
-        msbByteBitSize = (uint8)(lsbPosInByte + (bitSize & 0x07u));
+        msbByteBitSize = (uint8)((lsbPosInByte + bitSize) & 0x07u);
         if (0u != msbByteBitSize)
         {
             msbByteHighBitMask = (uint8)(COM_UNUSED_UINT8 << msbByteBitSize);

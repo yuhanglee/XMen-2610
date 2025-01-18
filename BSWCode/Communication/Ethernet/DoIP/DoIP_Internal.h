@@ -534,9 +534,11 @@ static inline void DOIP_DET_REPORT(uint8 ApiId, uint8 ErrorId) /* PRQA S 3219 */
 static inline boolean DOIP_GENERICHEADER_CHECK(const uint8* dataPtr, PduLengthType SduLength)
 /* PRQA S 3219-- */ /* MISRA Rule 2.1 */
 {
+    uint8 temp = dataPtr[0] ^ 0xffu;
+
     return (
-        (((dataPtr)[0] == 1u) || ((dataPtr)[0] == 2u) || ((dataPtr)[0] == 0xffu))
-        && ((((dataPtr)[0]) ^ 0xffu) == ((dataPtr)[1])) && ((SduLength) >= DOIP_GENERIC_HEADER_LEN));
+        ((dataPtr[0] == 1u) || (dataPtr[0] == 2u) || (dataPtr[0] == 0xffu)) && (temp == dataPtr[1])
+        && (SduLength >= DOIP_GENERIC_HEADER_LEN));
 }
 
 static inline uint16 DOIP_U8_2_U16(const uint8* array) /* PRQA S 3219 */ /* MISRA Rule 2.1 */
@@ -1228,7 +1230,7 @@ static inline FUNC(Std_ReturnType, DOIP_CODE)
     /* PRQA S 1505++ */ /* MISRA Rule 8.7 */
     DoIP_TriggerTpTransmit(
         VAR(PduIdType, AUTOMATIC) txPduId,
-        P2CONST(PduInfoType, AUTOMATIC, SOAD_APPL_CONST) pduInfo,
+        P2CONST(PduInfoType, AUTOMATIC, DOIP_APPL_CONST) pduInfo,
         TxChannelCtrlType* txCtrl,
         DoIP_TpTransmitMessageType txMsgType)
 /* PRQA S 1505-- */ /* MISRA Rule 8.7 */

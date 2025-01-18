@@ -152,8 +152,10 @@ static FUNC(void, LINIF_CODE)
 static FUNC(void, LINIF_CODE)
     LinIf_SlaveMRFRxHandle(NetworkHandleType ch, P2CONST(uint8, AUTOMATIC, LINIF_APPL_DATA) Lin_SduPtr);
 
+#if (LINIF_NC_OPTIONAL_REQUEST_SUPPORTED == STD_ON)
 static FUNC(Std_ReturnType, LINIF_CODE)
     LinIf_SlaveNcAssignNAD(NetworkHandleType ch, P2CONST(uint8, AUTOMATIC, LINIF_APPL_DATA) Lin_SduPtr);
+#endif
 
 static FUNC(Std_ReturnType, LINIF_CODE)
     LinIf_SlaveNcReadbyIdentifier(NetworkHandleType ch, P2CONST(uint8, AUTOMATIC, LINIF_APPL_DATA) Lin_SduPtr);
@@ -1300,43 +1302,53 @@ static FUNC(void, LINIF_CODE)
     {
 #if (LINTP_SLAVE_SUPPORT == STD_ON)
         if (((0x06u == Lin_SduPtr[LINIF_NC_PCI_POS])
-             && ((LINIF_NC_SID_ASSIGNNAD == Lin_SduPtr[LINIF_NC_SID_POS])
-                 || (LINIF_NC_SID_ASSIGNFRAMEIDRANGE == Lin_SduPtr[LINIF_NC_SID_POS])
+             && (
+#if (LINIF_NC_OPTIONAL_REQUEST_SUPPORTED == STD_ON)
+                 (LINIF_NC_SID_ASSIGNNAD == Lin_SduPtr[LINIF_NC_SID_POS]) ||
+#endif
+                 (LINIF_NC_SID_ASSIGNFRAMEIDRANGE == Lin_SduPtr[LINIF_NC_SID_POS])
                  || ((LINIF_NC_SID_READBYIDENTIFIER == Lin_SduPtr[LINIF_NC_SID_POS])
                      && ((0u == Lin_SduPtr[LINIF_NC_DATA1_POS]) || (2u == Lin_SduPtr[LINIF_NC_DATA1_POS])))))
             || ((0x01u == Lin_SduPtr[LINIF_NC_PCI_POS])
                 && (LINIF_NC_SID_SAVECONFIGURATION == Lin_SduPtr[LINIF_NC_SID_POS])))
         {
             /* If LinTp response is pending,receive NC request,cancel TP process */
-            LinTp_SlaveInit();
-        }
+            LinTp_SlavePreInit(ch - LINIF_MASTER_CHANNEL_NUMBER);
 #endif /* LINTP_SLAVE_SUPPORT == STD_ON */
-        switch (Lin_SduPtr[LINIF_NC_SID_POS])
-        {
-        case LINIF_NC_SID_ASSIGNNAD:
-            ret = LinIf_SlaveNcAssignNAD(ch, Lin_SduPtr);
-            break;
 
-        case LINIF_NC_SID_READBYIDENTIFIER:
-            ret = LinIf_SlaveNcReadbyIdentifier(ch, Lin_SduPtr);
-            break;
+            switch (Lin_SduPtr[LINIF_NC_SID_POS])
+            {
+#if (LINIF_NC_OPTIONAL_REQUEST_SUPPORTED == STD_ON)
+            case LINIF_NC_SID_ASSIGNNAD:
+                ret = LinIf_SlaveNcAssignNAD(ch, Lin_SduPtr);
+                break;
+#endif
 
-        case LINIF_NC_SID_SAVECONFIGURATION:
-            ret = LinIf_SlaveNcSaveConfiguration(ch, Lin_SduPtr);
-            break;
+            case LINIF_NC_SID_READBYIDENTIFIER:
+                ret = LinIf_SlaveNcReadbyIdentifier(ch, Lin_SduPtr);
+                break;
 
-        case LINIF_NC_SID_ASSIGNFRAMEIDRANGE:
-            ret = LinIf_SlaveNcAssignFrameIdRange(ch, Lin_SduPtr);
-            break;
+            case LINIF_NC_SID_SAVECONFIGURATION:
+                ret = LinIf_SlaveNcSaveConfiguration(ch, Lin_SduPtr);
+                break;
 
-        default:
+            case LINIF_NC_SID_ASSIGNFRAMEIDRANGE:
+                ret = LinIf_SlaveNcAssignFrameIdRange(ch, Lin_SduPtr);
+                break;
+
+            default:
+                break;
+            }
+
 #if (LINTP_SLAVE_SUPPORT == STD_ON)
+        }
+        else
+        {
             tpFlag = TRUE;
             LinTp_SlaveMRFIndication(ch, Lin_SduPtr);
             LinIf_SlaveResetRtData(ch);
-#endif
-            break;
         }
+#endif /* LINTP_SLAVE_SUPPORT == STD_ON */
 
         /*@req <SWS_LinIf_00734> */
         if ((!tpFlag) && (E_OK == ret))
@@ -1363,6 +1375,7 @@ static FUNC(void, LINIF_CODE)
  *                               the request is not successfully processed.
  */
 /******************************************************************************/
+#if (LINIF_NC_OPTIONAL_REQUEST_SUPPORTED == STD_ON)
 static FUNC(Std_ReturnType, LINIF_CODE)
     LinIf_SlaveNcAssignNAD(NetworkHandleType ch, P2CONST(uint8, AUTOMATIC, LINIF_APPL_DATA) Lin_SduPtr)
 {
@@ -1384,11 +1397,8 @@ static FUNC(Std_ReturnType, LINIF_CODE)
     functionID = (functionID << 8) | Lin_SduPtr[LINIF_NC_DATA3_POS];
     /*@req <SWS_LinIf_00771> */
     /* Check if valid node configuration request */
-    if (((ncIdentifi->LinIfInitialNAD == nad) || (LINIF_NC_WILDCARD_NAD == nad))
-        && (!(
-            (ncIdentifi->LinIfInitialNAD == newNAD)
-            && (newNAD == LinIf_SlaveConfiguredNAD[ch - LINIF_MASTER_CHANNEL_NUMBER])))
-        && (6u == pci) && ((ncIdentifi->LinIfSupplierId == supplierID) || (LINIF_NC_WILDCARD_SUPPLIERID == supplierID))
+    if (((ncIdentifi->LinIfInitialNAD == nad) || (LINIF_NC_WILDCARD_NAD == nad)) && (6u == pci)
+        && ((ncIdentifi->LinIfSupplierId == supplierID) || (LINIF_NC_WILDCARD_SUPPLIERID == supplierID))
         && ((ncIdentifi->LinIfFunctionId == functionID) || (LINIF_NC_WILDCARD_FUNCTIONID == functionID)))
     {
         /*@req <SWS_LinIf_00779> */
@@ -1415,6 +1425,7 @@ static FUNC(Std_ReturnType, LINIF_CODE)
 
     return ret;
 }
+#endif
 
 /******************************************************************************/
 /*
@@ -1565,14 +1576,18 @@ static FUNC(Std_ReturnType, LINIF_CODE)
  *                               the request is not successfully processed.
  */
 /******************************************************************************/
-static FUNC(Std_ReturnType, LINIF_CODE)
-    LinIf_SlaveNcAssignFrameIdRange(NetworkHandleType ch, P2CONST(uint8, AUTOMATIC, LINIF_APPL_DATA) Lin_SduPtr)
+static FUNC(Std_ReturnType, LINIF_CODE) LinIf_SlaveNcAssignFrameIdRange(
+    NetworkHandleType ch,
+    P2CONST(uint8, AUTOMATIC, LINIF_APPL_DATA) Lin_SduPtr /* PRQA S 3432 */
+)
 {
     P2CONST(LinIf_FrameType, AUTOMATIC, LINIF_APPL_CONST) framePtr;
+    /* PRQA S 3432 ++ */ /* MISRA Rule 20.7 */
     P2VAR(uint8, AUTOMATIC, LINIF_APPL_DATA)
     pidTablePtr = LINIF_GET_CHANNEL_PIDTABLE(ch);
     P2VAR(LinIf_SlaveRuntimeType, AUTOMATIC, LINIF_VAR)
     slaveRTDataPtr = LINIF_GET_SLAVE_RTDATA_PTR(ch);
+    /* PRQA S 3432 -- */ /* MISRA Rule 20.7 */
     uint16 frmIdx;
     uint16 frmNumMax;
     uint8 pidTableBak[4u];
@@ -1598,9 +1613,9 @@ static FUNC(Std_ReturnType, LINIF_CODE)
                 /* Assign frame ID range can set PIDs up to four frames.*/
                 for (assignPidIdx = 0u; assignPidIdx < 4u; assignPidIdx++)
                 {
-                    boolean flag = FALSE;
+                    boolean breakFlag = FALSE;
                     pid = Lin_SduPtr[LINIF_NC_DATA2_POS + assignPidIdx];
-                    if (!((0xFFu != pid) && ((frmIdx + assignPidIdx) >= frmNumMax)))
+                    if ((0xFFu != pid) && ((frmIdx + assignPidIdx) < frmNumMax))
                     {
                         /* Save the original PidTable value and restore it if Settings fail */
                         pidTableBak[assignPidIdx] = pidTablePtr[frmIdx + assignPidIdx];
@@ -1611,12 +1626,7 @@ static FUNC(Std_ReturnType, LINIF_CODE)
                             && (pidTablePtr[frmIdx + assignPidIdx] != 0xFEu)
                             && (pidTablePtr[frmIdx + assignPidIdx] != 0xBFu))
                         {
-                            /* 0xFF means 'do not care',should keep the previous
-                             * assigned value.*/
-                            if (0xFFu != pid)
-                            {
-                                pidTablePtr[frmIdx + assignPidIdx] = pid;
-                            }
+                            pidTablePtr[frmIdx + assignPidIdx] = pid;
                         }
                         else
                         {
@@ -1624,15 +1634,20 @@ static FUNC(Std_ReturnType, LINIF_CODE)
                             /* Frames with frame identifiers 0x3C to 0x3F shall not
                                be changed: 0x3C(PID:0x3C) 0x3D(PID:0x7D) 0x3E(PID:0xFE)
                                0x3F(PID:0xBF) */
-                            flag = TRUE;
+                            breakFlag = TRUE;
                         }
                     }
                     else
                     {
-                        /* Out of bound */
-                        flag = TRUE;
+                        /* If pid is 0xFF(means 'do not care'), process the next one */
+                        /* If out of bound,shall reject the request message */
+                        if ((frmIdx + assignPidIdx) >= frmNumMax)
+                        {
+                            breakFlag = TRUE;
+                        }
                     }
-                    if (flag)
+
+                    if (breakFlag)
                     {
                         break;
                     }
@@ -1653,7 +1668,11 @@ static FUNC(Std_ReturnType, LINIF_CODE)
                     /* Restore saved PidTable value */
                     for (restoreIdx = 0u; restoreIdx < assignPidIdx; restoreIdx++)
                     {
-                        pidTablePtr[frmIdx + restoreIdx] = pidTableBak[restoreIdx];
+                        pid = Lin_SduPtr[LINIF_NC_DATA2_POS + restoreIdx];
+                        if (0xFFu != pid)
+                        {
+                            pidTablePtr[frmIdx + restoreIdx] = pidTableBak[restoreIdx];
+                        }
                     }
                 }
 

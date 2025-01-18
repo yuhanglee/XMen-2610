@@ -52,7 +52,7 @@
 #define COM_H_AR_PATCH_VERSION    2u
 #define COM_H_SW_MAJOR_VERSION    2u
 #define COM_H_SW_MINOR_VERSION    0u
-#define COM_H_SW_PATCH_VERSION    17u
+#define COM_H_SW_PATCH_VERSION    23u
 
 #define COM_SERVICE_NOT_AVAILABLE ((uint8)0x80u)
 #define COM_BUSY                  ((uint8)0x81u)

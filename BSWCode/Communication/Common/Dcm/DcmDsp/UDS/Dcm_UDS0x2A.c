@@ -83,13 +83,11 @@ typedef struct
     boolean DDDid;
 } DidRxQueueTypes;
 
-#if (DCM_DSP_MAX_PERIODIC_DID_TO_READ != 0xFFFFu)
 #define DCM_START_SEC_VAR_NO_INIT_UNSPECIFIED
 #include "Dcm_MemMap.h"
 static VAR(DidRxQueueTypes, DCM_VAR_NOINIT) DidRxQueue[DCM_DSP_MAX_PERIODIC_DID_TO_READ];
 #define DCM_STOP_SEC_VAR_NO_INIT_UNSPECIFIED
 #include "Dcm_MemMap.h"
-#endif
 
 #if (DCM_DSP_DDDID_MAX_NUMBER > 0u)
 /*************************************************************************/
@@ -113,14 +111,14 @@ static FUNC(Std_ReturnType, DCM_CODE) DspInternalUDS0x2A_DDDid_Read_Data_Did(
     P2CONST(Dcm_DDDidElementsDataTypes, TYPEDEF, DCM_CONST) DDDid,
     P2VAR(uint8, AUTOMATIC, AUTOMATIC) Data) /* PRQA S 3432 */ /* MISRA Rule 20.7 */
 {
-    uint8 DidSignalIndex;
-    uint8 DidSignalNum;
+    uint16 DidSignalIndex;
+    uint16 DidSignalNum;
     P2CONST(Dcm_DspDataType, TYPEDEF, DCM_CONST) pDspDidData;
     Std_ReturnType ret = E_OK;
     uint8 NewData[DCM_TEMP_BUFFER_LENGTH] = {0};
     uint16 Did;
     uint8 Pos;
-    uint8 Index;
+    uint16 Index;
     uint16 pDidCfgIndex;
     uint16 DidSignalPos = 0;
     uint16 Size = 0;
@@ -208,8 +206,9 @@ static FUNC(Std_ReturnType, DCM_CODE)
     Std_ReturnType ret = E_OK;
     const Dcm_DDDidElementsDataTypes* DDDid;
     uint8 DDDidNum;
-    uint8 iloop;
-    uint8 DDDidIndex;
+    uint8 index;
+    uint16 iloop;
+    uint16 DDDidIndex;
     uint8 IdInfoIndex;
     uint8 RangeInfoIndex;
     const Dcm_DspReadMemoryRangeInfoType* pDcmDspReadMemoryRangeInfo;
@@ -233,9 +232,9 @@ static FUNC(Std_ReturnType, DCM_CODE)
     {
         SchedulerQueue[SchedulerQueueIndex].Length = 0;
         DDDidNum = Dcm_DDDid[DDDidIndex].DDDIDNumOfElements;
-        for (iloop = 0; iloop < DDDidNum; iloop++)
+        for (index = 0; index < DDDidNum; index++)
         {
-            DDDid = &Dcm_DDDid[DDDidIndex].DcmDspAlternativeArgumentData[iloop];
+            DDDid = &Dcm_DDDid[DDDidIndex].DcmDspAlternativeArgumentData[index];
             Data = &(SchedulerQueue[SchedulerQueueIndex].Data[SchedulerQueue[SchedulerQueueIndex].Length + 1u]);
             if (DDDid->Subfunction == DCM_UDS0X2C_01_DDBYDID)
             {
@@ -313,12 +312,12 @@ static FUNC(Std_ReturnType, DCM_CODE)
 static FUNC(Std_ReturnType, DCM_CODE) DspInternalUDS0x2A_Did_Read_Data(uint16 SchedulerQueueIndex)
 {
     uint16 DidSignalPos = 0;
-    uint8 DidSignalIndex;
-    uint8 DidSignalNum;
+    uint16 DidSignalIndex;
+    uint16 DidSignalNum;
     P2CONST(Dcm_DspDataType, TYPEDEF, DCM_CONST) pDspDidData;
     Std_ReturnType ret = E_NOT_OK;
     uint16 Size;
-    uint8 Index;
+    uint16 Index;
     boolean Flag = FALSE;
     uint16 DidCfgIndex = 0;
     Dcm_NegativeResponseCodeType ErrorCode;
@@ -408,7 +407,8 @@ static FUNC(Std_ReturnType, DCM_CODE) DspInternalUDS0x2A_Did_Read_Data(uint16 Sc
 #include "Dcm_MemMap.h"
 FUNC(void, DCM_CODE) Dcm_Scheduler_0x2A_Init(void) /* PRQA S 1532 */ /* MISRA Rule 8.7 */
 {
-    uint16 Index;
+    /* DcmDspMaxPeriodicDidScheduler range:1-255 */
+    uint8 Index;
     for (Index = 0; Index < DCM_DSP_MAX_PERIODIC_DID_SCHEDULER; Index++)
     {
         SchedulerQueue[Index].Did = 0;
@@ -682,18 +682,18 @@ FUNC(void, DCM_CODE) Dcm_MainFunction_Scheduler_0x2A(uint8 ProtocolCtrlId) /* PR
 static Std_ReturnType DspInternalUDS0x2A_DidCheck(
     uint16 RecDid,
     /* PRQA S 3432++ */ /* MISRA Rule 20.7 */
-    P2VAR(uint8, AUTOMATIC, AUTOMATIC) pDidCfgIndex
+    P2VAR(uint16, AUTOMATIC, AUTOMATIC) pDidCfgIndex
 #if (DCM_DSP_DDDID_MAX_NUMBER > 0u)
     ,
     P2VAR(boolean, AUTOMATIC, AUTOMATIC) DDDid,
-    P2VAR(uint8, AUTOMATIC, AUTOMATIC) DDDidIndex
+    P2VAR(uint16, AUTOMATIC, AUTOMATIC) DDDidIndex
 /* PRQA S 3432-- */ /* MISRA Rule 20.7 */
 #endif
 )
 {
-    uint8 Index;
+    uint16 Index;
 #if (DCM_DSP_DDDID_MAX_NUMBER > 0u)
-    uint8 iloop;
+    uint16 iloop;
 #endif
     Std_ReturnType ret = E_NOT_OK;
     const Dcm_DspDidType* pDid;
@@ -754,7 +754,7 @@ static Std_ReturnType DspInternalUDS0x2A_DidCheck(
 /***********************************************************************/
 #define DCM_START_SEC_CODE
 #include "Dcm_MemMap.h"
-static FUNC(void, DCM_CODE) DspInternalUDS0x2A_Clear_SchedulerQueue(uint16 Index)
+static FUNC(void, DCM_CODE) DspInternalUDS0x2A_Clear_SchedulerQueue(uint8 Index)
 {
     SchedulerQueue[Index].Did = 0;
     SchedulerQueue[Index].Counter = 0;
@@ -794,10 +794,10 @@ static FUNC(void, DCM_CODE) DspInternalUDS0x2A_Clear_SchedulerQueue(uint16 Index
 /***********************************************************************/
 #define DCM_START_SEC_CODE
 #include "Dcm_MemMap.h"
-static FUNC(void, DCM_CODE) DspInternalUDS0x2A_Move_SchedulerQueue(uint16 Index)
+static FUNC(void, DCM_CODE) DspInternalUDS0x2A_Move_SchedulerQueue(uint8 Index)
 {
-    uint16 Cnt;
-    uint16 Cntt;
+    uint8 Cnt;
+    uint8 Cntt;
     for (Cnt = Index; (Cnt < (SchedulerNum - 1u)) && (SchedulerNum <= DCM_DSP_MAX_PERIODIC_DID_SCHEDULER); Cnt++)
     {
         Cntt = Cnt + 1u;
@@ -839,7 +839,7 @@ static FUNC(void, DCM_CODE) DspInternalUDS0x2A_Move_SchedulerQueue(uint16 Index)
 /*************************************************************************/
 #define DCM_START_SEC_CODE
 #include "Dcm_MemMap.h"
-FUNC(void, DCM_CODE) Dcm_UDS0x2A_DDDidStop(uint8 iloop)
+FUNC(void, DCM_CODE) Dcm_UDS0x2A_DDDidStop(uint16 iloop)
 {
     uint8 index;
 
@@ -879,8 +879,8 @@ FUNC(void, DCM_CODE) Dcm_UDS0x2ACheckNewSecurity(void) /* PRQA S 1532 */ /* MISR
     boolean DDDidSupport = TRUE;
     uint16 Index;
     uint16 iloop;
-    uint8 DidInfoCfgIndex;
-    uint8 Idx;
+    uint16 DidInfoCfgIndex;
+    uint16 Idx;
     P2CONST(Dcm_DspDidReadType, AUTOMATIC, DCM_APPL_CONST) pDspDidRead;
 #if ((STD_ON == DCM_UDS_SERVICE0X2C_ENABLED) && (DCM_DSP_DDDID_MAX_NUMBER > 0u))
     Dcm_NegativeResponseCodeType ErrorCode;
@@ -893,7 +893,7 @@ FUNC(void, DCM_CODE) Dcm_UDS0x2ACheckNewSecurity(void) /* PRQA S 1532 */ /* MISR
         SecSupport = FALSE;
         for (iloop = 0; iloop < Dcm_DspCfg.DcmDspDidNum; iloop++)
         {
-            pDid = &(Dcm_DspCfg.pDcmDspDid[Index]);
+            pDid = &(Dcm_DspCfg.pDcmDspDid[iloop]);
             if ((SchedulerQueue[Index].Did == pDid->DcmDspDidId) && (TRUE == pDid->DcmDspDidUsed))
             {
                 DidInfoCfgIndex = pDid->DcmDspDidInfoIndex;
@@ -972,8 +972,8 @@ static FUNC(void, DCM_CODE) Dcm_UDS0x2ACheckNewSession_SubDeal(
 #endif
 )
 {
-    uint8 DidInfoCfgIndex;
-    uint8 Idx;
+    uint16 DidInfoCfgIndex;
+    uint16 Idx;
     P2CONST(Dcm_DspDidReadType, AUTOMATIC, DCM_APPL_CONST) pDspDidRead;
 #if ((STD_ON == DCM_UDS_SERVICE0X2C_ENABLED) && (DCM_DSP_DDDID_MAX_NUMBER > 0u))
     Dcm_NegativeResponseCodeType ErrorCode;
@@ -1130,16 +1130,16 @@ FUNC(void, DCM_CODE) Dcm_UDS0x2ACheckNewSession(Dcm_SesCtrlType NewSes) /* PRQA 
 static FUNC(Std_ReturnType, DCM_CODE) Dcm_UDS0x2A_SubFunSubDeal(
     Dcm_OpStatusType OpStatus,
     uint8 DidSupportNum,
+    uint16 DidCfgIndex,
     P2VAR(Dcm_NegativeResponseCodeType, AUTOMATIC, DCM_VAR) ErrorCode) /* PRQA S 3432 */ /* MISRA Rule 20.7 */
 {
     Std_ReturnType ret = E_OK;
     P2CONST(Dcm_DspDataType, TYPEDEF, DCM_CONST) pDspDidData;
-    uint8 DidCfgIndex = 0;
-    uint8 index;
+    uint16 index;
 #if (STD_ON == DCM_DATA_TYPE_UINT8_DYN_ENABLED)
     uint16 Size = 0;
 #endif
-    uint8 DidSignal_Num;
+    uint16 DidSignal_Num;
 
     /*call the ConditionCheckRead function*/
     DidSignal_Num = Dcm_DspCfg.pDcmDspDid[DidCfgIndex].DcmDspDidSignalNum;
@@ -1205,16 +1205,16 @@ static FUNC(Std_ReturnType, DCM_CODE) Dcm_UDS0x2A_SubFunDeal_0x01_0x03(
 {
     Std_ReturnType ret = E_OK;
     uint8 MsgCtrlId = Dcm_ProtocolCtrl[ProtocolCtrlId].MsgCtrlIndex;
-    uint8 iloop;
+    uint16 iloop;
     uint8 index;
     uint8 cnt;
-    uint8 DidNum = (uint8)(Dcm_MsgCtrl[MsgCtrlId].MsgContext.ReqDataLen - 2u);
+    uint16 DidNum = (Dcm_MsgCtrl[MsgCtrlId].MsgContext.ReqDataLen - 2u);
     uint16 RecDid;
     boolean Find;
-    uint8 DidInfoCfgIndex;
+    uint16 DidInfoCfgIndex;
     boolean DDDid = FALSE;
-    uint8 DDDidIndex = 0;
-    uint8 DidCfgIndex = 0;
+    uint16 DDDidIndex = 0;
+    uint16 DidCfgIndex = 0;
 
     for (iloop = 0; iloop < DidNum; iloop++)
     {
@@ -1280,7 +1280,11 @@ static FUNC(Std_ReturnType, DCM_CODE) Dcm_UDS0x2A_SubFunDeal_0x01_0x03(
 #endif
                             if (DDDid == FALSE)
                         {
-                            ret = Dcm_UDS0x2A_SubFunSubDeal(OpStatus, *Dcm_0x2AType->DidSupportNum, ErrorCode);
+                            ret = Dcm_UDS0x2A_SubFunSubDeal(
+                                OpStatus,
+                                *Dcm_0x2AType->DidSupportNum,
+                                DidCfgIndex,
+                                ErrorCode);
                         }
                         else
                         {
@@ -1333,19 +1337,19 @@ static FUNC(Std_ReturnType, DCM_CODE) Dcm_UDS0x2A_SubFunDeal(
 {
     Std_ReturnType ret = E_OK;
     uint8 DidSessionSupportNum = 0;
-    uint8 DidInfoCfgIndex;
+    uint16 DidInfoCfgIndex;
     uint8 MsgCtrlId = Dcm_ProtocolCtrl[ProtocolCtrlId].MsgCtrlIndex;
     uint8 Subfunction = Dcm_MsgCtrl[MsgCtrlId].MsgContext.pReqData[1u];
     uint8 iloop;
-    uint8 DidNum = (uint8)(Dcm_MsgCtrl[MsgCtrlId].MsgContext.ReqDataLen - 2u);
+    uint16 DidNum = (uint16)(Dcm_MsgCtrl[MsgCtrlId].MsgContext.ReqDataLen - 2u);
     uint16 RecDid;
     uint8 index;
     Dcm_0x2ATypes Dcm_0x2AType;
 #if (DCM_DSP_DDDID_MAX_NUMBER > 0u)
     boolean DDDid = FALSE;
-    uint8 DDDidIndex = 0;
+    uint16 DDDidIndex = 0;
 #endif
-    uint8 DidCfgIndex = 0;
+    uint16 DidCfgIndex = 0;
 
     switch (Subfunction)
     {
@@ -1477,8 +1481,7 @@ static FUNC(Std_ReturnType, DCM_CODE) Dcm_Uds0x2AServiceConditionCheck(
             || ((Dcm_MsgCtrl[MsgCtrlId].MsgContext.ReqDataLen < DCM_UDS0X2A_REQ_DATA_MINLENGTH)
                 && ((DCM_UDS0X2A_01_SLOW == Subfunction) || (DCM_UDS0X2A_02_MEDIUM == Subfunction)
                     || (DCM_UDS0X2A_03_FAST == Subfunction)))
-            || ((uint32)((uint32)Dcm_DspCfg.DcmDspMaxPeriodicDidToRead + 2u)
-                < Dcm_MsgCtrl[MsgCtrlId].MsgContext.ReqDataLen)))
+            || ((uint32)(DCM_DSP_MAX_PERIODIC_DID_TO_READ + 2u) < Dcm_MsgCtrl[MsgCtrlId].MsgContext.ReqDataLen)))
     {
         /*check the massage length*/
         /*the length of massage is not correct,send NRC 0x13*/

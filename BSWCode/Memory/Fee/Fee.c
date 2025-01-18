@@ -184,7 +184,7 @@ FEE_LOCAL VAR(uint8, FEE_VAR) Fee_DataBuffer[FEE_BUFFER_SIZE];
 /*******************************************************************************
 **                      Global Variable Definitions                           **
 *******************************************************************************/
-extern CONST(Fee_BankConfigType, FEE_CONST_PCCFG) Fee_BankConfig[FEE_BANK_NUM];
+extern CONST(Fee_BankConfigType, FEE_CONST_PBCFG) Fee_BankConfig[FEE_BANK_NUM];
 /*******************************************************************************
 **                      Private Function Declarations                         **
 *******************************************************************************/

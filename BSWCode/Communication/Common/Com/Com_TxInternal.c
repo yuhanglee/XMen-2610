@@ -80,7 +80,7 @@ static FUNC(uint64, COM_CODE) Com_GetTxSignalValue(
 /* called by Com_UpdateTxBufferAndCalculateTMCOfEveryGroupSignal.
  * update the uint8_n signal value*/
 #if ((STD_ON == COM_ENABLE_SIGNAL_GROUP_ARRAY_API) && (COM_TXSIGNALGROUP_NUMBER > 0u))
-#if ((0u < COM_TXIPDUBUFF_SIZE) && (0u < COM_SIGNAL_8BITBUFF_SIZE))
+#if ((STD_ON == COM_TX_GRP_SIGNAL_TYPE_UINT8_N_ENABLE) && (0u < COM_TXIPDUBUFF_SIZE) && (0u < COM_SIGNAL_8BITBUFF_SIZE))
 static FUNC(boolean, COM_CODE) Com_TxGroupSignalUpdateUint8N(
     Com_TxIpduBufIdType TxIPduBufferId,
     Com_SignalIdType GroupSignalId,
@@ -125,7 +125,7 @@ static FUNC(void, COM_CODE) Com_TxSignalTMHandle(
 #endif
 /* called by Com_SendSignal,Com_SendTxGroupSignalHandle.
  * set Tx signal(not dynamic signal) to signalbuffer,return the buffer value is changed or not*/
-#if ((COM_TXSIGNALGROUP_NUMBER > 0u) || (0u < COM_TXSIGNAL_NUMBER))
+#if ((COM_TXGROUPSIGNAL_NUMBER > 0u) || (0u < COM_TXSIGNAL_NUMBER))
 static FUNC(boolean, COM_CODE) Com_SetTxSignalBuff(
     Com_SignalType SignalType,
     uint16 SignalLength,
@@ -149,7 +149,7 @@ static FUNC(uint8, COM_CODE) Com_SendTxSignalHandle(
 #endif /*0u < COM_TXSIGNAL_NUMBER*/
 /* called by Com_SendSignal,Com_InvalidateSignalGroup.
  * send Tx group signal handle*/
-#if (COM_TXSIGNALGROUP_NUMBER > 0u)
+#if (COM_TXGROUPSIGNAL_NUMBER > 0u)
 static FUNC(uint8, COM_CODE) Com_SendTxGroupSignalHandle(
     Com_SignalIdType TxGroupSignalId,
     P2CONST(void, AUTOMATIC, COM_APPL_CONST) SignalDataPtr);
@@ -580,8 +580,12 @@ static FUNC(boolean, COM_CODE) Com_TxSignalTMCCalculate(
 {
     boolean ret = FALSE;
 #if (COM_TXSIGNAL_FILTERTYPE_MAX_NUMBER > 0u) || (COM_TXGRPSIG_FILTERTYPE_MAX_NUMBER > 0u)
+#if (COM_TXSIGNAL_FILTERTYPE_MAX_NUMBER > 0u)
     const Com_TxSignalType* txSignalPtr;
+#endif
+#if (COM_TXGRPSIG_FILTERTYPE_MAX_NUMBER > 0u)
     const Com_TxGroupSignalType* txGroupSignalPtr;
+#endif
     uint64 signalNewValue;
     Com_SignalType signalType;
     Com_FilterAlgorithmType filterType;
@@ -769,7 +773,9 @@ static FUNC(void, COM_CODE) Com_SendSignalGroupArrayInternalHandle(
     /* PRQA S 3206 -- */ /* MISRA Rule 2.7 */
     uint16 RptNum)
 {
+#if (STD_ON == COM_TX_SIG_GROUP_TIMEOUT_ENABLE)
     const Com_TxIPduType* txIpduPtr = &Com_ConfigStd->ComTxIPdu[IpduRef];
+#endif
     Com_TxModeModeType ipduTxMode = TxIpduStatePtr->ipduTxMode;
     boolean initDMCnt = FALSE;
 /*the signal group configuration timeout,the DM timer isn't start by other signals/signal groups,Tx Mode isn't
@@ -858,6 +864,7 @@ static FUNC(void, COM_CODE) Com_SendSignalGroupArrayInternalHandle(
     COM_NOUSED(RptNum);
     COM_NOUSED(TriggerOnChange);
     COM_NOUSED(initDMCnt);
+    COM_NOUSED(IpduRef);
     return;
 }
 #endif
@@ -1150,7 +1157,7 @@ static FUNC(void, COM_CODE) Com_TxSignalTMHandle(
 }
 #endif
 
-#if ((COM_TXSIGNALGROUP_NUMBER > 0u) || (0u < COM_TXSIGNAL_NUMBER))
+#if ((COM_TXGROUPSIGNAL_NUMBER > 0u) || (0u < COM_TXSIGNAL_NUMBER))
 /******************************************************************************/
 /*
  * Brief               Called by Com_SendSignal,Com_SendTxGroupSignalHandle.
@@ -1290,19 +1297,17 @@ static FUNC(void, COM_CODE) Com_TxSignalPack(Com_SignalIdType TxSignalId)
     Com_TxIpduBufIdType ipduBufferIndex = Com_ConfigStd->ComTxIPdu[txIpduId].ComTxIPduBufIndex;
     uint16 signalBufferId = txSignalPtr->ComSignalInitValueId;
     uint64 txData;
-#if (                                                                                          \
-    (0u < COM_TXIPDUBUFF_SIZE)                                                                 \
-    && (((0u < COM_SIGNAL_8BITBUFF_SIZE) && (STD_ON == COM_TX_GRP_SIGNAL_TYPE_UINT8_N_ENABLE)) \
+#if (                                                                                      \
+    (0u < COM_TXIPDUBUFF_SIZE)                                                             \
+    && (((0u < COM_SIGNAL_8BITBUFF_SIZE) && (STD_ON == COM_TX_SIGNAL_TYPE_UINT8_N_ENABLE)) \
         || (0u < COM_SIGNAL_BOOLBUFF_SIZE)))
     Com_TxIpduBufIdType ipduBuffPos = ipduBufferIndex + (Com_TxIpduBufIdType)(txSignalPtr->ComSigLsbBytePos);
     uint8* iPduBufferPtr = &Com_TxIPduRuntimeBuff[ipduBuffPos];
-#endif /* 0u < COM_TXIPDUBUFF_SIZE) &&                                                          \
-        (((0u < COM_SIGNAL_8BITBUFF_SIZE) && (STD_ON == COM_TX_GRP_SIGNAL_TYPE_UINT8_N_ENABLE)) \
-            || (0u < COM_SIGNAL_BOOLBUFF_SIZE */
+#endif
 
     if (COM_UINT8_N == signalType)
     {
-#if ((0u < COM_SIGNAL_8BITBUFF_SIZE) && (0u < COM_TXIPDUBUFF_SIZE) && (STD_ON == COM_TX_GRP_SIGNAL_TYPE_UINT8_N_ENABLE))
+#if ((0u < COM_SIGNAL_8BITBUFF_SIZE) && (0u < COM_TXIPDUBUFF_SIZE) && (STD_ON == COM_TX_SIGNAL_TYPE_UINT8_N_ENABLE))
         /*pack COM_UINT8_N type group signal*/
         uint16 signalLength = txSignalPtr->ComSignalLength;
         SchM_Enter_Com_Context();
@@ -1515,7 +1520,7 @@ static FUNC(uint8, COM_CODE) Com_SendTxSignalHandle(
     return E_OK;
 }
 #endif
-#if (COM_TXSIGNALGROUP_NUMBER > 0u)
+#if (COM_TXGROUPSIGNAL_NUMBER > 0u)
 /******************************************************************************/
 /*
  * Brief               Called by Com_SendSignal,Com_InvalidateSignalGroup.
@@ -1536,6 +1541,7 @@ static FUNC(uint8, COM_CODE)
         P2CONST(void, AUTOMATIC, COM_APPL_CONST) SignalDataPtr)
 /* PRQA S 1532 -- */ /* MISRA Rule 8.7 */
 {
+    boolean valueChanged;
     const Com_TxGroupSignalType* txGroupSignalPtr = &Com_ConfigStd->ComTxGroupSignal[TxGroupSignalId];
     Com_TxSignalGroupIdType signalGroupId = txGroupSignalPtr->ComSignalGroupRef;
     const Com_TxSignalGroupType* txSignalGroupPtr = &Com_ConfigStd->ComTxSignalGroup[signalGroupId];
@@ -1571,7 +1577,7 @@ static FUNC(uint8, COM_CODE)
         /*groupSignalLength is used when the signal type is COM_UINT8_N*/
         uint16 groupSignalLength = txGroupSignalPtr->ComSignalLength;
         /*update tx signal buffer and check if the sending signal value changed*/
-        boolean valueChanged = Com_SetTxSignalBuff(
+        valueChanged = Com_SetTxSignalBuff(
             groupSignalType,
             groupSignalLength,
             txGroupSignalPtr->ComSignalInitValueId,
@@ -1625,6 +1631,8 @@ static FUNC(uint8, COM_CODE)
         /* PRQA S 3315 -- */ /* MISRA Rule 16.6*/
         ret = E_OK;
     }
+    COM_NOUSED(SignalDataPtr);
+    COM_NOUSED(valueChanged);
     return ret;
 }
 #endif
@@ -2606,7 +2614,9 @@ Com_SendSignalGroupHandle(Com_SignalGroupIdType SignalGroupId)
     uint8 ret = COM_SERVICE_NOT_AVAILABLE;
     PduIdType ipduRef;
     uint16 rptNum = 1u;
+#if (STD_ON == COM_TX_SIG_GROUP_TIMEOUT_ENABLE)
     boolean initDMCnt = FALSE;
+#endif
 #if (STD_ON == COM_TX_SIG_GROUP_UPDATE_BIT_ENABLE)
     Com_SignalPositionType updateBitPosition;
     uint8 updateBitMask;
@@ -2831,11 +2841,7 @@ Com_InvalidateSignalGroupHandle(Com_SignalGroupIdType SignalGroupId)
 {
     uint8 ret;
     PduIdType ipduRef;
-    Com_TxGroupSignalIdType groupSignalNumber, groupSignalId;
-    Com_SignalType signalType;
-    uint16 invalidValueId;
     const Com_TxSignalGroupType* txSignalGroupPtr = &Com_ConfigStd->ComTxSignalGroup[SignalGroupId];
-    const Com_TxGroupSignalType* txGroupSignalPtr;
 #if (0u < COM_SIGNAL_8BIT_INVALID_SIZE) && (STD_ON == COM_TX_GRP_SIGNAL_TYPE_UINT8_DYN_ENABLE)
     uint16 invalidValueLength;
 #endif /* 0u < COM_SIGNAL_8BIT_INVALID_SIZE && STD_ON == COM_TX_GRP_SIGNAL_TYPE_UINT8_DYN_ENABLE */
@@ -2858,13 +2864,14 @@ Com_InvalidateSignalGroupHandle(Com_SignalGroupIdType SignalGroupId)
 #endif /* STD_ON == COM_TXTPPDU_SUPPORT */
         {
 #if (STD_ON == COM_TX_GRP_SIGNAL_INVALID_DATA_ENABLE)
+            Com_TxGroupSignalIdType groupSignalNumber, groupSignalId;
             groupSignalNumber = txSignalGroupPtr->ComGroupSignalRefNumber;
             groupSignalId = txSignalGroupPtr->ComGroupSignalRefStartId;
             for (; groupSignalId < groupSignalNumber; ++groupSignalId)
             {
-                txGroupSignalPtr = &Com_ConfigStd->ComTxGroupSignal[groupSignalId];
-                signalType = txGroupSignalPtr->ComSignalType;
-                invalidValueId = txGroupSignalPtr->ComSignalInvalidBuffRefId;
+                const Com_TxGroupSignalType* txGroupSignalPtr = &Com_ConfigStd->ComTxGroupSignal[groupSignalId];
+                Com_SignalType signalType = txGroupSignalPtr->ComSignalType;
+                uint16 invalidValueId = txGroupSignalPtr->ComSignalInvalidBuffRefId;
                 if (COM_UNUSED_UINT16 != invalidValueId)
                 {
 #if (STD_ON == COM_TX_GRP_SIGNAL_TYPE_UINT8_DYN_ENABLE)
@@ -3109,17 +3116,9 @@ Com_SwitchIpduTxModeHandle(PduIdType PduId, boolean Mode)
         && ((COM_TX_MODE_MIXED == txIpduStatePtr->ipduTxMode) || (COM_TX_MODE_PERIODIC == txIpduStatePtr->ipduTxMode)
             || (COM_TX_MODE_MIXED_WITHOUT_REPETITION == txIpduStatePtr->ipduTxMode)))
     {
-        if (Mode && (Com_TX_TMS_EN != TMS))
+        if ((Mode && (Com_TX_TMS_EN != TMS)) || (!Mode && (Com_TX_TMS_EN == TMS)))
         {
-            Com_GetTxModeOffset(txIpduStatePtr, txIpduPtr, FALSE);
-        }
-        else if (!Mode && (Com_TX_TMS_EN == TMS))
-        {
-            Com_GetTxModeOffset(txIpduStatePtr, txIpduPtr, TRUE);
-        }
-        else
-        {
-            /* do nothing */
+            Com_GetTxModeOffset(txIpduStatePtr, txIpduPtr, Mode);
         }
     }
 }
@@ -3143,7 +3142,6 @@ Com_TriggerTransmitHandle(PduIdType TxPduId, P2VAR(PduInfoType, AUTOMATIC, COM_A
 /* PRQA S 1532,3432 -- */ /* MISRA Rule 8.7,20.7 */
 {
     Std_ReturnType returnValue = E_NOT_OK;
-    PduInfoType pduInfo;
     PduIdType txIpduId = TxPduId - COM_RXIPDU_NUMBER;
     Com_TxIPduRunTimeStateType* txIpduStatePtr = &Com_TxIPduRunTimeState[txIpduId];
     uint16 txIPduLength = txIpduStatePtr->TxIpduLength;
@@ -3181,6 +3179,7 @@ Com_TriggerTransmitHandle(PduIdType TxPduId, P2VAR(PduInfoType, AUTOMATIC, COM_A
 #if (COM_TXIPDU_TIGGERTRANSMIT_CALLOUT_ENABLE > 0u)
             if (NULL_PTR != txIpduPtr->ComIPduTriggerTransmitCallout)
             {
+                PduInfoType pduInfo;
                 pduInfo.SduDataPtr = &Com_TxIPduRuntimeBuff[ipduBufferId];
                 pduInfo.SduLength = txIPduLength;
 #if (STD_ON == COM_METADATA_SUPPORT)
@@ -3238,9 +3237,6 @@ FUNC(void, COM_CODE)
 Com_TxConfirmationHandle(PduIdType TxPduId)
 /* PRQA S 1532 -- */ /* MISRA Rule 8.7 */
 {
-#if (STD_ON == COM_TX_IPDU_SIGNAL_PROCESS_IMMEDIATE_ENABLE)
-    Com_IPduSignalProcessingType ipduSignalProcessing;
-#endif /* STD_ON == COM_TX_IPDU_SIGNAL_PROCESS_IMMEDIATE_ENABLE */
     PduIdType comTxPduId = TxPduId - COM_RXIPDU_NUMBER;
     const Com_TxIPduType* txIpduPtr = &Com_ConfigStd->ComTxIPdu[comTxPduId];
     Com_TxIPduRunTimeStateType* txIpduStatePtr = &Com_TxIPduRunTimeState[comTxPduId];
@@ -3277,7 +3273,7 @@ Com_TxConfirmationHandle(PduIdType TxPduId)
         if (0u == txIpduStatePtr->RptNum)
         {
 #if (STD_ON == COM_TX_IPDU_SIGNAL_PROCESS_IMMEDIATE_ENABLE)
-            ipduSignalProcessing = txIpduPtr->ComIPduSignalProcessing;
+            Com_IPduSignalProcessingType ipduSignalProcessing = txIpduPtr->ComIPduSignalProcessing;
             /*signal/signal group TxConfirmation handle is made immediate*/
             if (COM_IMMEDIATE == ipduSignalProcessing)
             {

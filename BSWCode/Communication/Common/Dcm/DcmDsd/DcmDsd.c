@@ -1030,10 +1030,6 @@ FUNC(void, DCM_CODE) DsdInternal_ProcessPage(uint8 ProtocolCtrlId)
         MetaDataFlag = Dsl_Protocol_Connection_RxCfg[DcmRxPduIdx].DcmDslMetaDataFlag;
         if ((MetaDataFlag & DCM_METADATA_LENGTH_MASK) > 0u)
         {
-            if ((MetaDataFlag & DCM_ADDRESS_EXTENSION_8_MASK) == DCM_ADDRESS_EXTENSION_8_MASK)
-            {
-                PduInfo.MetaDataPtr[4u] = Dcm_MsgCtrl[MsgCtrlIndexx].Dcm_MetaData_AE;
-            }
             if ((MetaDataFlag & DCM_SA16_AND_TA16_MASK) == DCM_SA16_AND_TA16_MASK)
             {
 #if (CPU_BYTE_ORDER == HIGH_BYTE_FIRST)
@@ -1502,7 +1498,7 @@ DsdInternal_DDDIDcheckPerSourceDID(uint16 DDDidIdx, P2VAR(Dcm_NegativeResponseCo
     uint8 RangeDidCfgIndex = 0;
     uint16 DidCfgIndex;
     boolean RangeDidFlag;
-    uint8 DidInfoCfgIndex;
+    uint16 DidInfoCfgIndex;
 
     if ((Dcm_DspCfg.DcmDspDDDIDcheckPerSourceDID != NULL_PTR) && (TRUE == *Dcm_DspCfg.DcmDspDDDIDcheckPerSourceDID))
     {

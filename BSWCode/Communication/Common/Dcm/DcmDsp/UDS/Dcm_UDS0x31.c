@@ -148,8 +148,10 @@ static FUNC(Std_ReturnType, DCM_CODE)
     pDspStartRoutineAuthorization;
     P2CONST(Dcm_DspCommonAuthorizationType, AUTOMATIC, DCM_APPL_CONST)
     pDspStopRoutineAuthorization;
+#if (DCM_UDS0X31_REQUESTROUTINERESULTS_ENABLED == STD_ON)
     P2CONST(Dcm_DspCommonAuthorizationType, AUTOMATIC, DCM_APPL_CONST)
     pDspRequestRoutineResultsAuthorization;
+#endif
     Std_ReturnType Ret = E_OK;
 
     pDspRoutineAuthorization = Dcm_DspCfg.pDcmDspRoutine[RoutineCfgIdx].DcmDspCommonAuthorizationRef;

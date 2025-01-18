@@ -52,7 +52,7 @@
  *  V2.1.3     2023-08-23     jie.gu         CPT-6588 add micro for nvmblock and cert array
  *  V2.1.4     2023-09-04     jie.gu         CPT-6775 notificate all the verify fault to dcm
  *  V2.1.5     2023-09-05     jie.gu         CPT-6810,modify data element judge condition
- *  V2.1.6     2023-11-20     jie.gu         CPD-33582 add nvmblock length check，fix return value check
+ *  V2.1.6     2023-11-20     jie.gu         CPD-33582 add nvmblock length check, fix return value check
  *  V2.1.7     2024-01-31     jie.gu         CPD-33716 update code for misra c rules check
  *  V2.1.8     2024-06-21     jie.gu         Add const memory section
  */
