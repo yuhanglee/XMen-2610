@@ -11,22 +11,22 @@
  * You should have received a copy of the GNU Lesser General Public License along with this library;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  * or see <https://www.gnu.org/licenses/>.
- */
-/* PRQA S 3108-- */
+ *  */
 /*
  ********************************************************************************
  **                                                                            **
- **  FILENAME    : MemMapImp.h                                                 **
+ **  FILENAME    : Os_MemmapImp.h                                              **
  **                                                                            **
  **  Created on  :                                                             **
  **  Author      : i-soft-os                                                   **
  **  Vendor      :                                                             **
- **  DESCRIPTION : Memory mapping abstraction declaration of MemMap            **
+ **  DESCRIPTION : MCU dependence                                              **
  **                                                                            **
  **  SPECIFICATION(S) :   AUTOSAR classic Platform r19                         **
  **  Version :   AUTOSAR classic Platform R19--Function Safety                 **
  **                                                                            **
  *******************************************************************************/
+/* PRQA S 3108-- */
 
 /*=======[M E M M A P  S Y M B O L  D E F I N E]==============================*/
 #if defined(START_WITH_IF)

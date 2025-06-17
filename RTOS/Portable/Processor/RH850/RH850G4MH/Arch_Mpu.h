@@ -11,8 +11,7 @@
  * You should have received a copy of the GNU Lesser General Public License along with this library;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  * or see <https://www.gnu.org/licenses/>.
- */
-/* PRQA S 3108-- */
+ *  */
 /*
  ********************************************************************************
  **                                                                            **
@@ -21,12 +20,13 @@
  **  Created on  :                                                             **
  **  Author      : i-soft-os                                                   **
  **  Vendor      :                                                             **
- **  DESCRIPTION : functions related to the Memory Protection Unit (MPU)       **
+ **  DESCRIPTION : MCU dependence                                              **
  **                                                                            **
  **  SPECIFICATION(S) :   AUTOSAR classic Platform r19                         **
  **  Version :   AUTOSAR classic Platform R19--Function Safety                 **
  **                                                                            **
  *******************************************************************************/
+/* PRQA S 3108-- */
 #ifndef ARCH_MPU_H
 #define ARCH_MPU_H
 /*=======[I N C L U D E S]=================================================*/
