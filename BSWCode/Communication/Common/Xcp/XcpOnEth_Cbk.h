@@ -21,7 +21,7 @@
 **  Created on  :                                                             **
 **  Author      : qinchun.yang                                                **
 **  Vendor      :                                                             **
-**  DESCRIPTION : API declaration and type definitions of XCP                 **
+**  DESCRIPTION : Implementation for XCP                                      **
 **                                                                            **
 **  SPECIFICATION(S) :   AUTOSAR classic Platform R19-11                      **
 **                                                                            **

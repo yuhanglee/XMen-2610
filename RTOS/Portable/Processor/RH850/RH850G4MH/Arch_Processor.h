@@ -11,22 +11,22 @@
  * You should have received a copy of the GNU Lesser General Public License along with this library;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  * or see <https://www.gnu.org/licenses/>.
- *  */
+ */
+/* PRQA S 3108-- */
 /*
  ********************************************************************************
  **                                                                            **
- **  FILENAME    : Arch_Processor.h                                            **
+ **  FILENAME    :  Arch_Processor.h                                           **
  **                                                                            **
  **  Created on  :                                                             **
- **  Author      : i-soft-os                                                   **
+ **  Author      :  i-soft-os                                                  **
  **  Vendor      :                                                             **
- **  DESCRIPTION : MCU dependence                                              **
+ **  DESCRIPTION :                                                             **
  **                                                                            **
  **  SPECIFICATION(S) :   AUTOSAR classic Platform r19                         **
  **  Version :   AUTOSAR classic Platform R19--Function Safety                 **
  **                                                                            **
  *******************************************************************************/
-/* PRQA S 3108-- */
 #ifndef ARCH_PROCESSOR_H
 #define ARCH_PROCESSOR_H
 
