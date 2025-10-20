@@ -31,20 +31,69 @@ https://atomgit.com/easyxmen/XMen
 
 ```
 ├── BSWCode                 # 模块静态代码 # Module static code
-│   ├── CommonInclude       # 共用的头文件 # Common header files
-│   ├── Communication       # 通信模块代码 # Communication module code
-│   ├── Crypto              # 加密模块代码 # Encryption module code
-│   ├── Libraries           # Lib库代码 # Lib library code
-│   ├── Memory              # 存储模块代码 # Memory module code
-│   └── SystemServices      # 系统服务模块代码 # System services module code
+│   ├── Bfx
+│   ├── BswM
+│   ├── CanIf
+│   ├── CanNm
+│   ├── CanSM
+│   ├── CanTp
+│   ├── CanTrcv
+│   ├── CanTSyn
+│   ├── CDD_FVM
+│   ├── Com
+│   ├── ComM
+│   ├── CommonInclude       # 共用的头文件 # Common header files
+│   ├── Crc
+│   ├── CryIf
+│   ├── Crypto_62
+│   ├── Csm
+│   ├── Dcm
+│   ├── Dem
+│   ├── Det
+│   ├── Dlt
+│   ├── DoIP
+│   ├── E2E
+│   ├── Ea
+│   ├── EcuM
+│   ├── Eep_62
+│   ├── EthIf
+│   ├── EthSM
+│   ├── EthSwt
+│   ├── EthTrcv_62
+│   ├── EthTSyn
+│   ├── Fee
+│   ├── FiM
+│   ├── FlsTst
+│   ├── IpduM
+│   ├── IStdLib
+│   ├── KeyM
+│   ├── LdCom
+│   ├── LinIf
+│   ├── LinSM
+│   ├── MemIf
+│   ├── Nm
+│   ├── NvM
+│   ├── PduR
+│   ├── RamTst
+│   ├── Sd
+│   ├── SecOC
+│   ├── SoAd
+│   ├── SOMEIPTP
+│   ├── StbM
+│   ├── TcpIp
+│   ├── Tm
+│   ├── UdpNm
+│   ├── WdgIf
+│   ├── WdgM
+│   └── Xcp
 ├── Drivers                 # 板级外设芯片代码 # Board-level peripheral chip code
 ├── Examples                # 示例工程 # Example projects
 ├── RTOS                    # OS 代码 # OS code
-│   ├── Extend              # OS 扩展代码 # OS extension code
-│   ├── Kernel              # OS 内核代码 # OS kernel code
-│   └── Portable            # OS移植代码 # OS porting code
-│       ├── Mcu             # MCU相关的移植代码 # MCU related porting code
-│       └── Processor       # 处理器架构相关移植代码 # Processor architecture related porting code
+│   ├── Extend              # OS 扩展代码 # OS extension code
+│   ├── Kernel              # OS 内核代码 # OS kernel code
+│   └── Portable            # OS移植代码 # OS porting code
+│       ├── Mcu             # MCU相关的移植代码 # MCU related porting code
+│       └── Processor       # 处理器架构相关移植代码 # Processor architecture related porting code
 └── Test                    # bsw模块测试代码 # bsw module test code
     └── UT                  # 单元测试代码 # Unit test code
 ```
