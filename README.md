@@ -25,77 +25,89 @@ https://atomgit.com/easyxmen/XMen
 
 https://atomgit.com/easyxmen/docs
 
-* 快速预览（Instant view the page at）：https://easyxmen.atomgit.net/docs/
+* 快速预览（Instant view the page at）：https://easyxmen.atomgit.com/
 
 # 目录结构 Directory Structure
 
 ```
-├── BSWCode                 # 模块静态代码(Module static code)
-│   ├── Bfx
-│   ├── BswM
-│   ├── CanIf
-│   ├── CanNm
-│   ├── CanSM
-│   ├── CanTp
-│   ├── CanTrcv
-│   ├── CanTSyn
-│   ├── CDD_FVM
-│   ├── Com
-│   ├── ComM
-│   ├── CommonInclude       # 共用的头文件(Common header files)
-│   ├── Crc
-│   ├── CryIf
-│   ├── Crypto_62
-│   ├── Csm
-│   ├── Dcm
-│   ├── Dem
-│   ├── Det
-│   ├── Dlt
-│   ├── DoIP
-│   ├── E2E
-│   ├── Ea
-│   ├── EcuM
-│   ├── Eep_62
-│   ├── EthIf
-│   ├── EthSM
-│   ├── EthSwt
-│   ├── EthTrcv_62
-│   ├── EthTSyn
-│   ├── Fee
-│   ├── FiM
-│   ├── FlsTst
-│   ├── IpduM
-│   ├── IStdLib
-│   ├── KeyM
-│   ├── LdCom
-│   ├── LinIf
-│   ├── LinSM
-│   ├── MemIf
-│   ├── Nm
-│   ├── NvM
-│   ├── PduR
-│   ├── RamTst
-│   ├── Sd
-│   ├── SecOC
-│   ├── SoAd
-│   ├── SOMEIPTP
-│   ├── StbM
-│   ├── TcpIp
-│   ├── Tm
-│   ├── UdpNm
-│   ├── WdgIf
-│   ├── WdgM
-│   └── Xcp
 ├── Drivers                 # 板级外设芯片代码(Board-level peripheral chip code)
 ├── Examples                # 示例工程(Example projects)
-├── RTOS                    # OS 代码(OS code)
-│   ├── Extend              # OS 扩展代码(OS extension code)
-│   ├── Kernel              # OS 内核代码(OS kernel code)
-│   └── Portable            # OS移植代码(OS porting code)
-│       ├── Mcu             # MCU相关的移植代码(MCU related porting code)
-│       └── Processor       # 处理器架构相关移植代码(Processor architecture related porting code)
-└── Test                    # bsw模块测试代码(bsw module test code)
-    └── UT                  # 单元测试代码(Unit test code)
+├── Test                    # bsw模块测试代码(bsw module test code)
+│   └── UT                  # 单元测试代码(Unit test code)
+├── V2504                   # V2504版本代码(V2504 version code)
+│   ├── BSWCode             # 模块静态代码(Module static code)
+│   │   ├── CommonInclude   # 共用的头文件(Common header files)
+│   │   ├── Communication   # 通信模块(Communication modules)
+│   │   │   ├── CAN        # CAN总线相关模块(CAN bus related modules)
+│   │   │   ├── Common     # 通信公共模块(Common communication modules)
+│   │   │   ├── Ethernet   # 以太网相关模块(Ethernet related modules)
+│   │   │   └── LIN        # LIN总线相关模块(LIN bus related modules)
+│   │   ├── Crypto         # 密码学模块(Cryptography modules)
+│   │   ├── Libraries      # 库文件(Library files)
+│   │   ├── Memory         # 内存管理模块(Memory management modules)
+│   │   └── SystemServices # 系统服务模块(System service modules)
+│   └── RTOS               # OS 代码(OS code)
+│       ├── Extend         # OS 扩展代码(OS extension code)
+│       ├── Kernel         # OS 内核代码(OS kernel code)
+│       └── Portable       # OS移植代码(OS porting code)
+│           ├── Mcu        # MCU相关的移植代码(MCU related porting code)
+│           └── Processor  # 处理器架构相关移植代码(Processor architecture related porting code)
+└── V2510                   # V2510版本代码(V2510 version code)
+    └── V2510
+        ├── BSWCode         # 模块静态代码(Module static code)
+        │   ├── BswM
+        │   ├── CanIf
+        │   ├── CanNm
+        │   ├── CanSM
+        │   ├── CanTp
+        │   ├── CanTSyn
+        │   ├── CDD_FVM
+        │   ├── Com
+        │   ├── ComM
+        │   ├── CommonInclude       # 共用的头文件(Common header files)
+        │   ├── CryIf
+        │   ├── Crypto_62
+        │   ├── Csm
+        │   ├── Dcm
+        │   ├── Dem
+        │   ├── Det
+        │   ├── Dlt
+        │   ├── DoIP
+        │   ├── Ea
+        │   ├── EcuM
+        │   ├── Eep_62
+        │   ├── EthIf
+        │   ├── EthSM
+        │   ├── EthTSyn
+        │   ├── Fee
+        │   ├── FiM
+        │   ├── FlsTst
+        │   ├── IpduM
+        │   ├── KeyM
+        │   ├── LdCom
+        │   ├── LinIf
+        │   ├── LinSM
+        │   ├── MemIf
+        │   ├── Nm
+        │   ├── NvM
+        │   ├── PduR
+        │   ├── RamTst
+        │   ├── Sd
+        │   ├── SecOC
+        │   ├── SoAd
+        │   ├── StbM
+        │   ├── TcpIp
+        │   ├── Tm
+        │   ├── UdpNm
+        │   ├── WdgIf
+        │   ├── WdgM
+        │   └── Xcp
+        └── RTOS            # OS 代码(OS code)
+            ├── Extend      # OS 扩展代码(OS extension code)
+            ├── Kernel      # OS 内核代码(OS kernel code)
+            └── Portable    # OS移植代码(OS porting code)
+                ├── Mcu     # MCU相关的移植代码(MCU related porting code)
+                └── Processor       # 处理器架构相关移植代码(Processor architecture related porting code)
 ```
 
 **补充说明 Supplementary Note**
@@ -176,4 +188,3 @@ EasyXMen now supports three platforms, i.e. NXP S32K148, Infineon TC397, Renesas
 
 - EasyXMen项目整体基于LGPL V2.1开源，详见[LICENSE.txt](./LICENSE.txt)，并附有例外，例外详见[EXCEPTION.md](./EXCEPTION.md)   
   The EasyXMen project is open-source based on LGPL V2.1, see [LICENSE.txt](./LICENSE.txt) for details, with exceptions outlined in [EXCEPTION.md](./EXCEPTION.md).
-
