@@ -43,6 +43,7 @@
 #ifndef OS_EXTERN
 #define OS_EXTERN            .extern
 #endif
+#define THUMB_FUNC           .thumb_func
 
 #define OS_BEGIN_NO_OPTIMIZE __attribute__((optimize("O0")))
 #define OS_END_NO_OPTIMIZE

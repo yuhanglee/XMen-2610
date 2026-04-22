@@ -64,7 +64,7 @@ typedef enum
 /**
  * @brief Prototype of EEprom driver routine
  */
-typedef struct Eep_62_RuntimeTypeTag /* PRQA S 1536 */ /* VL_Eep_62_1536 */
+typedef struct
 {
     boolean               StateForRunMainFunction; /**< Control flag for main function execution @range 0..1*/
     MemIf_ModeType        currentMode;             /**< The currently mode @range NA*/

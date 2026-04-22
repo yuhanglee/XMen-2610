@@ -177,16 +177,6 @@ extern "C" {
 #define FLSTST_SW_PATCH_VERSION            0u  /**< Value of module patch version */
 
 /* ===================================================== macros ===================================================== */
-/* PRQA S 3414 ++ */ /* VL_FlsTst_3414 */
-#if !defined(FLSTST_LOCAL)
-#define FLSTST_LOCAL static /**< Defines used as the local keyword for variables or functions */
-#endif
-/* PRQA S 3414 -- */
-
-#if !defined(FLSTST_LOCAL_INLINE)
-#define FLSTST_LOCAL_INLINE static inline /**< Defines used as keyword for the local inline functions */
-#endif
-
 /**
  * @name FLSTST_SERVICE_ID
  * @{

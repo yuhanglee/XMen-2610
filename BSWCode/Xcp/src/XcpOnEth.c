@@ -80,13 +80,16 @@ void Xcp_SoAdRxIndication(PduIdType RxPduId, const PduInfoType* PduInfoPtr)
  * errors are detected, it calls the `Xcp_TxConfirmation` function to handle
  * the transmission confirmation. This function is intended for internal use.
  */
-void Xcp_SoAdTxConfirmation(PduIdType TxPduId)
+void Xcp_SoAdTxConfirmation(PduIdType TxPduId, Std_ReturnType result)
 {
-#if (XCP_DEV_ERROR_DETECT == STD_ON)
-    if ((boolean)FALSE == Xcp_TxIndCheckDetErr())
-#endif /*XCP_DEV_ERROR_DETECT == STD_ON*/
+    if (E_OK == result)
     {
-        Xcp_TxConfirmation(TxPduId);
+#if (XCP_DEV_ERROR_DETECT == STD_ON)
+        if ((boolean)FALSE == Xcp_TxIndCheckDetErr())
+#endif /*XCP_DEV_ERROR_DETECT == STD_ON*/
+        {
+            Xcp_TxConfirmation(TxPduId);
+        }
     }
     return;
 }

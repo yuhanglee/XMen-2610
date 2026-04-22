@@ -58,6 +58,7 @@
 #define RODATA_END       (uint8*)OS_ARCH_FLASH_ADDR_END
 
 /* Provided for external use */
+
 #if (TRUE == CFG_MEMORY_PROTECTION_ENABLE)
 #define OS_ADDRESS_IS_IN_ALL_RAM(Address, Size)                        \
     (((uint32)Os_MemProtKnAddrCfg.OsKernelAddr.pRamStart <= (Address)) \

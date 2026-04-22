@@ -62,7 +62,7 @@ typedef enum
 #endif
 
 /** @ingroup ComMChannelTypes */
-typedef struct ComM_ChannelConfigType_Tag
+typedef struct ComM_ChannelConfigTypeTag /* PRQA S 1536 */ /* VL_ComM_NotUsed */
 {
     Std_ReturnType (*BusSMRequestComMode)(NetworkHandleType Channel, ComM_ModeType ComMode);
     uint32             NmLightTimeout;

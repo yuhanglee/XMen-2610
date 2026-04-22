@@ -25,6 +25,8 @@
 #ifndef BSWM_SWC_H
 #define BSWM_SWC_H
 
+/* PRQA S 1753 EOF */ /* VL_BswM_1753 */
+
 /* =================================================== inclusions =================================================== */
 #include "BswM_Cfg.h"
 
@@ -89,7 +91,9 @@ void BswM_SwcModeNotification(BswM_ModeGroupType modeGroup);
  * @synchronous TRUE
  * @trace       CPD-66348
  */
+/* PRQA S 1501 ++ */ /* VL_BswM_1501 */
 void BswM_SwcModeRequest(BswM_ModeGroupType modeGroup);
+/* PRQA S 1501 -- */
 
 #endif /*BSWM_RTE_ENABLED == STD_ON*/
 

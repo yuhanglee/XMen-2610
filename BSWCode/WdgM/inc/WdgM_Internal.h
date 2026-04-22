@@ -45,7 +45,9 @@ extern "C" {
 
 /* =========================================== external data declarations =========================================== */
 extern const WdgM_ConfigType* WdgM_SelectConfigs[WDGM_MAX_CORES_USED];
-extern WdgM_RuntimeType*      WdgM_ConfigRuntimeData[WDGM_MAX_CORES_USED];
+/* PRQA S 1500,1752 ++ */ /* VL_WdgM_1500,VL_WdgM_1752 */
+extern WdgM_RuntimeType* WdgM_ConfigRuntimeData[WDGM_MAX_CORES_USED];
+/* PRQA S 1500,1752 -- */
 extern const WdgM_SECfgPCType WdgM_SupervisedEntityPcCfg[WDGM_SE_NUM];
 
 #if (WDGM_INT_LOGICAL_SUPERVISION_ENABLE == STD_ON)
@@ -63,7 +65,9 @@ extern WdgM_IntLogSupInfoType WdgM_IntLogSupTab[WDGM_MAX_INTERNAL_LOGICAL_SUPERV
  * @synchronous TRUE
  * @trace       CPD-68316
  */
+/* PRQA S 1501 ++ */ /* VL_WdgM_1501 */
 Std_ReturnType WdgM_GetGlobalInfoTab(WdgM_GlobalStatusType** globalInfoTab);
+/* PRQA S 1501 -- */
 
 /**
  * @brief  Gets the config pointer of current WdgM.

@@ -105,12 +105,12 @@ extern "C" {
 extern const SoAd_PcCfgType SoAd_PcCfg;
 #endif
 
+#if (STD_ON == SOAD_SUPPORT_MULTIPLE_PARTITION)
 /**
  * @brief Array of pointers to the initialization status of each partition.
  */
 extern SoAd_Init_StateType* const SoAd_MultiPartitionInitStatusPtr[SOAD_PARTITION_NUM];
 
-#if (STD_ON == SOAD_SUPPORT_MULTIPLE_PARTITION)
 /**
  * @brief Array of partition information structures.
  */

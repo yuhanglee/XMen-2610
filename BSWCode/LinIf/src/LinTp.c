@@ -21,7 +21,8 @@
  **  @description        : API definitions of LinTp
  **
  ***********************************************************************************************************************/
-
+/* PRQA S 3415 EOF */ /* VL_LinTp_3415 */
+/* PRQA S 1510 EOF */ /* VL_LinTp_1510 */
 /* =================================================== inclusions =================================================== */
 #include "LinIf_Cfg.h"
 #if (LINIF_TP_SUPPORTED == STD_ON)
@@ -47,8 +48,8 @@
 LINTP_LOCAL_INLINE boolean LinTp_ValidateInitStatus(uint8 appId, ApplicationType applicationId);
 LINTP_LOCAL_INLINE boolean LinTp_ValidatePointer(uint8 appId, uint8 errorId, const void* pointer);
 #if (LINIF_MULTIPLE_PARTITION_USED == STD_ON)
-LINTP_LOCAL_INLINE boolean
-    LinTp_ValidateRxPduPartition(uint8 appId, ApplicationType applicationId, const LinTp_RxNSduType* rx);
+LINTP_LOCAL_INLINE
+boolean LinTp_ValidateRxPduPartition(uint8 appId, ApplicationType applicationId, const LinTp_RxNSduType* rx);
 LINTP_LOCAL_INLINE boolean
     LinTp_ValidateTxPduPartition(uint8 appId, ApplicationType applicationId, const LinTp_TxNSduType* tx);
 #endif

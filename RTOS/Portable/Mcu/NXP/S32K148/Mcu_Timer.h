@@ -34,16 +34,12 @@
 #include "Os_Cfg.h"
 #include "S32K148_LPIT.h"
 
-#if (TRUE == CFG_SYSTEM_TIMER_ENABLE)
-extern FUNC(void, OS_CODE) Os_StartSysTimer(void);
-#endif
-
 #if (TRUE == CFG_TIMING_PROTECTION_ENABLE)
-extern FUNC(void, OS_CODE) Os_InitTmProtTimer(void);
-extern FUNC(void, OS_CODE) Os_ClearTmProtTimer(void);
+extern void Os_InitTmProtTimer(void);
+extern void Os_ClearTmProtTimer(void);
 #endif
 
-#if (TRUE == CFG_LOAD_RATIO_CALC_ENABLE)
+#if (TRUE == CFG_OS_MONITOR_ENABLE)
 #define Os_ArchLoadRatioInit()          \
 {                                       \
     IP_LPIT0->TMR[0].TVAL= 0xffffffff;  \
@@ -52,7 +48,7 @@ extern FUNC(void, OS_CODE) Os_ClearTmProtTimer(void);
 }
 #define OS_SYSTEM_TIMER_MAX_TICK_VALUE (0xffffffff)
 #define OS_SYSTEM_TIMER_REG_PER_MS_VALUE 48000
-extern FUNC(uint32, OS_CODE) Os_ArchGetTimeTicks(void);
+extern uint32 Os_ArchGetTimeTicks(void);
 #endif
 
 #define Os_TmProtFaultProc()

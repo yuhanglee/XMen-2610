@@ -36,6 +36,7 @@ extern "C" {
 /* ========================================= external function declarations ========================================= */
 
 /* connect */
+/* PRQA S 1512 EOF */ /* VL_DoIP_1512 */
 
 /**
  * @brief       Notify PdurR when close tcp connection.

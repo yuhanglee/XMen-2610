@@ -55,6 +55,7 @@ void DspInternal_DcmConfirmation(uint8 protocolId, uint16 connectionId)
             IdsM_SetSecurityEvent(SEV_UDS_ECU_RESET);
 #endif
             (void)Rte_Switch_EcuResetModeSwitchInterface_ecuReset(RTE_MODE_DcmEcuReset_DCM_EXECUTE);
+            (void)SchM_Switch_Dcm_DcmEcuReset(RTE_MODE_DcmEcuReset_DCM_EXECUTE);
         }
 #endif
 

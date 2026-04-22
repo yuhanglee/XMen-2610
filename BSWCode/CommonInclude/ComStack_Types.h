@@ -181,4 +181,24 @@ typedef struct ListElemStructTypeTag
     struct ListElemStructTypeTag* NextListElemPtr; /*Pointer to next list element.*/
 } ListElemStructType;
 
+/** @req <SWS_COMTYPE_91007> */
+/**
+ * @brief Type that indicates the current status of the rate calculation.
+ */
+typedef enum
+{
+    RATE_OK            = (uint8)0,    /* A valid rate deviaton value is available/calculated */
+    RATE_NOT_AVAILABLE = (uint8)0xFE, /* No valid rate deviation value available/calculated */
+    RATE_EXCEEDED      = (uint8)0xFF, /* The calculated rate deviation value exceeds limits */
+} RateDeviationStatusType;
+
+/** @req <SWS_COMTYPE_91006> */
+/**
+ * @brief Rate deviation value and status
+ */
+typedef struct
+{
+    sint32                  rateDeviationValue;  /* Rate deviation value */
+    RateDeviationStatusType rateDeviationStatus; /* Current state of the rate deviation calculation */
+} RateDeviationWithStatusType;
 #endif

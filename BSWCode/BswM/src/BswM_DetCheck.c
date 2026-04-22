@@ -198,6 +198,7 @@ Std_ReturnType BswM_DetChkComMInitRst(void)
 #endif /*BSWM_COMM_ENABLED == STD_ON*/
 
 #if (BSWM_DCM_ENABLED == STD_ON)
+#if (BSWM_DEV_ERROR_DETECT == STD_ON)
 /**
  * Checks the initialization status of the BSW Manager core and validates the DCM application update status.
  * It reports a DET error if the core is not initialized.
@@ -214,6 +215,7 @@ Std_ReturnType BswM_DetChkDcmUpdate(void)
     }
     return ret;
 }
+#endif
 
 /**
  * Checks the initialization status of the BSW Manager core and validates the requested Dcm communication mode.

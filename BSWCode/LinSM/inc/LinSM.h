@@ -64,6 +64,11 @@
       Reason:Configuration parameter, design needs.
       Risk: No risk.
       Prevention: Functional reliability guaranteed by design.
+
+    \li VL_LinSM_AlwaysFalse
+      Reason: Generation because of the configurations.
+      Risk: No risk.
+      Prevention: None.
  */
 
 #ifndef LINSM_H_

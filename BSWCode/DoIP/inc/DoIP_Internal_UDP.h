@@ -34,7 +34,7 @@ extern "C" {
 /**
  * @brief UDP connection status
  */
-typedef struct DoIP_UdpConnStatusTag /* PRQA S 1536  */ /* VL_DoIP_1536 */
+typedef struct
 {
     uint16             SoadTxPduId; /**< DoIPSoAdTxPduId @range 0..65535*/
     SoAd_SoConIdType   SoConId;     /**< ID of socket @range 0..255 */
@@ -44,7 +44,7 @@ typedef struct DoIP_UdpConnStatusTag /* PRQA S 1536  */ /* VL_DoIP_1536 */
 /**
  * @brief Status of announcement
  */
-typedef struct DoIP_VehicleAncConnStatusTag /* PRQA S 1536  */ /* VL_DoIP_1536 */
+typedef struct
 {
     SoAd_SoConIdType   SoConId;    /**< ID of socket @range 0..255 */
     SoAd_SoConModeType SoConState; /**< State of connection @range 0..2 */

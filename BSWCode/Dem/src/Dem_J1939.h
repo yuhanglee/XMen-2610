@@ -137,6 +137,7 @@
 /* PRQA S 3472 -- */
 
 /* ========================================== internal function declarations ======================================== */
+/* PRQA S 1512 EOF */ /* VL_Dem_1512 */
 #if (                                                                                                     \
     ((DEM_OBD_CALLBACK_DTC_STATUS_CHANGED == STD_ON) || (DEM_J1939_CALLBACK_DTC_STATUS_CHANGED == STD_ON) \
      || (DEM_CLIENT_CALLBACK_DTC_STATUS_CHANGED == STD_ON))                                               \

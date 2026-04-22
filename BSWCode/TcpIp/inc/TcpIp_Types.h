@@ -391,6 +391,22 @@ typedef uint8 TcpIp_ParamIdType;
  */
 
 /**
+ * @name TcpIp_ArpEntryStateType
+ * @{
+ * @brief state of ARP entry.
+ */
+typedef uint8 TcpIp_ArpEntryStateType;
+/** static arp entry. */
+#define TCPIP_ARP_ENTRY_STATIC ((TcpIp_ArpEntryStateType)(0x00u))
+/** valid arp entry. */
+#define TCPIP_ARP_ENTRY_VALID ((TcpIp_ArpEntryStateType)(0x01u))
+/** stale arp entry. */
+#define TCPIP_ARP_ENTRY_STALE ((TcpIp_ArpEntryStateType)(0x02u))
+/**
+ * @}
+ */
+
+/**
  * @brief TcpIp_ArpCacheEntries elements type.
  */
 typedef struct TcpIp_ArpCacheEntryTag

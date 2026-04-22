@@ -414,4 +414,15 @@ DEM_LOCAL Dem_J1939DcmLampStatusType Dem_CalculateEventJ1939LampStatus(uint8 Cli
 DEM_LOCAL void Dem_SatelliteRestoreDebounceValue(Dem_EventIdType EventId, sint16 Value, boolean ExpectedThreshold);
 #endif
 
+#if (DEM_EVENT_PARTITION_NUMBER > 1u)
+/**
+ * @brief         Get ApplicationId of Satellite Info by SatelliteId
+ * @param[in]     SatelliteId: Satellite Id
+ * @return        ApplicationType
+ * @reentrant     FALSE
+ * @synchronous   TRUE
+ * @trace         CPD-PLACEHOLDER
+ */
+DEM_LOCAL_INLINE ApplicationType Dem_GetSatelliteApplicationId(Dem_SatelliteIdType SatelliteId);
+#endif
 #endif

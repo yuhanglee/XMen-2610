@@ -35,7 +35,7 @@ extern "C" {
 /* ===================================================== macros ===================================================== */
 
 /* ================================================ type definitions ================================================ */
-typedef struct ComM_UserConfigType_Tag
+typedef struct ComM_UserConfigTypeTag /* PRQA S 1536 */ /* VL_ComM_NotUsed */
 {
     const NetworkHandleType* Channels;
     uint8                    NumberOfChannels;

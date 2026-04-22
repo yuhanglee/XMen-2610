@@ -70,6 +70,7 @@ MEMIF_LOCAL_INLINE void MemIf_DetReportError(uint8 ApiId, uint8 ErrorId)
 }
 #endif
 
+/* PRQA S 0553 EOF */ /* VL_MemIf_0553 */
 /* ========================================== external function definitions ========================================= */
 /* PRQA S 1503,1532 ++ */ /* VL_MemIf_1503,VL_QAC_OneFunRef */
 #if (MEMIF_DEV_ERROR_DETECT == STD_ON)

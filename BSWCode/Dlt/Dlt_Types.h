@@ -192,12 +192,12 @@ typedef struct
 } Dlt_ConfigType;
 
 /* PRQA S 3432++ */ /* MISRA Rule 20.7 */
-typedef P2FUNC(void, DCM_APPL_CODE, LogLevelChangedNotificationType)(
+typedef P2FUNC(Std_ReturnType, DCM_APPL_CODE, LogLevelChangedNotificationType)(
     Dlt_ApplicationIDType   appId,
     Dlt_ContextIDType       contextId,
-    Dlt_MessageLogLevelType newLogLevel);
+    Dlt_MessageLogLevelType logLevel);
 
-typedef P2FUNC(void, DCM_APPL_CODE, TraceStatusChangedNotificationType)(
+typedef P2FUNC(Std_ReturnType, DCM_APPL_CODE, TraceStatusChangedNotificationType)(
     Dlt_ApplicationIDType appId,
     Dlt_ContextIDType     contextId,
     boolean               newTraceStatus);

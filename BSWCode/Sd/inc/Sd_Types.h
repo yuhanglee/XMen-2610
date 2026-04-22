@@ -25,6 +25,7 @@
 #ifndef SD_TYPES_H
 #define SD_TYPES_H
 
+/* PRQA S 1536 EOF */ /* VL_Sd_1536 */
 #include "Sd_Cfg.h"
 #if SD_MODULE_ENABLE == STD_ON
 

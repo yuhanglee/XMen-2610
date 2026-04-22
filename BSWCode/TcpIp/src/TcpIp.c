@@ -23,6 +23,8 @@
  ***********************************************************************************************************************/
 /* PRQA S 1503 EOF */ /* VL_QAC_NoUsedApi */
 /* PRQA S 1505 EOF */ /* VL_TcpIp_1505 */
+/* PRQA S 1501 EOF */ /* VL_TcpIp_1501 */
+/* PRQA S 1753 EOF */ /* VL_TcpIp_1753 */
 /* PRQA S 1532 EOF */ /* VL_QAC_OneFunRef */
 /* PRQA S 6510 EOF */ /* VL_MTR_TcpIp_CONF */
 /* PRQA S 6040 EOF */ /* VL_MTR_TcpIp_STPAR */

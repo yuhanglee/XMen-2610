@@ -37,18 +37,22 @@ Std_ReturnType Dcm_OBD0x04(
     Dcm_MsgContextType*           pMsgContext,
     Dcm_NegativeResponseCodeType* ErrorCode)
 {
-    uint8 protocolId;
+    uint8          protocolId;
+    Std_ReturnType result = E_OK;
     DCM_UNUSED(OpStatus);
 
     /* find protocol for DemclientRef */
     (void)DslInternal_FindProtocolRowByRxPduId(pMsgContext->dcmRxPduId, &protocolId, NULL_PTR);
 
-    /* select target DTC */
-    Std_ReturnType result = Dem_SelectDTC(
-        Dcm_DslProtocolRow[protocolId].DemClientRef,
-        DEM_DTC_GROUP_ALL_DTCS,
-        DEM_DTC_FORMAT_OBD,
-        DEM_DTC_ORIGIN_OBD_RELEVANT_MEMORY);
+    if (DCM_INITIAL == OpStatus)
+    {
+        /* select target DTC */
+        result = Dem_SelectDTC(
+            Dcm_DslProtocolRow[protocolId].DemClientRef,
+            DEM_DTC_GROUP_ALL_DTCS,
+            DEM_DTC_FORMAT_OBD,
+            DEM_DTC_ORIGIN_OBD_RELEVANT_MEMORY);
+    }
 
     if (E_OK == result)
     {

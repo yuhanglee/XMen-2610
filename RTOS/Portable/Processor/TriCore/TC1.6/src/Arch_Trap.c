@@ -141,7 +141,7 @@ void Os_SystemCallTrap(uint16 Os_Tin) /* PRQA S 3006 */ /* VL_Os_3006 */
 
 #if (TRUE == CFG_SRV_SHELLOS)
     case 1:
-        upperCsa->reg[1] = 0x00000981u; /* PSW  */
+        upperCsa->reg[1] = PSW_DEFAULT_VALUE | 0x1u; /* PSW  */
         OS_ARCH_DSYNC();
         OS_ASM("rslcx");
         OS_ASM("nop");
@@ -150,8 +150,8 @@ void Os_SystemCallTrap(uint16 Os_Tin) /* PRQA S 3006 */ /* VL_Os_3006 */
 #endif /* TRUE == CFG_SRV_SHELLOS */
 #if (TRUE == CFG_SRV_SHELLOS)
     case 2:
-        upperCsa->reg[1] &= 0xffffc3ffu;                                    /* PSW  */
-        upperCsa->reg[1] |= 0x00000800u; /* PRQA S 1272 */ /* VL_Os_1272 */ /* PSW  */
+        upperCsa->reg[1] &= (PSWIO_MASK & PPRS_MASK);                                    /* PSW  */
+        upperCsa->reg[1] |= PSWIO_SUPERVISOR_MODE; /* PRQA S 1272 */ /* VL_Os_1272 */ /* PSW  */
         OS_ARCH_DSYNC();
         OS_ASM("rslcx");
         OS_ASM("nop");

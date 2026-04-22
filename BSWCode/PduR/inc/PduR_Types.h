@@ -30,7 +30,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-/* PRQA S 3332,1252 ++ */ /* VL_QAC_3332,VL_QAC_1252 */
+/* PRQA S 3332,1252,1536 ++ */ /* VL_QAC_3332,VL_QAC_1252,VL_PduR_1536 */
 #if (STD_OFF == PDUR_ZERO_COST_OPERATION)
 /* =============================================== version information ============================================== */
 
@@ -442,7 +442,7 @@ typedef struct
 } PduR_QueueRuntimeType;
 
 #endif /*end of PDUR_ZERO_COST_OPERATION*/
-/* PRQA S 3332,1252 -- */
+/* PRQA S 3332,1252,1536 -- */
 #ifdef __cplusplus
 }
 #endif

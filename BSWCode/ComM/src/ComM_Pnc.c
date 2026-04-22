@@ -54,6 +54,11 @@ typedef struct
 /* ============================================ external data definition ============================================ */
 
 /* ========================================= internal function declarations ========================================= */
+
+#ifdef QAC_ANALYZE
+#pragma PRQA_NO_SIDE_EFFECTS ComM_GetBit
+#endif
+
 /**
  * Store current pnc mode and notify to SW-C if current mode of user changed.
  * @param[in]    pnc      See PNCHandleType

@@ -865,7 +865,7 @@ static void PduR_TpDestinationProcess(PduIdType srcPduId, PduIdType destPduId, u
             PduR_QueuePopFront(queuePtr);
             SchM_Exit_PduR_ExclusiveArea_Route();
             PduR_Det_ReportRuntimeError(apiId, PDUR_E_PDU_INSTANCES_LOST);
-            continue;
+            continue; /* PRQA S 0770 */ /* VL_PduR_0770 */
         }
 #endif
         PduR_DestinationRouteStatus[destPduId] = status;
@@ -1215,6 +1215,10 @@ static boolean PduR_EvaluateUpLayerConfirmationStatus(PduIdType srcPduId)
                 /* At least a dest route get confirmation,source route state can be set OK. */
                 PduR_SourceRouteStatus[srcPduId] = PDUR_RES_OK;
             }
+            else
+            {
+                /* do nothing */
+            }
         }
         if ((finishFlag) && (PduR_SourceRouteStatus[srcPduId] != PDUR_RES_OK))
         {
@@ -1239,5 +1243,5 @@ static inline const PduR_BswModuleType* PduR_GetBswModulePtrOfDestPdu(PduIdType 
 }
 #define PDUR_STOP_SEC_CODE
 #include "PduR_MemMap.h"
-/* PRQA S 3672 -- */ /* VL_PduR_FuncPtrNonConst */
+/* PRQA S 3672 -- */
 #endif

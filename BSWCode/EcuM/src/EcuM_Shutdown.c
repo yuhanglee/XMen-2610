@@ -178,6 +178,7 @@ Std_ReturnType EcuM_SelectShutdownTarget(EcuM_ShutdownTargetType shutdownTarget,
     {
         switch (shutdownTarget)
         {
+#if (ECUM_SLEEP_MODE_ENABLED == STD_ON)
         case ECUM_SHUTDOWN_TARGET_SLEEP:
             if (shutdownMode >= (EcuM_ShutdownModeType)ECUM_MAX_SLEEP_MODE_NUM)
             {
@@ -188,6 +189,7 @@ Std_ReturnType EcuM_SelectShutdownTarget(EcuM_ShutdownTargetType shutdownTarget,
                 ret = E_OK;
             }
             break;
+#endif
         case ECUM_SHUTDOWN_TARGET_RESET:
             if (shutdownMode >= (EcuM_ShutdownModeType)ECUM_MAX_RESET_MODE_NUM + (EcuM_ShutdownModeType)256)
             {
@@ -441,7 +443,7 @@ void EcuM_OffPreOS(void)
     if (ECUM_MASTER_CORE_ID == coreId)
 #endif /*ECUM_MAX_MCU_CORE_NUM > 1*/
     {
-        /*Master-core enter in SHUTDOWM mode.*/
+        /*Master-core enter in SHUTDOWN mode.*/
         BswM_EcuM_CurrentState(ECUM_STATE_SHUTDOWN);
     }
 

@@ -30,7 +30,7 @@
 #ifndef ARCH_DEFINE_H
 #define ARCH_DEFINE_H
 /*=======[I N C L U D E S]====================================================*/
-#include "PlatformTypes.h"
+#include "Std_Types.h"
 
 /*=======[M A C R O S]========================================================*/
 

@@ -35,7 +35,7 @@ extern "C" {
 
 /* ================================================ type definitions ================================================ */
 /** @brief Jobs PC-config type*/
-typedef struct Csm_JobsCfgTag
+typedef struct
 {
     const Crypto_JobPrimitiveInfoType* jobPrimitiveInfo;
     uint32                             jobId;
@@ -46,14 +46,14 @@ typedef struct Csm_JobsCfgTag
 } Csm_JobsCfgType;
 
 /** @brief configuration of a CSM key*/
-typedef struct Csm_KeyCfgTag
+typedef struct
 {
     uint32  cryIfKey;
     boolean usePort;
 } Csm_KeyCfgType;
 
 /** @brief  CSM queue configurations*/
-typedef struct Csm_QueueCfgTag
+typedef struct
 {
     uint32 queueSize;
     uint32 cryIfChRef;

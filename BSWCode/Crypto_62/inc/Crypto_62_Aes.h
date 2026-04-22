@@ -87,7 +87,13 @@ void Crypto_Aes_Setkey_Dec(Crypto_AESData* ctx, uint8* key, uint16 keybits);
  *          - E_OK: Operation successful.
  *          - E_NOT_OK: Operation failed.
  */
-Std_ReturnType Crypto_Aes_Crypt_Ecb(Crypto_AESData* ctx, uint8 mode, uint32 length, const uint8* input, uint8* output);
+Std_ReturnType Crypto_Aes_Crypt_Ecb(
+    Crypto_AESData* ctx,
+    uint8           mode,
+    uint32          length,
+    const uint8*    input,
+    uint8*          output,
+    uint32*         outputLen);
 
 /**
  * @brief   Encrypts or decrypts data using AES in CTR mode.
@@ -132,7 +138,8 @@ Std_ReturnType Crypto_Aes_Crypt_Cbc(
     uint32          length,
     uint8           iv[CRYPTO_CONST_16],
     const uint8*    input,
-    uint8*          output);
+    uint8*          output,
+    uint32*         outputLen);
 
 /**
  * @brief   Encrypts or decrypts data using AES in CFB128 mode.

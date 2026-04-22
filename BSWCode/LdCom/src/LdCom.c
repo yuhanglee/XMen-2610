@@ -22,6 +22,8 @@
  **
  ***********************************************************************************************************************/
 
+/* PRQA S 3415 EOF */ /* VL_LdCom_3415 */
+
 /* =================================================== inclusions =================================================== */
 #include "LdCom_Internal.h"
 #include "LdCom_Cbk.h"
@@ -43,10 +45,10 @@
 #if (STD_ON == LDCOM_SUPPORT_MULTIPLE_PARTITION)
 #define LdCom_InitStatus (*LdCom_MultiPartitionInitStatusPtr[partIndex])
 #else
-#define LDCOM_START_SEC_VAR_INIT_BOOLEAN
+#define LDCOM_START_SEC_VAR_CLEARED_BOOLEAN
 #include "LdCom_MemMap.h"
-LDCOM_LOCAL boolean LdCom_InitStatus = FALSE;
-#define LDCOM_STOP_SEC_VAR_INIT_BOOLEAN
+LDCOM_LOCAL boolean LdCom_InitStatus;
+#define LDCOM_STOP_SEC_VAR_CLEARED_BOOLEAN
 #include "LdCom_MemMap.h"
 #endif
 

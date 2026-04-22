@@ -35,9 +35,9 @@ extern "C" {
 
 /* ===================================================== macros ===================================================== */
 #if !defined(RAMTST_LOCAL_CONST)
-/* PRQA S 3414,3461 ++ */               /* VL_RamTst_3414,VL_RamTst_3461 */
+/* PRQA S 3414, 3461 ++ */              /* VL_QAC_FctLikeMacro, VL_RamTst_3461 */
 #define RAMTST_LOCAL_CONST static const /** Defines used as the local const keyword for variables or functions */
-/* PRQA S 3414,3461 -- */
+/* PRQA S 3414, 3461 -- */
 #endif
 /* PRQA S 3428 ++ */ /* VL_RamTst_3428 */
 #if !defined(RAMTST_CONST)

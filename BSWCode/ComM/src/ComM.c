@@ -614,8 +614,7 @@ void ComM_DCM_ActiveDiagnostic(NetworkHandleType Channel)
 {
 #if COMM_DEV_ERROR_DETECT == STD_ON
     if (ComM_ValidatePartitionContext(COMM_SID_DCM_ACTIVEDIAGNOSTIC)
-        && ComM_ValidateInitStatus(COMM_SID_DCM_ACTIVEDIAGNOSTIC)
-        && ComM_ValidateChannel(COMM_SID_DCM_ACTIVEDIAGNOSTIC, Channel))
+        && ComM_ValidateInitStatus(COMM_SID_DCM_ACTIVEDIAGNOSTIC))
 #endif
     {
         ComM_ChannelActiveDiagnostic(Channel, TRUE);
@@ -629,8 +628,7 @@ void ComM_DCM_InactiveDiagnostic(NetworkHandleType Channel)
 {
 #if COMM_DEV_ERROR_DETECT == STD_ON
     if (ComM_ValidatePartitionContext(COMM_SID_DCM_INACTIVEDIAGNOSTIC)
-        && ComM_ValidateInitStatus(COMM_SID_DCM_INACTIVEDIAGNOSTIC)
-        && ComM_ValidateChannel(COMM_SID_DCM_INACTIVEDIAGNOSTIC, Channel))
+        && ComM_ValidateInitStatus(COMM_SID_DCM_INACTIVEDIAGNOSTIC))
 #endif
     {
         ComM_ChannelActiveDiagnostic(Channel, FALSE);
@@ -715,7 +713,7 @@ void ComM_BusSM_ModeIndication(NetworkHandleType Channel, ComM_ModeType ComMode)
 void ComM_MainFunction(NetworkHandleType Channel)
 {
 #if COMM_DEV_ERROR_DETECT == STD_ON
-    if (ComM_ValidatePartitionContext(COMM_SID_MAINFUNCATION))
+    if (ComM_ValidatePartitionContext(COMM_SID_MAINFUNCATION)) /* PRQA S 2991 */ /* VL_ComM_AlwaysTrue */
 #endif
     {
         if (ComM_InitStatus[ComM_GetPartitionIndex()] == COMM_INIT)
@@ -763,7 +761,7 @@ COMM_LOCAL uint8 ComM_GetPartitionIndex(void)
  */
 COMM_LOCAL boolean ComM_ValidatePartitionContext(uint8 apiId)
 {
-    if (ComM_GetPartitionIndex() >= COMM_PARTITION_NUMBER)
+    if (ComM_GetPartitionIndex() >= COMM_PARTITION_NUMBER) /* PRQA S 2992, 2996 */ /* VL_ComM_AlwaysFalse */
     {
         (void)Det_ReportError(COMM_MODULE_ID, COMM_INSTANCE_ID, apiId, COMM_E_INVALID_PARTITION_CONTEXT);
         return FALSE;

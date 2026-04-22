@@ -128,7 +128,7 @@ typedef enum
     XCP_KEY
 } Xcp_SeedandKeyStatusType;
 
-typedef struct Xcp_AddressTag
+typedef struct
 {
     uint8  extensionAddr;
     uint32 transferAddr;

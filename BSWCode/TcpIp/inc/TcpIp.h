@@ -258,7 +258,27 @@
       Risk: None.
       Prevention: Ensure that the project is working properly through unit testing.
 
+    \li VL_TcpIp_0388
+      Reason: The macro is defined in lwIp.
+      Risk: None.
+      Prevention: Ensure that the project is working properly through unit testing.
+
     \li VL_TcpIp_1505
+      Reason: The internal functions are all defined in the TcpIp_Internal.c file.
+      Risk: None.
+      Prevention: Ensure that the project is working properly through unit testing.
+
+    \li VL_TcpIp_1502
+      Reason: The internal functions are all defined in the TcpIp_Internal.c file.
+      Risk: None.
+      Prevention: Ensure that the project is working properly through unit testing.
+
+    \li VL_TcpIp_1501
+      Reason: The internal functions are all defined in the TcpIp_Internal.c file.
+      Risk: None.
+      Prevention: Ensure that the project is working properly through unit testing.
+
+    \li VL_TcpIp_1753
       Reason: The internal functions are all defined in the TcpIp_Internal.c file.
       Risk: None.
       Prevention: Ensure that the project is working properly through unit testing.
@@ -295,6 +315,11 @@
       Risk: For the target uC, the stack usage and runtime are too high.
       Prevention: When testing the result code on the target uC, the user must check the stack usage in the
                   project context.
+
+    \li VL_TcpIp_1536
+      Reason: The tag '%1s' is declared but not used within this project.
+      Risk: No risk.
+      Prevention: Functional reliability guaranteed by design.
  */
 
 #ifndef TCPIP_H_

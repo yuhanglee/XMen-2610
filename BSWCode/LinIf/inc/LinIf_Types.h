@@ -24,6 +24,7 @@
 
 #ifndef LINIF_TYPES_H_
 #define LINIF_TYPES_H_
+/* PRQA S 1536 EOF */ /* VL_LinIf_1536 */
 
 /* =================================================== inclusions =================================================== */
 #include "ComStack_Types.h"
@@ -336,6 +337,7 @@ typedef struct LinIf_ChannelTag
     LinIf_SchHandleType NumOfSchedule;
     LinIf_SchHandleType ScheduleIndexOffset;
     boolean             ScheduleChangeNextTimeBase;
+    boolean             IsRefByTpChannel;
 } LinIf_ChannelType;
 
 /**

@@ -68,10 +68,6 @@ COMM_LOCAL_INLINE void ComM_ClrBit(uint8* data, uint32 bitPn)
     data[bitPn / COMM_CHAR_BIT] &= (uint8) ~(uint8)(1u << (bitPn % COMM_CHAR_BIT));
 }
 
-#ifdef QAC_ANALYZE
-#pragma PRQA_NO_SIDE_EFFECTS ComM_GetBit
-#endif
-
 /**
  * This function shall return the logical status of the input data for the requested bit position.
  * @param[in]    data   Pointer to input data

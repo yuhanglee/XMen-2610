@@ -665,8 +665,6 @@ COMM_LOCAL void ComM_ChBeh_EntryComReadySleep(NetworkHandleType Channel)
 
 COMM_LOCAL void ComM_ChBeh_EntryFullComReq(NetworkHandleType Channel, boolean ActiveRequested)
 {
-    ComM_ChannelGlobalVars[Channel].WakeUpIndication = FALSE;
-
     ComM_ChannelLocalVarType* channelLocalVarPtr = ComM_ChannelLocalVarPtrs[Channel];
     channelLocalVarPtr->State                    = COMM_FULL_COM_NETWORK_REQUESTED;
 
@@ -711,6 +709,9 @@ COMM_LOCAL void ComM_ChBeh_EntryFullComReq(NetworkHandleType Channel, boolean Ac
         }
     }
 #endif
+    /** The WakeUpIndication flag must be cleared after Nm_PassiveStartUp is called, to prevent repeated reporting of
+     * the wake-up event before BusNm has actually processed the passive wake-up. */
+    ComM_ChannelGlobalVars[Channel].WakeUpIndication = FALSE;
 }
 
 /**

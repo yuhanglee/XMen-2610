@@ -38,7 +38,7 @@ extern "C" {
 /* ===================================================== macros ===================================================== */
 
 /* ================================================ type definitions ================================================ */
-typedef struct Crypto_hmac_drbg_context_Tag
+typedef struct
 {
     Crypto_Md_Context_t md_ctx;
     unsigned char       V[CRYPTO_CONST_64];

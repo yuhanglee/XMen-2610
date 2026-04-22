@@ -41,6 +41,7 @@ extern "C" {
 /* =========================================== external data declarations =========================================== */
 
 /* ========================================= external function declarations ========================================= */
+#if (PDUR_NUMBER_OF_QUEUES_MAX > 0u)
 void PduR_BufferInit(void);
 void PduR_DisableRoutingQueueHandle(PduIdType destPduId, boolean initialize);
 /* PRQA S 5016 ++ */ /* VL_PduR_5016 */
@@ -61,6 +62,7 @@ PduR_QueueStoreType PduR_QueueStorePduInfo(
     const PduInfoType*     pduInfoPtr,
     uint8                  apiId);
 void PduR_QueueDataConf(PduR_QueueRuntimeType* queuePtr, uint8 metaDataLength);
+#endif
 #ifdef __cplusplus
 }
 #endif

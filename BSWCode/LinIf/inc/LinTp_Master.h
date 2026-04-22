@@ -46,6 +46,11 @@ LINTP_LOCAL_INLINE LinTp_MasterRuntimeType* LinTp_MasterRtDataPtr(uint8 ch)
     return LinTp_ConfigPtr->RtDataVariantMapPtr->MasterRtDataPtr[ch];
 }
 
+LINTP_LOCAL_INLINE LinTp_MasterRuntimeType* LinTp_BackupMasterRtDataPtr(uint8 ch)
+{
+    return LinTp_ConfigPtr->RtDataVariantMapPtr->BackupMasterRtDataPtr[ch];
+}
+
 LINTP_LOCAL_INLINE void LinTp_SetEvent(LinTp_MasterRuntimeType* tpChPtr, uint16 event)
 {
     tpChPtr->SubEvent |= event;
@@ -262,6 +267,55 @@ boolean LinTp_GetScheduleChangeDiag(NetworkHandleType LinIfChannelId);
  */
 void LinTp_MasterMainFunction(uint8 LinIfChannelId);
 #endif
+
+/**
+ * @brief               Transmitting process
+ * @param[inout]        LinTpMasterRtDataPtr: The runtime data of lintp master channel
+ * @param[in]           LinIfChannelId: Identification of the LIN channel
+ * @reentrant           TRUE
+ * @synchronous         TRUE
+ * @trace               -
+ */
+void LinTp_TxProcess(LinTp_MasterRuntimeType* LinTpMasterRtDataPtr);
+
+/**
+ * @brief               Receiving process
+ * @param[inout]        masterChRtDataPtr: The runtime data of lintp master channel
+ * @reentrant           TRUE
+ * @synchronous         TRUE
+ * @trace               -
+ */
+void LinTp_RxProcess(LinTp_MasterRuntimeType* masterChRtDataPtr);
+
+/**
+ * @brief               Load transmit request information
+ * @param[in]           ch: Identification of the LIN channel
+ * @param[inout]        tpChPtr: Runtime data of lintp master channel
+ * @reentrant           TRUE
+ * @synchronous         TRUE
+ * @trace               -
+ */
+void LinTp_LoadTxRequest(NetworkHandleType ch, LinTp_MasterRuntimeType* tpChPtr);
+
+/**
+ * @brief               Handle the timer for specific channel.
+ * @param[inout]        masterChRtDataPtr: The runtime data of lintp master channel
+ * @param[in]           LinIfChannelId: Identification of the LIN channel
+ * @reentrant           TRUE
+ * @synchronous         TRUE
+ * @trace               -
+ */
+void LinTp_HandleTimers(LinTp_MasterRuntimeType* masterChRtDataPtr, NetworkHandleType LinIfChannelId);
+
+/**
+ * @brief               Get the LinIf channel corresponding LinTp channel
+ * @param[in]           ch: Identification of the LIN channel
+ * @return              retLinTpChannelId: Identification of the Lintp channel
+ * @reentrant           TRUE
+ * @synchronous         TRUE
+ * @trace               -
+ */
+NetworkHandleType LinTp_GetLinTpChannel(NetworkHandleType LinIfChannelId);
 
 #endif
 #endif

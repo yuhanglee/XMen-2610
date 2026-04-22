@@ -49,7 +49,7 @@ typedef enum
     NM_STATE_NORMAL_OPERATION  = 4,
     NM_STATE_REPEAT_MESSAGE    = 5,
     NM_STATE_SYNCHRONIZE       = 6,
-    NM_STATE_OFFLINE           = 255,
+    NM_STATE_OFFLINE           = 7,
 } Nm_StateType;
 
 /**

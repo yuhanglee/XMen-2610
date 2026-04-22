@@ -32,6 +32,7 @@
 /* ========================================== external function definitions ========================================= */
 #define DEM_START_SEC_CODE
 #include "Dem_MemMap.h"
+#if (DEM_SUPPORT_SETDTCFILTERBYEXTENDEDDATARECORDNUMBER_API == STD_ON)
 /**
  * @brief Sets the DTC Filter based on a given extended data record on the primary fault memory. The
  * server selects all DTCs that have a matching extended data record.
@@ -47,7 +48,9 @@ Std_ReturnType Dem_SetDTCFilterByExtendedDataRecordNumber(
     DEM_PARAM_UNUSED(ExtendedDataRecordNumber);
     return E_NOT_OK;
 }
+#endif
 
+#if (DEM_SUPPORT_SETDTCFILTERBYREADINESSGROUP_API == STD_ON)
 /**
  * @brief Sets the DTC Filter based on a given DTC readiness group on the primary fault memory. The server
  * selects all DTCs that have this DTC readiness group configured.
@@ -63,6 +66,7 @@ Std_ReturnType Dem_SetDTCFilterByReadinessGroup(
     DEM_PARAM_UNUSED(ReadinessGroupNumber);
     return E_NOT_OK;
 }
+#endif
 
 #if (DEM_OBD_SUPPORT != DEM_OBD_NO_OBD_SUPPORT)
 #if (DEM_OBD_ENGINE_TYPE == DEM_IGNITION_SPARK)

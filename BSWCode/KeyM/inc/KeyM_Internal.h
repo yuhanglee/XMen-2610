@@ -62,6 +62,12 @@ extern "C" {
 
 #define KEYM_CONST_5 (uint8)(0x5U) /**< Constant value 5. */
 
+#define KEYM_CONST_6 (uint8)(0x6U) /**< Constant value 6. */
+
+#define KEYM_CONST_7 (uint8)(0x7U) /**< Constant value 7. */
+
+#define KEYM_CONST_8 (uint8)(0x8U) /**< Constant value 8. */
+
 #define KEYM_INVALID_U16 (0xffffU) /**< Invalid 16-bit value. */
 
 #define KEYM_INVALID_U32 (0xffffffffU) /**< Invalid 32-bit value. */
@@ -386,7 +392,7 @@ typedef struct KeyM_CertType
     uint16 certMaxLen;
 
     /** This field holds a pointer to the buffer containing the certificate body (To Be Signed part).*/
-    KeyM_Asn1DesType* tbsCert;
+    KeyM_Asn1DesType* CertData;
 
     /** This field holds a pointer to the reference of the upper hierarchy certificate.*/
     const struct KeyM_CertType* certUpperHierRef;

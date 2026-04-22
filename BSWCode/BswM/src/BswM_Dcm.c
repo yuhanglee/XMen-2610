@@ -254,7 +254,7 @@ Dcm_CommunicationModeType BswM_GetDcmCurModeStatus(NetworkHandleType dcmChIdx)
  */
 /* PRQA S 1503 ++*/ /* VL_QAC_NoUsedApi */
 BswM_EventRquestPortRuntimeType BswM_GetDcmAppUpdatedStatus(void)
-/* PRQA S 1503 ++*/ /* VL_QAC_NoUsedApi */
+/* PRQA S 1503 --*/ /* VL_QAC_NoUsedApi */
 {
     BswM_EventRquestPortRuntimeType dcmAppStatus = BSWM_INVALID_U8;
 #if (BSWM_EVENT_DCM_APPLICATION_UPDATED_INDICATION_ENABLE == STD_ON)

@@ -172,13 +172,13 @@ void LinIf_SlaveLinErrorIndication(NetworkHandleType ch, Lin_SlaveErrorType Erro
 void LinIf_SlaveGotoSleep(NetworkHandleType ch);
 
 /**
- * @brief               Main function of slave node.
- * @param[in]           ch: Identification of the LIN channel
- * @reentrant           TRUE
- * @synchronous         TRUE
- * @trace               -
+ * @brief           LinIf slave main function
+ * @param[in]       channel: Identification of the LinIf channel
+ * @reentrant       TRUE
+ * @synchronous     TRUE
+ * @trace        -
  */
-void LinIf_SlaveMainFunction(NetworkHandleType ch);
+void LinIf_SlaveMainHandle(NetworkHandleType ch);
 
 #endif
 

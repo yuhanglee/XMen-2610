@@ -41,6 +41,7 @@
  * @brief       The lower layer communication interface module confirms the transmission of a PDU, or the failure to
  * transmit a PDU.
  * @param[in]   TxPduId   : The PDU ID to be notified as having been sent.
+ * @param[in]   result    : The transmission result of the lower layer.
  * @reentrant   FALSE
  * @synchronous TRUE
  * @trace       CPD-63957

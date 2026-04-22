@@ -51,7 +51,7 @@ typedef enum
 } Det_StateType;
 
 /* The type is used to describe the store errors in the DET module */
-typedef struct Det_EntryTypeTag /* PRQA S 1536 */ /* VL_Det_1536 */
+typedef struct
 {
     uint16 ModuleId;
     uint8  InstanceId;
@@ -60,7 +60,7 @@ typedef struct Det_EntryTypeTag /* PRQA S 1536 */ /* VL_Det_1536 */
 } Det_EntryType;
 
 /* structure used to configure filters and store log data, using 0xFF for a filter item means don't care */
-typedef struct Det_InfoTypeTag /* PRQA S 1536 */ /* VL_Det_1536 */
+typedef struct
 {
     uint16 ModuleId;
     uint8  InstanceId;
@@ -69,7 +69,7 @@ typedef struct Det_InfoTypeTag /* PRQA S 1536 */ /* VL_Det_1536 */
 } Det_InfoType;
 
 /* structure to control the operation of DET debug extension */
-typedef struct Det_StatusTypeTag /* PRQA S 1536 */ /* VL_Det_1536 */
+typedef struct
 {
     boolean LogActive;
 } Det_StatusType;

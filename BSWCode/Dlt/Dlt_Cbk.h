@@ -32,6 +32,7 @@
 /*============================================================================*/
 
 #include "Dlt_Types.h"
+#include "Dlt_Cfg.h"
 
 /*
  * Brief               Indication of a received PDU from a lower layer communication interface module.
@@ -77,11 +78,7 @@ extern FUNC(Std_ReturnType, DLT_APPL_CODE)
  * Param-Name[in/out]  N/A
  * Return              N/A
  */
-#ifdef DLT_TX_CONFIRM_R19_USED
 extern FUNC(void, DLT_APPL_CODE) Dlt_TxConfirmation(PduIdType TxPduId, Std_ReturnType result);
-#else
-extern FUNC(void, DLT_APPL_CODE) Dlt_TxConfirmation(PduIdType TxPduId);
-#endif
 
 /*
  * Brief               This extern FUNCtion is called after the I-PDU has been transmitted on its network,

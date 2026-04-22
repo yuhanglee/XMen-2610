@@ -33,6 +33,12 @@
       Risk: No risk.
       Prevention: Functional reliability guaranteed by design.
 
+    \li VL_MemIf_0553
+      Reason:  the MemIf shall be implemented as a set of macros mapping the MemIf API to the API of the corresponding
+  memory abstraction module.
+      Risk: No risk.
+      Prevention: None.
+
     \li VL_MemIf_5004
       Reason: pointer type definition is essential
       Risk: No risk.

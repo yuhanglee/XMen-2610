@@ -110,7 +110,7 @@
 /* =============================================== version information ============================================== */
 /** Published Information */
 #define ETHTSYN_VENDOR_ID                   ((uint8)62u)
-#define ETHTSYN_MODULE_ID                   ((uint8)169u)
+#define ETHTSYN_MODULE_ID                   ((uint8)164u)
 #define ETHTSYN_INSTANCE_ID                 ((uint8)0u)
 #define ETHTSYN_AR_RELEASE_MAJOR_VERSION    ((uint8)4u)
 #define ETHTSYN_AR_RELEASE_MINOR_VERSION    ((uint8)9u)

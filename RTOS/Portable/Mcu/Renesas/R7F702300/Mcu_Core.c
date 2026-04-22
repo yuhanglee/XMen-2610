@@ -209,6 +209,16 @@ FUNC(void, OS_CODE) Os_MultiCoreInitProcessor(void)
         /* Nothing to do */
         break;
     }
+/*Initialize system timer for system counter */
+#if (TRUE == CFG_SYSTEM_TIMER_ENABLE)
+    Os_ArchInitSystemTimer();
+#endif
+
+/*Initialize system timer for time protection */
+#if (TRUE == CFG_TIMING_PROTECTION_ENABLE)
+    Os_ArchInitTimingProtTimer();
+#endif
+
 }
 
 /******************************************************************************/

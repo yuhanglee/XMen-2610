@@ -269,7 +269,8 @@ ECUM_LOCAL void EcuM_InitAndNotifyBswM(EcuM_RunTimeLcType* tempRunData)
 ECUM_LOCAL void EcuM_InternalInit(EcuM_RunTimeLcType* pRt)
 {
 #if (ECUM_ALARM_CLOCK_PRESENT == STD_ON)
-    pRt->GlobalClock = 0u;
+    pRt->GlobalClock     = 0u;
+    pRt->EcuM_TimeRecord = 0u;
 #endif /*ECUM_ALARM_CLOCK_PRESENT == STD_ON*/
 
     pRt->Wks.Pending   = &EcuMWksPending;

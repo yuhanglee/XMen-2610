@@ -39,7 +39,8 @@ extern "C" {
  *                along with configuration information determines which module is to be called.
  *
  * @param[in]     SocketId: Socket identifier of the related local socket resource.
- * @param[in]     RemoteAddrPtr: Pointer to memory containing IP address and port of the
+ * @param[in]     RemoteAddrPtr: Pointer to memory containing IP address and port of the remote host which sent the
+ *                               data.
  * @param[in]     BufPtr: Pointer to the received data
  * @param[in]     Length: Data length of the received TCP segment or UDP datagram
  * @reentrant     Reentrant for different SocketIds. Non reentrant for the same SocketId.

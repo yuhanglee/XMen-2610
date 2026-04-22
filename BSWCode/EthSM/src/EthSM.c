@@ -66,6 +66,15 @@ ETHSM_LOCAL void EthSM_TcpIpRequestComMode(
 #endif
 
 #if ETHSM_DEV_ERROR_DETECT == STD_ON
+#ifdef QAC_ANALYZE
+#pragma PRQA_NO_SIDE_EFFECTS EthSM_ValidateComMMode
+#pragma PRQA_NO_SIDE_EFFECTS EthSM_ValidateEthMode
+#pragma PRQA_NO_SIDE_EFFECTS EthSM_ValidateTransceiverLinkState
+#pragma PRQA_NO_SIDE_EFFECTS EthSM_ValidatePointer
+#if ETHSM_TCPIP_ENABLED == STD_ON
+#pragma PRQA_NO_SIDE_EFFECTS EthSM_ValidateTcpIpState
+#endif
+#endif
 ETHSM_LOCAL boolean EthSM_ValidateNetworkContext(uint8 apiId, const EthSM_NetworkType* networkPtr, uint8 errorId);
 ETHSM_LOCAL boolean EthSM_ValidatePointer(uint8 apiId, const void* pointer);
 ETHSM_LOCAL boolean EthSM_ValidateComMMode(uint8 apiId, ComM_ModeType comMMode);

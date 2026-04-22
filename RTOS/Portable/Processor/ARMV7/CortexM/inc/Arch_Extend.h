@@ -60,7 +60,7 @@
  * REQ ID               <None>
  */
 /********************************************************************/
-extern FUNC(void, OS_CODE) Arch_CheckCPUInformation(void);
+extern void Arch_CheckCPUInformation(void);
 
 #endif /* #ifndef ARCH_EXTEND_H */ /* PRQA S 2053 */ /* MISRA Rule 18.8 */
 
